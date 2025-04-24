@@ -1,7 +1,9 @@
 //мkм
 
-import { deltas } from "./deltas.js";
-import { gradesNumbers } from "./gradeNames.js";
+import { DimensionType, Grade } from "../types/types";
+import { deltas } from "./deltas";
+
+import { gradeNames } from "./gradeNames";
 
 // {
 //   type: {
@@ -9,17 +11,17 @@ import { gradesNumbers } from "./gradeNames.js";
 //   }
 // }
 
-const getDelta = (grade, sizeRangeType) => {
-  return deltas[grade][sizeRangeType];
+const getDelta = (grade: Grade, sizeRangeType: number): number => {
+  return deltas[grade as number][sizeRangeType];
 };
 
 const getDeviationsForGradeRange = (
-  from,
-  to,
-  deviation,
-  withDelta,
-  sizeRangeType
-) => {
+  from: Grade,
+  to: number,
+  deviation: number | null,
+  withDelta: boolean,
+  sizeRangeType: number
+): { [key: string | number]: number | null } => {
   let start;
   const end = to + 2;
   if (from === "01") {
@@ -27,19 +29,41 @@ const getDeviationsForGradeRange = (
   } else {
     start = from + 1;
   }
-  if (withDelta) {
-    return gradesNumbers.slice(start, end).reduce((acc, value) => {
-      acc[value] = deviation + getDelta(value, sizeRangeType);
+  if (withDelta && deviation !== null) {
+    return gradeNames
+      .slice(start, end)
+      .reduce((acc: Record<string, number | null>, value: Grade) => {
+        acc[value] = deviation + getDelta(value, sizeRangeType);
+        return acc;
+      }, {});
+  }
+  return gradeNames
+    .slice(start, end)
+    .reduce((acc: Record<string, number | null>, value: Grade) => {
+      acc[value] = deviation;
       return acc;
     }, {});
-  }
-  return gradesNumbers.slice(start, end).reduce((acc, value) => {
-    acc[value] = deviation;
-    return acc;
-  }, {});
 };
 
-export const basicDeviations = {
+type BasicDeviation = {
+  [key in DimensionType]: {
+    [key: string]: {
+      [key: number]: {
+        sameForAllGrades: boolean;
+        lowerDeviation?:
+          | { [key: string | number]: number | null }
+          | number
+          | null;
+        upperDeviation?:
+          | { [key: string | number]: number | null }
+          | number
+          | null;
+      };
+    };
+  };
+};
+
+export const basicDeviations: BasicDeviation = {
   hole: {
     A: {
       1: { sameForAllGrades: true, lowerDeviation: 270 },
@@ -126,94 +150,28 @@ export const basicDeviations = {
       1: { sameForAllGrades: true, lowerDeviation: 34 },
       2: { sameForAllGrades: true, lowerDeviation: 46 },
       3: { sameForAllGrades: true, lowerDeviation: 56 },
-      4: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      5: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      6: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      7: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      8: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      9: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      10: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      11: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      12: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      13: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      14: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      15: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      16: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      17: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      18: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      19: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      20: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      21: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      22: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      23: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      24: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      25: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
+      4: { sameForAllGrades: true, lowerDeviation: 70 },
+      5: { sameForAllGrades: true, lowerDeviation: 70 },
+      6: { sameForAllGrades: true, lowerDeviation: 85 },
+      7: { sameForAllGrades: true, lowerDeviation: 85 },
+      8: { sameForAllGrades: true, lowerDeviation: 100 },
+      9: { sameForAllGrades: true, lowerDeviation: 100 },
+      10: { sameForAllGrades: true, lowerDeviation: null },
+      11: { sameForAllGrades: true, lowerDeviation: null },
+      12: { sameForAllGrades: true, lowerDeviation: null },
+      13: { sameForAllGrades: true, lowerDeviation: null },
+      14: { sameForAllGrades: true, lowerDeviation: null },
+      15: { sameForAllGrades: true, lowerDeviation: null },
+      16: { sameForAllGrades: true, lowerDeviation: null },
+      17: { sameForAllGrades: true, lowerDeviation: null },
+      18: { sameForAllGrades: true, lowerDeviation: null },
+      19: { sameForAllGrades: true, lowerDeviation: null },
+      20: { sameForAllGrades: true, lowerDeviation: null },
+      21: { sameForAllGrades: true, lowerDeviation: null },
+      22: { sameForAllGrades: true, lowerDeviation: null },
+      23: { sameForAllGrades: true, lowerDeviation: null },
+      24: { sameForAllGrades: true, lowerDeviation: null },
+      25: { sameForAllGrades: true, lowerDeviation: null },
     },
     D: {
       1: { sameForAllGrades: true, lowerDeviation: 20 },
@@ -273,94 +231,28 @@ export const basicDeviations = {
       1: { sameForAllGrades: true, lowerDeviation: 10 },
       2: { sameForAllGrades: true, lowerDeviation: 14 },
       3: { sameForAllGrades: true, lowerDeviation: 18 },
-      4: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      5: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      6: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      7: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      8: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      9: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      10: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      11: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      12: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      13: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      14: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      15: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      16: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      17: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      18: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      19: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      20: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      21: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      22: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      23: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      24: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      25: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
+      4: { sameForAllGrades: true, lowerDeviation: 23 },
+      5: { sameForAllGrades: true, lowerDeviation: 23 },
+      6: { sameForAllGrades: true, lowerDeviation: 28 },
+      7: { sameForAllGrades: true, lowerDeviation: 28 },
+      8: { sameForAllGrades: true, lowerDeviation: 35 },
+      9: { sameForAllGrades: true, lowerDeviation: 35 },
+      10: { sameForAllGrades: true, lowerDeviation: null },
+      11: { sameForAllGrades: true, lowerDeviation: null },
+      12: { sameForAllGrades: true, lowerDeviation: null },
+      13: { sameForAllGrades: true, lowerDeviation: null },
+      14: { sameForAllGrades: true, lowerDeviation: null },
+      15: { sameForAllGrades: true, lowerDeviation: null },
+      16: { sameForAllGrades: true, lowerDeviation: null },
+      17: { sameForAllGrades: true, lowerDeviation: null },
+      18: { sameForAllGrades: true, lowerDeviation: null },
+      19: { sameForAllGrades: true, lowerDeviation: null },
+      20: { sameForAllGrades: true, lowerDeviation: null },
+      21: { sameForAllGrades: true, lowerDeviation: null },
+      22: { sameForAllGrades: true, lowerDeviation: null },
+      23: { sameForAllGrades: true, lowerDeviation: null },
+      24: { sameForAllGrades: true, lowerDeviation: null },
+      25: { sameForAllGrades: true, lowerDeviation: null },
     },
     F: {
       1: { sameForAllGrades: true, lowerDeviation: 6 },
@@ -393,94 +285,28 @@ export const basicDeviations = {
       1: { sameForAllGrades: true, lowerDeviation: 4 },
       2: { sameForAllGrades: true, lowerDeviation: 6 },
       3: { sameForAllGrades: true, lowerDeviation: 8 },
-      4: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      5: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      6: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      7: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      8: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      9: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      10: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      11: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      12: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      13: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      14: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      15: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      16: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      17: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      18: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      19: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      20: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      21: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      22: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      23: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      24: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      25: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
+      4: { sameForAllGrades: true, lowerDeviation: 10 },
+      5: { sameForAllGrades: true, lowerDeviation: 10 },
+      6: { sameForAllGrades: true, lowerDeviation: 12 },
+      7: { sameForAllGrades: true, lowerDeviation: 12 },
+      8: { sameForAllGrades: true, lowerDeviation: 15 },
+      9: { sameForAllGrades: true, lowerDeviation: 15 },
+      10: { sameForAllGrades: true, lowerDeviation: null },
+      11: { sameForAllGrades: true, lowerDeviation: null },
+      12: { sameForAllGrades: true, lowerDeviation: null },
+      13: { sameForAllGrades: true, lowerDeviation: null },
+      14: { sameForAllGrades: true, lowerDeviation: null },
+      15: { sameForAllGrades: true, lowerDeviation: null },
+      16: { sameForAllGrades: true, lowerDeviation: null },
+      17: { sameForAllGrades: true, lowerDeviation: null },
+      18: { sameForAllGrades: true, lowerDeviation: null },
+      19: { sameForAllGrades: true, lowerDeviation: null },
+      20: { sameForAllGrades: true, lowerDeviation: null },
+      21: { sameForAllGrades: true, lowerDeviation: null },
+      22: { sameForAllGrades: true, lowerDeviation: null },
+      23: { sameForAllGrades: true, lowerDeviation: null },
+      24: { sameForAllGrades: true, lowerDeviation: null },
+      25: { sameForAllGrades: true, lowerDeviation: null },
     },
     G: {
       1: { sameForAllGrades: true, lowerDeviation: 2 },
@@ -536,856 +362,850 @@ export const basicDeviations = {
       24: { sameForAllGrades: true, lowerDeviation: 0 },
       25: { sameForAllGrades: true, lowerDeviation: 0 },
     },
-    JS: { symmetric: true },
+
     J: {
       1: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 1),
           6: 2,
           7: 4,
           8: 6,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 2),
           6: 5,
           7: 6,
           8: 10,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 2),
           6: 5,
           7: 8,
           8: 12,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 2),
         },
       },
       4: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 4),
           6: 6,
           7: 10,
           8: 15,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 5),
           6: 6,
           7: 10,
           8: 15,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 6),
           6: 8,
           7: 12,
           8: 20,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 7),
           6: 8,
           7: 12,
           8: 20,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 8),
           6: 10,
           7: 14,
           8: 24,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 9),
           6: 10,
           7: 14,
           8: 24,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 10),
           6: 13,
           7: 18,
           8: 28,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 11),
           6: 13,
           7: 18,
           8: 28,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 12),
           6: 16,
           7: 22,
           8: 34,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 12),
           6: 16,
           7: 22,
           8: 34,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 12),
         },
       },
       14: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 14),
           6: 18,
           7: 26,
           8: 41,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 15),
           6: 18,
           7: 26,
           8: 41,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 16),
           6: 18,
           7: 26,
           8: 41,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 17),
           6: 22,
           7: 30,
           8: 47,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 18),
           6: 22,
           7: 30,
           8: 47,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 19),
           6: 22,
           7: 30,
           8: 47,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 20),
           6: 25,
           7: 36,
           8: 55,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 5),
           6: 25,
           7: 36,
           8: 55,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 18),
         },
       },
       22: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 22),
           6: 29,
           7: 39,
           8: 60,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 23),
           6: 29,
           7: 39,
           8: 60,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 24),
           6: 33,
           7: 43,
           8: 66,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
-        lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 5, null),
+        upperDeviation: {
+          ...getDeviationsForGradeRange("01", 5, null, false, 25),
           6: 33,
           7: 43,
           8: 66,
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 25),
         },
       },
     },
     K: {
       1: {
-        sameForAllGrades: false,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, 0, false, 1),
-        },
+        sameForAllGrades: true,
+        upperDeviation: 0,
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 8, -1, true, 2),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 8, -1, true, 3),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 8, -1, true, 4),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 8, -1, true, 5),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 8, -2, true, 6),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 8, -2, true, 7),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 8, -2, true, 8),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 8, -2, true, 9),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 8, -2, true, 10),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 8, -2, true, 11),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 8, -3, true, 12),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 8, -3, true, 13),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 8, -3, true, 14),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 8, -3, true, 15),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 8, -3, true, 16),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 8, -4, true, 17),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 8, -4, true, 18),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 8, -4, true, 19),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 8, -4, true, 20),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 8, -4, true, 21),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 8, -4, true, 22),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 8, -4, true, 23),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 8, -5, true, 24),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 8, -5, true, 25),
-          ...getDeviationsForGradeRange(9, 18, null),
+          ...getDeviationsForGradeRange(9, 18, null, false, 25),
         },
       },
     },
     M: {
       1: {
-        sameForAllGrades: false,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, -2),
-        },
+        sameForAllGrades: true,
+        upperDeviation: -2,
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 8, -4, true, 2),
-          ...getDeviationsForGradeRange(9, 18, -4),
+          ...getDeviationsForGradeRange(9, 18, -4, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 8, -6, true, 3),
-          ...getDeviationsForGradeRange(9, 18, -6),
+          ...getDeviationsForGradeRange(9, 18, -6, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 8, -7, true, 4),
-          ...getDeviationsForGradeRange(9, 18, -7),
+          ...getDeviationsForGradeRange(9, 18, -7, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 8, -7, true, 5),
-          ...getDeviationsForGradeRange(9, 18, -7),
+          ...getDeviationsForGradeRange(9, 18, -7, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 8, -8, true, 6),
-          ...getDeviationsForGradeRange(9, 18, -8),
+          ...getDeviationsForGradeRange(9, 18, -8, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 8, -8, true, 7),
-          ...getDeviationsForGradeRange(9, 18, -8),
+          ...getDeviationsForGradeRange(9, 18, -8, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 8, -9, true, 8),
-          ...getDeviationsForGradeRange(9, 18, -9),
+          ...getDeviationsForGradeRange(9, 18, -9, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 8, -9, true, 9),
-          ...getDeviationsForGradeRange(9, 18, -9),
+          ...getDeviationsForGradeRange(9, 18, -9, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 8, -11, true, 10),
-          ...getDeviationsForGradeRange(9, 18, -11),
+          ...getDeviationsForGradeRange(9, 18, -11, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 8, -11, true, 11),
-          ...getDeviationsForGradeRange(9, 18, -11),
+          ...getDeviationsForGradeRange(9, 18, -11, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 8, -13, true, 12),
-          ...getDeviationsForGradeRange(9, 18, -13),
+          ...getDeviationsForGradeRange(9, 18, -13, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 8, -13, true, 13),
-          ...getDeviationsForGradeRange(9, 18, -13),
+          ...getDeviationsForGradeRange(9, 18, -13, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 8, -15, true, 14),
-          ...getDeviationsForGradeRange(9, 18, -15),
+          ...getDeviationsForGradeRange(9, 18, -15, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 8, -15, true, 15),
-          ...getDeviationsForGradeRange(9, 18, -15),
+          ...getDeviationsForGradeRange(9, 18, -15, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 8, -15, true, 16),
-          ...getDeviationsForGradeRange(9, 18, -15),
+          ...getDeviationsForGradeRange(9, 18, -15, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 8, -17, true, 17),
-          ...getDeviationsForGradeRange(9, 18, -17),
+          ...getDeviationsForGradeRange(9, 18, -17, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 8, -17, true, 18),
-          ...getDeviationsForGradeRange(9, 18, -17),
+          ...getDeviationsForGradeRange(9, 18, -17, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 8, -17, true, 19),
-          ...getDeviationsForGradeRange(9, 18, -17),
+          ...getDeviationsForGradeRange(9, 18, -17, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 8, -20, true, 20),
-          ...getDeviationsForGradeRange(9, 18, -20),
+          ...getDeviationsForGradeRange(9, 18, -20, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 8, -20, true, 21),
-          ...getDeviationsForGradeRange(9, 18, -20),
+          ...getDeviationsForGradeRange(9, 18, -20, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 8, -21, true, 22),
-          ...getDeviationsForGradeRange(9, 18, -21),
+          ...getDeviationsForGradeRange(9, 18, -21, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 8, -21, true, 23),
-          ...getDeviationsForGradeRange(9, 18, -21),
+          ...getDeviationsForGradeRange(9, 18, -21, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 8, -23, true, 24),
-          ...getDeviationsForGradeRange(9, 18, -23),
+          ...getDeviationsForGradeRange(9, 18, -23, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 8, -23, true, 25),
-          ...getDeviationsForGradeRange(9, 18, -23),
+          ...getDeviationsForGradeRange(9, 18, -23, false, 25),
         },
       },
     },
     N: {
       1: {
-        sameForAllGrades: false,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, -4),
-        },
+        sameForAllGrades: true,
+        upperDeviation: -4,
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 8, -8, true, 2),
-          ...getDeviationsForGradeRange(9, 18, -8),
+          ...getDeviationsForGradeRange(9, 18, -8, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 8, -10, true, 3),
-          ...getDeviationsForGradeRange(9, 18, -10),
+          ...getDeviationsForGradeRange(9, 18, -10, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 8, -12, true, 4),
-          ...getDeviationsForGradeRange(9, 18, -12),
+          ...getDeviationsForGradeRange(9, 18, -12, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 8, -12, true, 5),
-          ...getDeviationsForGradeRange(9, 18, -12),
+          ...getDeviationsForGradeRange(9, 18, -12, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 8, -15, true, 6),
-          ...getDeviationsForGradeRange(9, 18, -15),
+          ...getDeviationsForGradeRange(9, 18, -15, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 8, -15, true, 7),
-          ...getDeviationsForGradeRange(9, 18, -15),
+          ...getDeviationsForGradeRange(9, 18, -15, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 8, -17, true, 8),
-          ...getDeviationsForGradeRange(9, 18, -17),
+          ...getDeviationsForGradeRange(9, 18, -17, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 8, -17, true, 9),
-          ...getDeviationsForGradeRange(9, 18, -17),
+          ...getDeviationsForGradeRange(9, 18, -17, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 8, -20, true, 10),
-          ...getDeviationsForGradeRange(9, 18, -20),
+          ...getDeviationsForGradeRange(9, 18, -20, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 8, -20, true, 11),
-          ...getDeviationsForGradeRange(9, 18, -20),
+          ...getDeviationsForGradeRange(9, 18, -20, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 8, -23, true, 12),
-          ...getDeviationsForGradeRange(9, 18, -23),
+          ...getDeviationsForGradeRange(9, 18, -23, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 8, -23, true, 13),
-          ...getDeviationsForGradeRange(9, 18, -23),
+          ...getDeviationsForGradeRange(9, 18, -23, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 8, -27, true, 14),
-          ...getDeviationsForGradeRange(9, 18, -27),
+          ...getDeviationsForGradeRange(9, 18, -27, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 8, -27, true, 15),
-          ...getDeviationsForGradeRange(9, 18, -27),
+          ...getDeviationsForGradeRange(9, 18, -27, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 8, -27, true, 16),
-          ...getDeviationsForGradeRange(9, 18, -27),
+          ...getDeviationsForGradeRange(9, 18, -27, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 8, -31, true, 17),
-          ...getDeviationsForGradeRange(9, 18, -31),
+          ...getDeviationsForGradeRange(9, 18, -31, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 8, -31, true, 18),
-          ...getDeviationsForGradeRange(9, 18, -31),
+          ...getDeviationsForGradeRange(9, 18, -31, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 8, -31, true, 19),
-          ...getDeviationsForGradeRange(9, 18, -31),
+          ...getDeviationsForGradeRange(9, 18, -31, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 8, -34, true, 20),
-          ...getDeviationsForGradeRange(9, 18, -34),
+          ...getDeviationsForGradeRange(9, 18, -34, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 8, -34, true, 21),
-          ...getDeviationsForGradeRange(9, 18, -34),
+          ...getDeviationsForGradeRange(9, 18, -34, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 8, -37, true, 22),
-          ...getDeviationsForGradeRange(9, 18, -37),
+          ...getDeviationsForGradeRange(9, 18, -37, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 8, -37, true, 23),
-          ...getDeviationsForGradeRange(9, 18, -37),
+          ...getDeviationsForGradeRange(9, 18, -37, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 8, -40, true, 24),
-          ...getDeviationsForGradeRange(9, 18, -40),
+          ...getDeviationsForGradeRange(9, 18, -40, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 8, -40, true, 25),
-          ...getDeviationsForGradeRange(9, 18, -40),
+          ...getDeviationsForGradeRange(9, 18, -40, false, 25),
         },
       },
     },
@@ -1394,201 +1214,201 @@ export const basicDeviations = {
       1: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 1),
           ...getDeviationsForGradeRange(3, 7, -6, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -6),
+          ...getDeviationsForGradeRange(8, 18, -6, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -12, true, 2),
-          ...getDeviationsForGradeRange(8, 18, -12),
+          ...getDeviationsForGradeRange(8, 18, -12, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 7, -15, true, 3),
-          ...getDeviationsForGradeRange(8, 18, -15),
+          ...getDeviationsForGradeRange(8, 18, -15, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -18, true, 4),
-          ...getDeviationsForGradeRange(8, 18, -18),
+          ...getDeviationsForGradeRange(8, 18, -18, false, 18),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -18, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -18),
+          ...getDeviationsForGradeRange(8, 18, -18, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -22, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -22),
+          ...getDeviationsForGradeRange(8, 18, -22, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -22, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -22),
+          ...getDeviationsForGradeRange(8, 18, -22, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -26, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -26),
+          ...getDeviationsForGradeRange(8, 18, -26, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -26, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -26),
+          ...getDeviationsForGradeRange(8, 18, -26, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -32, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -32),
+          ...getDeviationsForGradeRange(8, 18, -32, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -32, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -32),
+          ...getDeviationsForGradeRange(8, 18, -32, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -37, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -37),
+          ...getDeviationsForGradeRange(8, 18, -37, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -37, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -37),
+          ...getDeviationsForGradeRange(8, 18, -37, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -43, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -43),
+          ...getDeviationsForGradeRange(8, 18, -43, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -43, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -43),
+          ...getDeviationsForGradeRange(8, 18, -43, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -43, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -43),
+          ...getDeviationsForGradeRange(8, 18, -43, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -43, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -43),
+          ...getDeviationsForGradeRange(8, 18, -43, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -50, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -50),
+          ...getDeviationsForGradeRange(8, 18, -50, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -50, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -50),
+          ...getDeviationsForGradeRange(8, 18, -50, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -56, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -56),
+          ...getDeviationsForGradeRange(8, 18, -56, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -56, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -56),
+          ...getDeviationsForGradeRange(8, 18, -56, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -62, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -62),
+          ...getDeviationsForGradeRange(8, 18, -62, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -62, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -62),
+          ...getDeviationsForGradeRange(8, 18, -62, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -68, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -68),
+          ...getDeviationsForGradeRange(8, 18, -68, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -68, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -68),
+          ...getDeviationsForGradeRange(8, 18, -68, false, 25),
         },
       },
     },
@@ -1596,201 +1416,201 @@ export const basicDeviations = {
       1: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -10, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -10),
+          ...getDeviationsForGradeRange(8, 18, -10, false, 2),
         },
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -15, true, 2),
-          ...getDeviationsForGradeRange(8, 18, -15),
+          ...getDeviationsForGradeRange(8, 18, -15, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 7, -19, true, 3),
-          ...getDeviationsForGradeRange(8, 18, -19),
+          ...getDeviationsForGradeRange(8, 18, -19, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 7, -23, true, 4),
-          ...getDeviationsForGradeRange(8, 18, -23),
+          ...getDeviationsForGradeRange(8, 18, -23, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -23, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -23),
+          ...getDeviationsForGradeRange(8, 18, -23, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -28, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -28),
+          ...getDeviationsForGradeRange(8, 18, -28, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -28, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -28),
+          ...getDeviationsForGradeRange(8, 18, -28, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -34, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -34),
+          ...getDeviationsForGradeRange(8, 18, -34, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -34, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -34),
+          ...getDeviationsForGradeRange(8, 18, -34, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -41, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -41),
+          ...getDeviationsForGradeRange(8, 18, -41, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -43, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -43),
+          ...getDeviationsForGradeRange(8, 18, -43, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -51, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -51),
+          ...getDeviationsForGradeRange(8, 18, -51, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -54, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -54),
+          ...getDeviationsForGradeRange(8, 18, -54, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -63, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -63),
+          ...getDeviationsForGradeRange(8, 18, -63, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -65, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -65),
+          ...getDeviationsForGradeRange(8, 18, -65, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -68, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -68),
+          ...getDeviationsForGradeRange(8, 18, -68, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -77, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -77),
+          ...getDeviationsForGradeRange(8, 18, -77, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -80, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -80),
+          ...getDeviationsForGradeRange(8, 18, -80, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -84, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -84),
+          ...getDeviationsForGradeRange(8, 18, -84, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -94, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -94),
+          ...getDeviationsForGradeRange(8, 18, -94, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -98, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -98),
+          ...getDeviationsForGradeRange(8, 18, -98, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -108, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -108),
+          ...getDeviationsForGradeRange(8, 18, -108, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -114, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -114),
+          ...getDeviationsForGradeRange(8, 18, -114, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -126, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -126),
+          ...getDeviationsForGradeRange(8, 18, -126, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -132, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -132),
+          ...getDeviationsForGradeRange(8, 18, -132, false, 25),
         },
       },
     },
@@ -1798,391 +1618,379 @@ export const basicDeviations = {
       1: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 1),
           ...getDeviationsForGradeRange(3, 7, -14, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -14),
+          ...getDeviationsForGradeRange(8, 18, -14, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -19, true, 2),
-          ...getDeviationsForGradeRange(8, 18, -19),
+          ...getDeviationsForGradeRange(8, 18, -19, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 7, -23, true, 3),
-          ...getDeviationsForGradeRange(8, 18, -23),
+          ...getDeviationsForGradeRange(8, 18, -23, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 7, -28, true, 4),
-          ...getDeviationsForGradeRange(8, 18, -28),
+          ...getDeviationsForGradeRange(8, 18, -28, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -28, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -28),
+          ...getDeviationsForGradeRange(8, 18, -28, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -35, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -35),
+          ...getDeviationsForGradeRange(8, 18, -35, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -35, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -35),
+          ...getDeviationsForGradeRange(8, 18, -35, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -43, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -43),
+          ...getDeviationsForGradeRange(8, 18, -43, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -43, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -43),
+          ...getDeviationsForGradeRange(8, 18, -43, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -53, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -53),
+          ...getDeviationsForGradeRange(8, 18, -53, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -59, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -59),
+          ...getDeviationsForGradeRange(8, 18, -59, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -71, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -71),
+          ...getDeviationsForGradeRange(8, 18, -71, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -79, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -79),
+          ...getDeviationsForGradeRange(8, 18, -79, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -92, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -92),
+          ...getDeviationsForGradeRange(8, 18, -92, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -100, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -100),
+          ...getDeviationsForGradeRange(8, 18, -100, false, 11),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -108, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -108),
+          ...getDeviationsForGradeRange(8, 18, -108, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -122, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -122),
+          ...getDeviationsForGradeRange(8, 18, -122, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -130, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -130),
+          ...getDeviationsForGradeRange(8, 18, -130, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -140, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -140),
+          ...getDeviationsForGradeRange(8, 18, -140, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -158, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -158),
+          ...getDeviationsForGradeRange(8, 18, -158, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -170, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -170),
+          ...getDeviationsForGradeRange(8, 18, -170, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -190, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -190),
+          ...getDeviationsForGradeRange(8, 18, -190, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -208, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -208),
+          ...getDeviationsForGradeRange(8, 18, -208, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -232, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -232),
+          ...getDeviationsForGradeRange(8, 18, -232, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -252, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -252),
+          ...getDeviationsForGradeRange(8, 18, -252, false, 25),
         },
       },
     },
     T: {
       1: {
         sameForAllGrades: true,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, null),
-        },
+        upperDeviation: null,
       },
       2: {
         sameForAllGrades: true,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, null),
-        },
+        upperDeviation: null,
       },
       3: {
         sameForAllGrades: true,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, null),
-        },
+        upperDeviation: null,
       },
       4: {
         sameForAllGrades: true,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, null),
-        },
+        upperDeviation: null,
       },
       5: {
         sameForAllGrades: true,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, null),
-        },
+        upperDeviation: null,
       },
       6: {
         sameForAllGrades: true,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, null),
-        },
+        upperDeviation: null,
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -41, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -41),
+          ...getDeviationsForGradeRange(8, 18, -41, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -48, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -48),
+          ...getDeviationsForGradeRange(8, 18, -48, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -54, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -54),
+          ...getDeviationsForGradeRange(8, 18, -54, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -66, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -66),
+          ...getDeviationsForGradeRange(8, 18, -66, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -75, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -75),
+          ...getDeviationsForGradeRange(8, 18, -75, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -91, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -91),
+          ...getDeviationsForGradeRange(8, 18, -91, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -104, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -104),
+          ...getDeviationsForGradeRange(8, 18, -104, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -122, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -122),
+          ...getDeviationsForGradeRange(8, 18, -122, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -134, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -134),
+          ...getDeviationsForGradeRange(8, 18, -134, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -146, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -146),
+          ...getDeviationsForGradeRange(8, 18, -146, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -166, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -166),
+          ...getDeviationsForGradeRange(8, 18, -166, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -180, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -180),
+          ...getDeviationsForGradeRange(8, 18, -180, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -196, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -196),
+          ...getDeviationsForGradeRange(8, 18, -196, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -218, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -218),
+          ...getDeviationsForGradeRange(8, 18, -218, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -240, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -240),
+          ...getDeviationsForGradeRange(8, 18, -240, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -268, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -268),
+          ...getDeviationsForGradeRange(8, 18, -268, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -294, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -294),
+          ...getDeviationsForGradeRange(8, 18, -294, false, 24),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -330, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -330),
+          ...getDeviationsForGradeRange(8, 18, -330, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -360, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -360),
+          ...getDeviationsForGradeRange(8, 18, -360, false, 25),
         },
       },
     },
@@ -2190,389 +1998,375 @@ export const basicDeviations = {
       1: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 1),
           ...getDeviationsForGradeRange(3, 7, -18, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -18),
+          ...getDeviationsForGradeRange(8, 18, -18, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -23, true, 2),
-          ...getDeviationsForGradeRange(8, 18, -23),
+          ...getDeviationsForGradeRange(8, 18, -23, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 7, -28, true, 3),
-          ...getDeviationsForGradeRange(8, 18, -28),
+          ...getDeviationsForGradeRange(8, 18, -28, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 7, -33, true, 4),
-          ...getDeviationsForGradeRange(8, 18, -33),
+          ...getDeviationsForGradeRange(8, 18, -33, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -33, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -33),
+          ...getDeviationsForGradeRange(8, 18, -33, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -41, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -41),
+          ...getDeviationsForGradeRange(8, 18, -41, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -48, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -48),
+          ...getDeviationsForGradeRange(8, 18, -48, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -60, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -60),
+          ...getDeviationsForGradeRange(8, 18, -60, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -70, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -70),
+          ...getDeviationsForGradeRange(8, 18, -70, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -87, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -87),
+          ...getDeviationsForGradeRange(8, 18, -87, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -102, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -102),
+          ...getDeviationsForGradeRange(8, 18, -102, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -124, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -124),
+          ...getDeviationsForGradeRange(8, 18, -124, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -144, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -144),
+          ...getDeviationsForGradeRange(8, 18, -144, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -170, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -170),
+          ...getDeviationsForGradeRange(8, 18, -170, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -190, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -190),
+          ...getDeviationsForGradeRange(8, 18, -190, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -210, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -210),
+          ...getDeviationsForGradeRange(8, 18, -210, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -236, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -236),
+          ...getDeviationsForGradeRange(8, 18, -236, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -258, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -258),
+          ...getDeviationsForGradeRange(8, 18, -258, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -284, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -284),
+          ...getDeviationsForGradeRange(8, 18, -284, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -315, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -315),
+          ...getDeviationsForGradeRange(8, 18, -315, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -350, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -350),
+          ...getDeviationsForGradeRange(8, 18, -350, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -390, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -390),
+          ...getDeviationsForGradeRange(8, 18, -390, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -435, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -435),
+          ...getDeviationsForGradeRange(8, 18, -435, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -490, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -490),
+          ...getDeviationsForGradeRange(8, 18, -490, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -540, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -540),
+          ...getDeviationsForGradeRange(8, 18, -540, false, 25),
         },
       },
     },
     V: {
-      1: {
-        sameForAllGrades: true,
-        upperDeviation: {
-          ...getDeviationsForGradeRange("01", 18, null),
-        },
-      },
-      2: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      3: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      4: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
+      1: { sameForAllGrades: true, upperDeviation: null },
+      2: { sameForAllGrades: true, upperDeviation: null },
+      3: { sameForAllGrades: true, upperDeviation: null },
+      4: { sameForAllGrades: true, upperDeviation: null },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -39, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -39),
+          ...getDeviationsForGradeRange(8, 18, -39, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -47, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -47),
+          ...getDeviationsForGradeRange(8, 18, -47, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -55, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -55),
+          ...getDeviationsForGradeRange(8, 18, -55, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -68, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -68),
+          ...getDeviationsForGradeRange(8, 18, -68, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -81, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -81),
+          ...getDeviationsForGradeRange(8, 18, -81, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -102, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -102),
+          ...getDeviationsForGradeRange(8, 18, -102, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -120, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -120),
+          ...getDeviationsForGradeRange(8, 18, -120, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -146, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -146),
+          ...getDeviationsForGradeRange(8, 18, -146, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -172, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -172),
+          ...getDeviationsForGradeRange(8, 18, -172, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -202, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -202),
+          ...getDeviationsForGradeRange(8, 18, -202, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -228, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -228),
+          ...getDeviationsForGradeRange(8, 18, -228, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -252, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -252),
+          ...getDeviationsForGradeRange(8, 18, -252, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -284, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -284),
+          ...getDeviationsForGradeRange(8, 18, -284, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -310, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -310),
+          ...getDeviationsForGradeRange(8, 18, -310, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -340, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -340),
+          ...getDeviationsForGradeRange(8, 18, -340, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -385, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -385),
+          ...getDeviationsForGradeRange(8, 18, -385, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -425, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -425),
+          ...getDeviationsForGradeRange(8, 18, -425, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -475, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -475),
+          ...getDeviationsForGradeRange(8, 18, -47, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -530, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -530),
+          ...getDeviationsForGradeRange(8, 18, -530, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -595, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -595),
+          ...getDeviationsForGradeRange(8, 18, -595, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -660, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -660),
+          ...getDeviationsForGradeRange(8, 18, -660, false, 25),
         },
       },
     },
@@ -2580,383 +2374,383 @@ export const basicDeviations = {
       1: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 1),
           ...getDeviationsForGradeRange(3, 7, -20, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -20),
+          ...getDeviationsForGradeRange(8, 18, -20, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -28, true, 2),
-          ...getDeviationsForGradeRange(8, 18, -28),
+          ...getDeviationsForGradeRange(8, 18, -28, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 7, -34, true, 3),
-          ...getDeviationsForGradeRange(8, 18, -34),
+          ...getDeviationsForGradeRange(8, 18, -34, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 7, -40, true, 4),
-          ...getDeviationsForGradeRange(8, 18, -40),
+          ...getDeviationsForGradeRange(8, 18, -40, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -45, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -45),
+          ...getDeviationsForGradeRange(8, 18, -45, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -54, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -54),
+          ...getDeviationsForGradeRange(8, 18, -54, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -64, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -64),
+          ...getDeviationsForGradeRange(8, 18, -64, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -80, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -80),
+          ...getDeviationsForGradeRange(8, 18, -80, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -97, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -97),
+          ...getDeviationsForGradeRange(8, 18, -97, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -122, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -122),
+          ...getDeviationsForGradeRange(8, 18, -122, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -146, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -146),
+          ...getDeviationsForGradeRange(8, 18, -146, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -178, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -178),
+          ...getDeviationsForGradeRange(8, 18, -178, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -210, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -210),
+          ...getDeviationsForGradeRange(8, 18, -210, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -248, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -248),
+          ...getDeviationsForGradeRange(8, 18, -248, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -280, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -280),
+          ...getDeviationsForGradeRange(8, 18, -280, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -310, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -310),
+          ...getDeviationsForGradeRange(8, 18, -310, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -350, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -350),
+          ...getDeviationsForGradeRange(8, 18, -350, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -385, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -385),
+          ...getDeviationsForGradeRange(8, 18, -385, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -425, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -425),
+          ...getDeviationsForGradeRange(8, 18, -425, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -475, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -475),
+          ...getDeviationsForGradeRange(8, 18, -475, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -525, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -525),
+          ...getDeviationsForGradeRange(8, 18, -525, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -590, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -590),
+          ...getDeviationsForGradeRange(8, 18, -590, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -660, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -660),
+          ...getDeviationsForGradeRange(8, 18, -660, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -740, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -740),
+          ...getDeviationsForGradeRange(8, 18, -740, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -820, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -820),
+          ...getDeviationsForGradeRange(8, 18, -820, false, 25),
         },
       },
     },
     Y: {
       1: {
         sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
+        upperDeviation: null,
       },
       2: {
         sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
+        upperDeviation: null,
       },
       3: {
         sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
+        upperDeviation: null,
       },
       4: {
         sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
+        upperDeviation: null,
       },
       5: {
         sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
+        upperDeviation: null,
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -63, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -63),
+          ...getDeviationsForGradeRange(8, 18, -63, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -75, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -75),
+          ...getDeviationsForGradeRange(8, 18, -75, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -94, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -94),
+          ...getDeviationsForGradeRange(8, 18, -94, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -114, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -114),
+          ...getDeviationsForGradeRange(8, 18, -114, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -144, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -144),
+          ...getDeviationsForGradeRange(8, 18, -144, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -174, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -174),
+          ...getDeviationsForGradeRange(8, 18, -174, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -214, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -214),
+          ...getDeviationsForGradeRange(8, 18, -214, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -254, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -254),
+          ...getDeviationsForGradeRange(8, 18, -254, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -300, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -300),
+          ...getDeviationsForGradeRange(8, 18, -30, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -300, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -300),
+          ...getDeviationsForGradeRange(8, 18, -300, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -340, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -340),
+          ...getDeviationsForGradeRange(8, 18, -340, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -425, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -425),
+          ...getDeviationsForGradeRange(8, 18, -425, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -470, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -470),
+          ...getDeviationsForGradeRange(8, 18, -470, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -520, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -520),
+          ...getDeviationsForGradeRange(8, 18, -520, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -580, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -580),
+          ...getDeviationsForGradeRange(8, 18, -580, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -650, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -650),
+          ...getDeviationsForGradeRange(8, 18, -650, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -730, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -730),
+          ...getDeviationsForGradeRange(8, 18, -730, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -820, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -820),
+          ...getDeviationsForGradeRange(8, 18, -820, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -920, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -920),
+          ...getDeviationsForGradeRange(8, 18, -920, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -1000, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -1000),
+          ...getDeviationsForGradeRange(8, 18, -1000, false, 25),
         },
       },
     },
@@ -2964,201 +2758,201 @@ export const basicDeviations = {
       1: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 1),
           ...getDeviationsForGradeRange(3, 7, -26, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -26),
+          ...getDeviationsForGradeRange(8, 18, -26, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -35, true, 2),
-          ...getDeviationsForGradeRange(8, 18, -35),
+          ...getDeviationsForGradeRange(8, 18, -35, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 7, -42, true, 3),
-          ...getDeviationsForGradeRange(8, 18, -42),
+          ...getDeviationsForGradeRange(8, 18, -42, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 7, -50, true, 4),
-          ...getDeviationsForGradeRange(8, 18, -50),
+          ...getDeviationsForGradeRange(8, 18, -50, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -60, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -60),
+          ...getDeviationsForGradeRange(8, 18, -60, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -73, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -73),
+          ...getDeviationsForGradeRange(8, 18, -73, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -88, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -88),
+          ...getDeviationsForGradeRange(8, 18, -88, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -112, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -112),
+          ...getDeviationsForGradeRange(8, 18, -112, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -136, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -136),
+          ...getDeviationsForGradeRange(8, 18, -136, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -172, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -172),
+          ...getDeviationsForGradeRange(8, 18, -172, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -210, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -210),
+          ...getDeviationsForGradeRange(8, 18, -210, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -258, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -258),
+          ...getDeviationsForGradeRange(8, 18, -258, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -310, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -310),
+          ...getDeviationsForGradeRange(8, 18, -310, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -365, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -365),
+          ...getDeviationsForGradeRange(8, 18, -365, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -365, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -365),
+          ...getDeviationsForGradeRange(8, 18, -365, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -415, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -415),
+          ...getDeviationsForGradeRange(8, 18, -415, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -520, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -520),
+          ...getDeviationsForGradeRange(8, 18, -520, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -575, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -575),
+          ...getDeviationsForGradeRange(8, 18, -575, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -640, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -640),
+          ...getDeviationsForGradeRange(8, 18, -640, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -710, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -710),
+          ...getDeviationsForGradeRange(8, 18, -710, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -790, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -790),
+          ...getDeviationsForGradeRange(8, 18, -790, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -900, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -900),
+          ...getDeviationsForGradeRange(8, 18, -900, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -1000, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -1000),
+          ...getDeviationsForGradeRange(8, 18, -1000, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -1100, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -1100),
+          ...getDeviationsForGradeRange(8, 18, -1100, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -1250, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -1250),
+          ...getDeviationsForGradeRange(8, 18, -1250, false, 25),
         },
       },
     },
@@ -3166,201 +2960,201 @@ export const basicDeviations = {
       1: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 1),
           ...getDeviationsForGradeRange(3, 7, -32, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -32),
+          ...getDeviationsForGradeRange(8, 18, -32, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -42, true, 2),
-          ...getDeviationsForGradeRange(8, 18, -42),
+          ...getDeviationsForGradeRange(8, 18, -42, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 7, -52, true, 3),
-          ...getDeviationsForGradeRange(8, 18, -52),
+          ...getDeviationsForGradeRange(8, 18, -52, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 7, -64, true, 4),
-          ...getDeviationsForGradeRange(8, 18, -64),
+          ...getDeviationsForGradeRange(8, 18, -64, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -77, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -77),
+          ...getDeviationsForGradeRange(8, 18, -77, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -98, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -98),
+          ...getDeviationsForGradeRange(8, 18, -98, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -118, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -118),
+          ...getDeviationsForGradeRange(8, 18, -118, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -148, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -148),
+          ...getDeviationsForGradeRange(8, 18, -148, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -180, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -180),
+          ...getDeviationsForGradeRange(8, 18, -180, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -226, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -226),
+          ...getDeviationsForGradeRange(8, 18, -226, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -274, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -274),
+          ...getDeviationsForGradeRange(8, 18, -274, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -335, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -335),
+          ...getDeviationsForGradeRange(8, 18, -335, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -400, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -400),
+          ...getDeviationsForGradeRange(8, 18, -400, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -470, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -470),
+          ...getDeviationsForGradeRange(8, 18, -470, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -535, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -535),
+          ...getDeviationsForGradeRange(8, 18, -535, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -600, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -600),
+          ...getDeviationsForGradeRange(8, 18, -600, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -670, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -670),
+          ...getDeviationsForGradeRange(8, 18, -670, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -740, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -740),
+          ...getDeviationsForGradeRange(8, 18, -740, false, 2185),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -820, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -820),
+          ...getDeviationsForGradeRange(8, 18, -820, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -920, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -920),
+          ...getDeviationsForGradeRange(8, 18, -920, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -1000, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -1000),
+          ...getDeviationsForGradeRange(8, 18, -1000, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -1150, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -1150),
+          ...getDeviationsForGradeRange(8, 18, -1150, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -1300, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -1300),
+          ...getDeviationsForGradeRange(8, 18, -1300, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -1450, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -1450),
+          ...getDeviationsForGradeRange(8, 18, -1450, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -1600, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -1600),
+          ...getDeviationsForGradeRange(8, 18, -1600, false, 25),
         },
       },
     },
@@ -3368,201 +3162,201 @@ export const basicDeviations = {
       1: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 1),
           ...getDeviationsForGradeRange(3, 7, -40, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -40),
+          ...getDeviationsForGradeRange(8, 18, -40, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -50, true, 2),
-          ...getDeviationsForGradeRange(8, 18, -50),
+          ...getDeviationsForGradeRange(8, 18, -50, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 7, -67, true, 3),
-          ...getDeviationsForGradeRange(8, 18, -67),
+          ...getDeviationsForGradeRange(8, 18, -67, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 7, -90, true, 4),
-          ...getDeviationsForGradeRange(8, 18, -90),
+          ...getDeviationsForGradeRange(8, 18, -90, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -108, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -108),
+          ...getDeviationsForGradeRange(8, 18, -108, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -136, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -136),
+          ...getDeviationsForGradeRange(8, 18, -136, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -160, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -160),
+          ...getDeviationsForGradeRange(8, 18, -160, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -200, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -200),
+          ...getDeviationsForGradeRange(8, 18, -200, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -242, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -242),
+          ...getDeviationsForGradeRange(8, 18, -242, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -300, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -300),
+          ...getDeviationsForGradeRange(8, 18, -300, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -360, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -360),
+          ...getDeviationsForGradeRange(8, 18, -360, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -445, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -445),
+          ...getDeviationsForGradeRange(8, 18, -445, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -252, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -525),
+          ...getDeviationsForGradeRange(8, 18, -525, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 1),
           ...getDeviationsForGradeRange(3, 7, -620, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -620),
+          ...getDeviationsForGradeRange(8, 18, -620, false, 1),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -700, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -700),
+          ...getDeviationsForGradeRange(8, 18, -700, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -780, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -780),
+          ...getDeviationsForGradeRange(8, 18, -780, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -880, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -880),
+          ...getDeviationsForGradeRange(8, 18, -880, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -960, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -960),
+          ...getDeviationsForGradeRange(8, 18, -960, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -1050, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -1050),
+          ...getDeviationsForGradeRange(8, 18, -1050, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -1200, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -1200),
+          ...getDeviationsForGradeRange(8, 18, -1200, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -1300, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -1300),
+          ...getDeviationsForGradeRange(8, 18, -1300, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -1500, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -1500),
+          ...getDeviationsForGradeRange(8, 18, -1500, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -1650, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -1650),
+          ...getDeviationsForGradeRange(8, 18, -1650, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -1850, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -1850),
+          ...getDeviationsForGradeRange(8, 18, -1850, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -2100, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -2100),
+          ...getDeviationsForGradeRange(8, 18, -2100, false, 25),
         },
       },
     },
@@ -3570,201 +3364,201 @@ export const basicDeviations = {
       1: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 1),
           ...getDeviationsForGradeRange(3, 7, -60, true, 1),
-          ...getDeviationsForGradeRange(8, 18, -60),
+          ...getDeviationsForGradeRange(8, 18, -60, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 2),
           ...getDeviationsForGradeRange(3, 7, -80, true, 2),
-          ...getDeviationsForGradeRange(8, 18, -80),
+          ...getDeviationsForGradeRange(8, 18, -80, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 3),
           ...getDeviationsForGradeRange(3, 7, -97, true, 3),
-          ...getDeviationsForGradeRange(8, 18, -97),
+          ...getDeviationsForGradeRange(8, 18, -97, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 4),
           ...getDeviationsForGradeRange(3, 7, -130, true, 4),
-          ...getDeviationsForGradeRange(8, 18, -130),
+          ...getDeviationsForGradeRange(8, 18, -130, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 5),
           ...getDeviationsForGradeRange(3, 7, -150, true, 5),
-          ...getDeviationsForGradeRange(8, 18, -150),
+          ...getDeviationsForGradeRange(8, 18, -150, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 6),
           ...getDeviationsForGradeRange(3, 7, -188, true, 6),
-          ...getDeviationsForGradeRange(8, 18, -188),
+          ...getDeviationsForGradeRange(8, 18, -188, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 7),
           ...getDeviationsForGradeRange(3, 7, -218, true, 7),
-          ...getDeviationsForGradeRange(8, 18, -218),
+          ...getDeviationsForGradeRange(8, 18, -218, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 8),
           ...getDeviationsForGradeRange(3, 7, -274, true, 8),
-          ...getDeviationsForGradeRange(8, 18, -274),
+          ...getDeviationsForGradeRange(8, 18, -274, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 9),
           ...getDeviationsForGradeRange(3, 7, -325, true, 9),
-          ...getDeviationsForGradeRange(8, 18, -325),
+          ...getDeviationsForGradeRange(8, 18, -325, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 10),
           ...getDeviationsForGradeRange(3, 7, -405, true, 10),
-          ...getDeviationsForGradeRange(8, 18, -405),
+          ...getDeviationsForGradeRange(8, 18, -405, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 11),
           ...getDeviationsForGradeRange(3, 7, -480, true, 11),
-          ...getDeviationsForGradeRange(8, 18, -480),
+          ...getDeviationsForGradeRange(8, 18, -480, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 12),
           ...getDeviationsForGradeRange(3, 7, -585, true, 12),
-          ...getDeviationsForGradeRange(8, 18, -585),
+          ...getDeviationsForGradeRange(8, 18, -585, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 13),
           ...getDeviationsForGradeRange(3, 7, -690, true, 13),
-          ...getDeviationsForGradeRange(8, 18, -690),
+          ...getDeviationsForGradeRange(8, 18, -690, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 14),
           ...getDeviationsForGradeRange(3, 7, -800, true, 14),
-          ...getDeviationsForGradeRange(8, 18, -800),
+          ...getDeviationsForGradeRange(8, 18, -800, false, 14),
         },
       },
       15: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 15),
           ...getDeviationsForGradeRange(3, 7, -900, true, 15),
-          ...getDeviationsForGradeRange(8, 18, -900),
+          ...getDeviationsForGradeRange(8, 18, -900, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 16),
           ...getDeviationsForGradeRange(3, 7, -100, true, 16),
-          ...getDeviationsForGradeRange(8, 18, -1000),
+          ...getDeviationsForGradeRange(8, 18, -1000, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 17),
           ...getDeviationsForGradeRange(3, 7, -1150, true, 17),
-          ...getDeviationsForGradeRange(8, 18, -1150),
+          ...getDeviationsForGradeRange(8, 18, -1150, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 18),
           ...getDeviationsForGradeRange(3, 7, -1250, true, 18),
-          ...getDeviationsForGradeRange(8, 18, -1250),
+          ...getDeviationsForGradeRange(8, 18, -1250, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 19),
           ...getDeviationsForGradeRange(3, 7, -1350, true, 19),
-          ...getDeviationsForGradeRange(8, 18, -1350),
+          ...getDeviationsForGradeRange(8, 18, -1350, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 20),
           ...getDeviationsForGradeRange(3, 7, -1550, true, 20),
-          ...getDeviationsForGradeRange(8, 18, -1550),
+          ...getDeviationsForGradeRange(8, 18, -1550, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 21),
           ...getDeviationsForGradeRange(3, 7, -1700, true, 21),
-          ...getDeviationsForGradeRange(8, 18, -1700),
+          ...getDeviationsForGradeRange(8, 18, -1700, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 22),
           ...getDeviationsForGradeRange(3, 7, -1900, true, 22),
-          ...getDeviationsForGradeRange(8, 18, -1900),
+          ...getDeviationsForGradeRange(8, 18, -1900, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 23),
           ...getDeviationsForGradeRange(3, 7, -2100, true, 23),
-          ...getDeviationsForGradeRange(8, 18, -2100),
+          ...getDeviationsForGradeRange(8, 18, -2100, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 24),
           ...getDeviationsForGradeRange(3, 7, -2400, true, 24),
-          ...getDeviationsForGradeRange(8, 18, -2400),
+          ...getDeviationsForGradeRange(8, 18, -2400, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         upperDeviation: {
-          ...getDeviationsForGradeRange("01", 2, null),
+          ...getDeviationsForGradeRange("01", 2, null, false, 25),
           ...getDeviationsForGradeRange(3, 7, -2600, true, 25),
-          ...getDeviationsForGradeRange(8, 18, -2600),
+          ...getDeviationsForGradeRange(8, 18, -2600, false, 25),
         },
       },
     },
@@ -3855,94 +3649,28 @@ export const basicDeviations = {
       1: { sameForAllGrades: true, upperDeviation: -34 },
       2: { sameForAllGrades: true, upperDeviation: -46 },
       3: { sameForAllGrades: true, upperDeviation: -56 },
-      4: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      5: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      6: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      7: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      8: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      9: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      10: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      11: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      12: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      13: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      14: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      15: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      16: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      17: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      18: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      19: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      20: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      21: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      22: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      23: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      24: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      25: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
+      4: { sameForAllGrades: true, upperDeviation: -70 },
+      5: { sameForAllGrades: true, upperDeviation: -70 },
+      6: { sameForAllGrades: true, upperDeviation: -85 },
+      7: { sameForAllGrades: true, upperDeviation: -85 },
+      8: { sameForAllGrades: true, upperDeviation: -100 },
+      9: { sameForAllGrades: true, upperDeviation: -100 },
+      10: { sameForAllGrades: true, upperDeviation: null },
+      11: { sameForAllGrades: true, upperDeviation: null },
+      12: { sameForAllGrades: true, upperDeviation: null },
+      13: { sameForAllGrades: true, upperDeviation: null },
+      14: { sameForAllGrades: true, upperDeviation: null },
+      15: { sameForAllGrades: true, upperDeviation: null },
+      16: { sameForAllGrades: true, upperDeviation: null },
+      17: { sameForAllGrades: true, upperDeviation: null },
+      18: { sameForAllGrades: true, upperDeviation: null },
+      19: { sameForAllGrades: true, upperDeviation: null },
+      20: { sameForAllGrades: true, upperDeviation: null },
+      21: { sameForAllGrades: true, upperDeviation: null },
+      22: { sameForAllGrades: true, upperDeviation: null },
+      23: { sameForAllGrades: true, upperDeviation: null },
+      24: { sameForAllGrades: true, upperDeviation: null },
+      25: { sameForAllGrades: true, upperDeviation: null },
     },
     d: {
       1: { sameForAllGrades: true, upperDeviation: -20 },
@@ -4002,6 +3730,28 @@ export const basicDeviations = {
       1: { sameForAllGrades: true, upperDeviation: -10 },
       2: { sameForAllGrades: true, upperDeviation: -14 },
       3: { sameForAllGrades: true, upperDeviation: -18 },
+      4: { sameForAllGrades: true, upperDeviation: -23 },
+      5: { sameForAllGrades: true, upperDeviation: -23 },
+      6: { sameForAllGrades: true, upperDeviation: -28 },
+      7: { sameForAllGrades: true, upperDeviation: -28 },
+      8: { sameForAllGrades: true, upperDeviation: -35 },
+      9: { sameForAllGrades: true, upperDeviation: -35 },
+      10: { sameForAllGrades: true, upperDeviation: null },
+      11: { sameForAllGrades: true, upperDeviation: null },
+      12: { sameForAllGrades: true, upperDeviation: null },
+      13: { sameForAllGrades: true, upperDeviation: null },
+      14: { sameForAllGrades: true, upperDeviation: null },
+      15: { sameForAllGrades: true, upperDeviation: null },
+      16: { sameForAllGrades: true, upperDeviation: null },
+      17: { sameForAllGrades: true, upperDeviation: null },
+      18: { sameForAllGrades: true, upperDeviation: null },
+      19: { sameForAllGrades: true, upperDeviation: null },
+      20: { sameForAllGrades: true, upperDeviation: null },
+      21: { sameForAllGrades: true, upperDeviation: null },
+      22: { sameForAllGrades: true, upperDeviation: null },
+      23: { sameForAllGrades: true, upperDeviation: null },
+      24: { sameForAllGrades: true, upperDeviation: null },
+      25: { sameForAllGrades: true, upperDeviation: null },
     },
     f: {
       1: { sameForAllGrades: true, upperDeviation: -6 },
@@ -4034,94 +3784,28 @@ export const basicDeviations = {
       1: { sameForAllGrades: true, upperDeviation: -4 },
       2: { sameForAllGrades: true, upperDeviation: -6 },
       3: { sameForAllGrades: true, upperDeviation: -8 },
-      4: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      5: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      6: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      7: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      8: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      9: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      10: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      11: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      12: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      13: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      14: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      15: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      16: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      17: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      18: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      19: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      20: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      21: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      22: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      23: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      24: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
-      25: {
-        sameForAllGrades: true,
-        upperDeviation: { ...getDeviationsForGradeRange("01", 18, null) },
-      },
+      4: { sameForAllGrades: true, upperDeviation: -10 },
+      5: { sameForAllGrades: true, upperDeviation: -10 },
+      6: { sameForAllGrades: true, upperDeviation: -12 },
+      7: { sameForAllGrades: true, upperDeviation: -12 },
+      8: { sameForAllGrades: true, upperDeviation: -15 },
+      9: { sameForAllGrades: true, upperDeviation: -15 },
+      10: { sameForAllGrades: true, upperDeviation: null },
+      11: { sameForAllGrades: true, upperDeviation: null },
+      12: { sameForAllGrades: true, upperDeviation: null },
+      13: { sameForAllGrades: true, upperDeviation: null },
+      14: { sameForAllGrades: true, upperDeviation: null },
+      15: { sameForAllGrades: true, upperDeviation: null },
+      16: { sameForAllGrades: true, upperDeviation: null },
+      17: { sameForAllGrades: true, upperDeviation: null },
+      18: { sameForAllGrades: true, upperDeviation: null },
+      19: { sameForAllGrades: true, upperDeviation: null },
+      20: { sameForAllGrades: true, upperDeviation: null },
+      21: { sameForAllGrades: true, upperDeviation: null },
+      22: { sameForAllGrades: true, upperDeviation: null },
+      23: { sameForAllGrades: true, upperDeviation: null },
+      24: { sameForAllGrades: true, upperDeviation: null },
+      25: { sameForAllGrades: true, upperDeviation: null },
     },
     g: {
       1: { sameForAllGrades: true, upperDeviation: -2 },
@@ -4178,259 +3862,484 @@ export const basicDeviations = {
       25: { sameForAllGrades: true, upperDeviation: 0 },
     },
 
-    js: { symmetric: true },
     j: {
-      1: { 5: -2, 6: -2 },
-      2: { 5: -2, 6: -2 },
-      3: { 5: -2, 6: -2 },
-      4: { 5: -3, 6: -3 },
-      5: { 5: -3, 6: -3 },
-      6: { 5: -4, 6: -4 },
-      7: { 5: -4, 6: -4 },
-      8: { 5: -5, 6: -5 },
-      9: { 5: -5, 6: -5 },
-      10: { 5: -7, 6: -7 },
-      11: { 5: -7, 6: -7 },
-      12: { 5: -9, 6: -9 },
-      13: { 5: -9, 6: -9 },
-      14: { 5: -11, 6: -11 },
-      15: { 5: -11, 6: -11 },
-      16: { 5: -11, 6: -11 },
-      17: { 5: -13, 6: -13 },
-      18: { 5: -13, 6: -13 },
-      19: { 5: -13, 6: -13 },
-      20: { 5: -16, 6: -16 },
-      21: { 5: -16, 6: -16 },
-      22: { 5: -18, 6: -18 },
-      23: { 5: -18, 6: -18 },
-      24: { 5: -20, 6: -20 },
-      25: { 5: -20, 6: -20 },
-    },
-    k: {
       1: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 0),
+          ...getDeviationsForGradeRange("01", 4, null, false, 1),
+          5: -2,
+          6: -2,
           7: -4,
           8: -6,
-          ...getDeviationsForGradeRange(9, 18, 0),
+          ...getDeviationsForGradeRange(9, 18, null, false, 1),
         },
       },
       2: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 1),
+          ...getDeviationsForGradeRange("01", 4, null, false, 2),
+          5: -2,
+          6: -2,
           7: -4,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 2),
         },
       },
       3: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 1),
+          ...getDeviationsForGradeRange("01", 4, null, false, 3),
+          5: -2,
+          6: -2,
           7: -5,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 3),
         },
       },
       4: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 1),
+          ...getDeviationsForGradeRange("01", 4, null, false, 4),
+          5: -3,
+          6: -3,
           7: -6,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 4),
         },
       },
       5: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 1),
+          ...getDeviationsForGradeRange("01", 4, null, false, 5),
+          5: -3,
+          6: -3,
           7: -6,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 5),
         },
       },
       6: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 2),
+          ...getDeviationsForGradeRange("01", 4, null, false, 6),
+          5: -4,
+          6: -4,
           7: -8,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 6),
         },
       },
       7: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 2),
+          ...getDeviationsForGradeRange("01", 4, null, false, 7),
+          5: -4,
+          6: -4,
           7: -8,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 7),
         },
       },
       8: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 2),
+          ...getDeviationsForGradeRange("01", 4, null, false, 8),
+          5: -5,
+          6: -5,
           7: -10,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 8),
         },
       },
       9: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 2),
+          ...getDeviationsForGradeRange("01", 4, null, false, 9),
+          5: -5,
+          6: -5,
           7: -10,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 9),
         },
       },
       10: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 2),
+          ...getDeviationsForGradeRange("01", 4, null, false, 10),
+          5: -7,
+          6: -7,
           7: -12,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 10),
         },
       },
       11: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 2),
+          ...getDeviationsForGradeRange("01", 4, null, false, 11),
+          5: -7,
+          6: -7,
           7: -12,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 11),
         },
       },
       12: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 3),
+          ...getDeviationsForGradeRange("01", 4, null, false, 12),
+          5: -9,
+          6: -9,
           7: -15,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 12),
         },
       },
       13: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 3),
+          ...getDeviationsForGradeRange("01", 4, null, false, 13),
+          5: -9,
+          6: -9,
           7: -15,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 13),
         },
       },
       14: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 3),
+          ...getDeviationsForGradeRange("01", 4, null, false, 14),
+          5: -11,
+          6: -11,
           7: -18,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 2),
         },
       },
       15: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 3),
+          ...getDeviationsForGradeRange("01", 4, null, false, 15),
+          5: -11,
+          6: -11,
           7: -18,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 15),
         },
       },
       16: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 3),
+          ...getDeviationsForGradeRange("01", 4, null, false, 16),
+          5: -11,
+          6: -11,
           7: -18,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 16),
         },
       },
       17: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 4),
+          ...getDeviationsForGradeRange("01", 4, null, false, 17),
+          5: -13,
+          6: -13,
           7: -21,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 17),
         },
       },
       18: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 4),
+          ...getDeviationsForGradeRange("01", 4, null, false, 18),
+          5: -13,
+          6: -13,
           7: -21,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 18),
         },
       },
       19: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 4),
+          ...getDeviationsForGradeRange("01", 4, null, false, 19),
+          5: -13,
+          6: -13,
           7: -21,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 19),
         },
       },
       20: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 4),
+          ...getDeviationsForGradeRange("01", 4, null, false, 20),
+          5: -16,
+          6: -16,
           7: -26,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 20),
         },
       },
       21: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 4),
+          ...getDeviationsForGradeRange("01", 4, null, false, 21),
+          5: -16,
+          6: -16,
           7: -26,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 21),
         },
       },
       22: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 4),
+          ...getDeviationsForGradeRange("01", 4, null, false, 22),
+          5: -18,
+          6: -18,
           7: -28,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 22),
         },
       },
       23: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 4),
+          ...getDeviationsForGradeRange("01", 4, null, false, 23),
+          5: -18,
+          6: -18,
           7: -28,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 23),
         },
       },
       24: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 5),
+          ...getDeviationsForGradeRange("01", 4, null, false, 24),
+          5: -20,
+          6: -20,
           7: -32,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 24),
         },
       },
       25: {
         sameForAllGrades: false,
         lowerDeviation: {
-          ...getDeviationsForGradeRange("01", 3, 0),
-          ...getDeviationsForGradeRange(4, 7, 5),
+          ...getDeviationsForGradeRange("01", 4, null, false, 25),
+          5: -20,
+          6: -20,
           7: -32,
-          ...getDeviationsForGradeRange(8, 18, 0),
+          ...getDeviationsForGradeRange(8, 18, null, false, 25),
+        },
+      },
+    },
+    k: {
+      1: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 1),
+          ...getDeviationsForGradeRange(4, 7, 0, false, 1),
+          7: -4,
+          8: -6,
+          ...getDeviationsForGradeRange(9, 18, 0, false, 1),
+        },
+      },
+      2: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 2),
+          ...getDeviationsForGradeRange(4, 7, 1, false, 2),
+          7: -4,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 2),
+        },
+      },
+      3: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 3),
+          ...getDeviationsForGradeRange(4, 7, 1, false, 3),
+          7: -5,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 3),
+        },
+      },
+      4: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 4),
+          ...getDeviationsForGradeRange(4, 7, 1, false, 4),
+          7: -6,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 4),
+        },
+      },
+      5: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 5),
+          ...getDeviationsForGradeRange(4, 7, 1, false, 5),
+          7: -6,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 5),
+        },
+      },
+      6: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 6),
+          ...getDeviationsForGradeRange(4, 7, 2, false, 6),
+          7: -8,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 6),
+        },
+      },
+      7: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 7),
+          ...getDeviationsForGradeRange(4, 7, 2, false, 7),
+          7: -8,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 8),
+        },
+      },
+      8: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 8),
+          ...getDeviationsForGradeRange(4, 7, 2, false, 8),
+          7: -10,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 8),
+        },
+      },
+      9: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 9),
+          ...getDeviationsForGradeRange(4, 7, 2, false, 9),
+          7: -10,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 9),
+        },
+      },
+      10: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 10),
+          ...getDeviationsForGradeRange(4, 7, 2, false, 10),
+          7: -12,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 10),
+        },
+      },
+      11: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 11),
+          ...getDeviationsForGradeRange(4, 7, 2, false, 11),
+          7: -12,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 11),
+        },
+      },
+      12: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 12),
+          ...getDeviationsForGradeRange(4, 7, 3, false, 12),
+          7: -15,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 12),
+        },
+      },
+      13: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 13),
+          ...getDeviationsForGradeRange(4, 7, 3, false, 13),
+          7: -15,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 13),
+        },
+      },
+      14: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 14),
+          ...getDeviationsForGradeRange(4, 7, 3, false, 14),
+          7: -18,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 14),
+        },
+      },
+      15: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 15),
+          ...getDeviationsForGradeRange(4, 7, 3, false, 15),
+          7: -18,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 15),
+        },
+      },
+      16: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 16),
+          ...getDeviationsForGradeRange(4, 7, 3, false, 16),
+          7: -18,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 16),
+        },
+      },
+      17: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 17),
+          ...getDeviationsForGradeRange(4, 7, 4, false, 17),
+          7: -21,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 17),
+        },
+      },
+      18: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 18),
+          ...getDeviationsForGradeRange(4, 7, 4, false, 18),
+          7: -21,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 18),
+        },
+      },
+      19: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 19),
+          ...getDeviationsForGradeRange(4, 7, 4, false, 19),
+          7: -21,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 19),
+        },
+      },
+      20: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 20),
+          ...getDeviationsForGradeRange(4, 7, 4, false, 20),
+          7: -26,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 20),
+        },
+      },
+      21: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 21),
+          ...getDeviationsForGradeRange(4, 7, 4, false, 21),
+          7: -26,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 21),
+        },
+      },
+      22: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 22),
+          ...getDeviationsForGradeRange(4, 7, 4, false, 22),
+          7: -28,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 22),
+        },
+      },
+      23: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 24),
+          ...getDeviationsForGradeRange(4, 7, 4, false, 24),
+          7: -28,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 24),
+        },
+      },
+      24: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 24),
+          ...getDeviationsForGradeRange(4, 7, 5, false, 24),
+          7: -32,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 24),
+        },
+      },
+      25: {
+        sameForAllGrades: false,
+        lowerDeviation: {
+          ...getDeviationsForGradeRange("01", 3, 0, false, 25),
+          ...getDeviationsForGradeRange(4, 7, 5, false, 25),
+          7: -32,
+          ...getDeviationsForGradeRange(8, 18, 0, false, 25),
         },
       },
     },
@@ -4570,12 +4479,12 @@ export const basicDeviations = {
       25: { sameForAllGrades: true, lowerDeviation: 252 },
     },
     t: {
-      1: null,
-      2: null,
-      3: null,
-      4: null,
-      5: null,
-      6: null,
+      1: { sameForAllGrades: true, lowerDeviation: null },
+      2: { sameForAllGrades: true, lowerDeviation: null },
+      3: { sameForAllGrades: true, lowerDeviation: null },
+      4: { sameForAllGrades: true, lowerDeviation: null },
+      5: { sameForAllGrades: true, lowerDeviation: null },
+      6: { sameForAllGrades: true, lowerDeviation: null },
       7: { sameForAllGrades: true, lowerDeviation: 41 },
       8: { sameForAllGrades: true, lowerDeviation: 48 },
       9: { sameForAllGrades: true, lowerDeviation: 54 },
@@ -4624,10 +4533,10 @@ export const basicDeviations = {
       25: { sameForAllGrades: true, lowerDeviation: 540 },
     },
     v: {
-      1: null,
-      2: null,
-      3: null,
-      4: null,
+      1: { sameForAllGrades: true, lowerDeviation: null },
+      2: { sameForAllGrades: true, lowerDeviation: null },
+      3: { sameForAllGrades: true, lowerDeviation: null },
+      4: { sameForAllGrades: true, lowerDeviation: null },
       5: { sameForAllGrades: true, lowerDeviation: 39 },
       6: { sameForAllGrades: true, lowerDeviation: 47 },
       7: { sameForAllGrades: true, lowerDeviation: 55 },
@@ -4678,11 +4587,11 @@ export const basicDeviations = {
       25: { sameForAllGrades: true, lowerDeviation: 820 },
     },
     y: {
-      1: null,
-      2: null,
-      3: null,
-      4: null,
-      5: null,
+      1: { sameForAllGrades: true, lowerDeviation: null },
+      2: { sameForAllGrades: true, lowerDeviation: null },
+      3: { sameForAllGrades: true, lowerDeviation: null },
+      4: { sameForAllGrades: true, lowerDeviation: null },
+      5: { sameForAllGrades: true, lowerDeviation: null },
       6: { sameForAllGrades: true, lowerDeviation: 63 },
       7: { sameForAllGrades: true, lowerDeviation: 75 },
       8: { sameForAllGrades: true, lowerDeviation: 94 },

@@ -4,7 +4,9 @@
 //   }
 // }
 
-export const deltas = {
+import { Deltas } from "../types/types";
+
+export const deltas: Deltas = {
   3: {
     1: 0,
     2: 1,

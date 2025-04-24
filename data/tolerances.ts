@@ -1,5 +1,8 @@
 //мкм
-export const tolerances = {
+
+import { Tolerance } from "../types/types";
+
+export const tolerances: Tolerance = {
   "01": {
     1: 0.3,
     2: 0.4,

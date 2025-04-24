@@ -1,4 +1,6 @@
-export const sizeRanges = [
+import { SizeRange } from "../types/types";
+
+export const sizeRanges: SizeRange = [
   { type: 1, range: { from: 1, to: 3 } },
   { type: 2, range: { from: 4, to: 6 } },
   { type: 3, range: { from: 7, to: 10 } },
