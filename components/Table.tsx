@@ -1,74 +1,70 @@
+"use client";
+
 import { FC } from "react";
-import { gradeNames } from "../data/gradeNames";
-import { toleranceNames } from "../data/toleranceNames";
-import { getDeviations } from "../data/getDeviations";
+import { getDeviations, toleranceNames, gradeNames } from "../data";
+import { Deviations, DimensionType } from "../types/types";
 
 interface Props {
-  type: "hole" | "shaft";
+  type: DimensionType;
   size: number;
+  setDeviations: (deviaions: Deviations) => void;
 }
 
-export const Table: FC<Props> = ({ type, size }) => {
-  console.log(getDeviations(size, type, "K", 10));
+export const Table: FC<Props> = ({ type, size, setDeviations }) => {
+  console.log("table");
+
   return (
     <>
-      <h2>Класс допуска</h2>
-      <div className="columns">
-        <div>
-          <h3>Подбор допуска</h3>
-          <div className="grid">
-            <label htmlFor="upperDeviation">Верхнее отклонение:</label>
-            <input id="upperDeviation" />
-            <label htmlFor="lowerDeviation">Нижнее отклонение:</label>
-            <input id="lowerDeviation" />
-          </div>
-        </div>
-        <div className="grid">
-          <div>Номинальный размер:</div>
-          <div className="tag">{size}</div>
-          <div>Класс:</div>
-          <div className="tag"></div>
-          <div>Верхнее отклонение:</div>
-          <div className="tag"></div>
-          <div>Нижнее отклонение:</div>
-          <div className="tag"></div>
-        </div>
-      </div>
-
       <table className="table">
-        <tr>
-          <td></td>
-          {toleranceNames[type].map((tolerance) => {
+        <thead>
+          <tr>
+            <td></td>
+            {toleranceNames[type].map((tolerance, i) => {
+              return (
+                <th
+                  key={i}
+                  scope="col"
+                  className="table__cell table__cell_header"
+                >
+                  {tolerance}
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {gradeNames.map((grade, i) => {
             return (
-              <th scope="col" className="table__cell table__cell_header">
-                {tolerance}
-              </th>
+              <tr key={i}>
+                <th scope="row">
+                  <div className="table__cell table__cell_header">{grade}</div>
+                </th>
+                {toleranceNames[type].map((tolerance, i) => {
+                  const deviations = getDeviations(
+                    size,
+                    type,
+                    tolerance,
+                    grade
+                  );
+                  return (
+                    <td key={i}>
+                      {deviations ? (
+                        <button
+                          onClick={() => setDeviations(deviations)}
+                          className="table__cell table__cell_button"
+                        >
+                          {tolerance + grade}
+                        </button>
+                      ) : (
+                        <div className="table__cell"></div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
             );
           })}
-        </tr>
-        {gradeNames.map((grade) => {
-          return (
-            <tr>
-              {" "}
-              <th className="table__cell table__cell_header" scope="row">
-                {grade}
-              </th>
-              {toleranceNames[type].map((tolerance) => {
-                return (
-                  <td>
-                    {getDeviations(size, type, tolerance, grade) ? (
-                      <button className="table__cell table__cell_button">
-                        {tolerance + grade}
-                      </button>
-                    ) : (
-                      <div className="table__cell"></div>
-                    )}
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
+        </tbody>
       </table>
     </>
   );

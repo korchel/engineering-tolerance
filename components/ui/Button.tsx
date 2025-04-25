@@ -1,3 +1,5 @@
+"use client";
+
 import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from "react";
 import clsx from "clsx";
 

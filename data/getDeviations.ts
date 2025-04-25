@@ -1,7 +1,7 @@
 import { sizeRanges } from "./sizeRanges";
 import { basicDeviations } from "./basicDeviations";
 import { tolerances } from "./tolerances";
-import { DimensionType, Grade } from "../types/types";
+import { Deviations, DimensionType, Grade } from "../types/types";
 import { gradeNames } from "./gradeNames";
 import { toleranceNames } from "./toleranceNames";
 
@@ -10,7 +10,7 @@ export const getDeviations = (
   type: DimensionType,
   toleranceName: string,
   grade: number | string // fix Grade type
-): null | { upperDeviation: number; lowerDeviation: number } => {
+): null | Deviations => {
   const sizeRangeType = sizeRanges.find((item) => {
     if (size >= item.range.from && size <= item.range.to) {
       return true;

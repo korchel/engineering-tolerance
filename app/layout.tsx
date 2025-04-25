@@ -15,13 +15,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="ru">
       <body className={font.className}>
-        <div id="root">{children}</div>
+        <div id="root">
+          {children}
+          {modal}
+        </div>
       </body>
     </html>
   );

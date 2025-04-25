@@ -9,3 +9,5 @@ export type DimensionType = "hole" | "shaft";
 export type Tolerance = {
   [key: number | string]: { [key: number]: number };
 };
+
+export type Deviations = { upperDeviation: number; lowerDeviation: number };

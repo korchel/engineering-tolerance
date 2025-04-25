@@ -1,6 +1,6 @@
 :root {
   --light: #eef0f2;
-  --primary: #e1e2e3;
+  --primary: #5b8e7d;
   --secondary: #8b8b8b;
   --dark: #3a3f4e;
   --black: #020100;
@@ -58,6 +58,13 @@ html {
   align-items: center;
 }
 
+.grid_justify-left {
+  justify-self: start;
+}
+
+.grid_justify-right {
+  justify-self: end;
+}
 .columns {
   display: flex;
   justify-content: space-between;
@@ -98,4 +105,20 @@ html {
 }
 
 .btn_danger {
+}
+
+.btn-icon {
+  border: none;
+  fill: var(--primary);
+  background: none;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--light);
+  padding: 1rem;
 }
