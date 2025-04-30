@@ -1,0 +1,8 @@
+.columns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.grid__span2 {
+  grid-column: 1 / span 2;
+}

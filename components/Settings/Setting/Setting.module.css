@@ -1,0 +1,17 @@
+.grid__justifyLeft {
+  justify-self: start;
+}
+
+.grid__justifyRight {
+  justify-self: end;
+}
+
+.grid__span2 {
+  grid-column: 1 / span 2;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}

@@ -1,0 +1,16 @@
+.btnIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  padding: 0;
+  text-align: center;
+  fill: var(--secondary);
+  background: none;
+  cursor: pointer;
+}
+
+.btnIcon:hover,
+.btnIcon:disabled {
+  fill: var(--secondary-hover);
+}

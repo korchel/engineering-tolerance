@@ -2,6 +2,7 @@
 
 import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from "react";
 import clsx from "clsx";
+import styles from "./Button.module.css";
 
 interface Props
   extends DetailedHTMLProps<
@@ -19,10 +20,10 @@ export const Button: FC<Props> = ({
 }) => {
   const cn = clsx(
     className,
-    "btn",
+    styles.btn,
     {
-      primary: "btn_primary",
-      outline: "btn_outline",
+      primary: styles.btn_primary,
+      outline: styles.btn_outline,
       danger: "",
     }[variant]
   );

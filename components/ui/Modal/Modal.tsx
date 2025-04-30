@@ -1,6 +1,8 @@
 import { DetailedHTMLProps, FC, HTMLAttributes } from "react";
 
-import { Cross } from "./icons";
+import styles from "./Modal.module.css";
+
+import { Cross } from "../icons";
 
 interface Props
   extends DetailedHTMLProps<HTMLAttributes<HTMLHRElement>, HTMLHRElement> {
@@ -8,5 +10,5 @@ interface Props
 }
 
 export const Modal: FC<Props> = ({ children }) => {
-  return <div className="modal">{children}</div>;
+  return <div className={styles.modal}>{children}</div>;
 };
