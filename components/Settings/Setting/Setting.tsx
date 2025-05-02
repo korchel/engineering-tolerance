@@ -37,7 +37,7 @@ export const Setting: FC<Props> = ({ type }) => {
 
       <div className={styles.grid__justifyRight}>верхнее отклонение, мкм:</div>
       <Tag className={styles.grid__justifyLeft}>{upperDeviation}</Tag>
-      <div className={styles.grid__justifyRight}>верхнее отклонение, мкм:</div>
+      <div className={styles.grid__justifyRight}>нижнее отклонение, мкм:</div>
       <Tag className={styles.grid__justifyLeft}>{lowerDeviation}</Tag>
     </>
   );

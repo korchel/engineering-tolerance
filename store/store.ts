@@ -17,19 +17,19 @@ export interface IState {
 }
 
 export const useAppStore = create<IState>((set) => ({
-  shaft: {
-    deviations: {
-      upperDeviation: 34,
-      lowerDeviation: 34,
-    },
-    toleranceGrade: "h6",
-  },
   hole: {
     deviations: {
-      upperDeviation: 34,
-      lowerDeviation: 34,
+      upperDeviation: 21,
+      lowerDeviation: 0,
     },
-    toleranceGrade: "H6",
+    toleranceGrade: " H7 ",
+  },
+  shaft: {
+    deviations: {
+      upperDeviation: -7,
+      lowerDeviation: -20,
+    },
+    toleranceGrade: "g6",
   },
   size: 35,
   setDeviations: (deviations: Deviations, type: DimensionType) =>
