@@ -29,3 +29,8 @@
 .table__cell_header {
   color: var(--dark);
 }
+
+.table__cell_rowHeader {
+  width: 1.5rem;
+  text-align: start;
+}

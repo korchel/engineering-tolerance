@@ -11,3 +11,9 @@ export type Tolerance = {
 };
 
 export type Deviations = { upperDeviation: number; lowerDeviation: number };
+
+export interface IToleranceData {
+  lowerDeviation: number;
+  upperDeviation: number;
+  toleranceGrade: string;
+}

@@ -3,6 +3,14 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--light);
   padding: 1rem;
+
+  background-color: var(--light);
+  border-radius: 0.5rem;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }

@@ -10,5 +10,9 @@ interface Props
 }
 
 export const Modal: FC<Props> = ({ children }) => {
-  return <div className={styles.modal}>{children}</div>;
+  return (
+    <div className={styles.backdrop}>
+      <div className={styles.modal}>{children}</div>
+    </div>
+  );
 };

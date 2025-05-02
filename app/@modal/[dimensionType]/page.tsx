@@ -1,19 +1,59 @@
+"use client";
+
+import { Usable, use, useState } from "react";
 import { Table } from "../../../components/Table/Table";
 import { TableInfo } from "../../../components/TableInfo/TableInfo";
-import { Modal } from "../../../components/ui";
-import { Deviations, DimensionType } from "../../../types/types";
+import { Button, Modal } from "../../../components/ui";
+import { DimensionType, IToleranceData } from "../../../types/types";
+import { useAppStore } from "../../../store/store";
+import { useRouter } from "next/navigation";
+import styles from "./page.module.css";
 
-export default async function Page({
+export default function Page({
   params,
 }: {
   params: { dimensionType: DimensionType };
 }) {
-  const { dimensionType } = await params;
+  const { dimensionType } = use(
+    params as unknown as Usable<{ dimensionType: DimensionType }>
+  );
+  const router = useRouter();
+  const {
+    size,
+    [dimensionType]: {
+      toleranceGrade,
+      deviations: { upperDeviation, lowerDeviation },
+    },
+    setDeviations,
+    setToleranceGrade,
+  } = useAppStore((state) => state);
+
+  const [localState, setLocalState] = useState({
+    upperDeviation: upperDeviation,
+    lowerDeviation: lowerDeviation,
+    toleranceGrade: toleranceGrade,
+  });
+
+  const apply = (data: IToleranceData) => {
+    const { upperDeviation, lowerDeviation, toleranceGrade } = data;
+    setDeviations({ upperDeviation, lowerDeviation }, dimensionType);
+    setToleranceGrade(toleranceGrade, dimensionType);
+    router.back();
+  };
+
   return (
     <Modal>
       <h2>Класс допуска</h2>
-      <TableInfo type={dimensionType} />
-      <Table size={25} type={dimensionType} />
+      <TableInfo size={size} data={localState} />
+      <Table size={25} type={dimensionType} setLocalState={setLocalState} />
+      <div className={styles.buttonGroup}>
+        <Button variant="outline" onClick={() => router.back()}>
+          Отмена
+        </Button>
+        <Button variant="primary" onClick={() => apply(localState)}>
+          Применить
+        </Button>
+      </div>
     </Modal>
   );
 }

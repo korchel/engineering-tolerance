@@ -1,24 +1,18 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import { Grid, Input, Tag } from "../ui";
-import { useAppStore } from "../../store/store";
-import { DimensionType } from "../../types/types";
+
+import { IToleranceData } from "../../types/types";
 import styles from "./TableInfo.module.css";
 
 interface Props {
-  type: DimensionType;
+  size: number;
+  data: IToleranceData;
 }
 
-export const TableInfo: FC<Props> = ({ type }) => {
-  const {
-    size,
-    [type]: {
-      toleranceGrade,
-      deviations: { upperDeviation, lowerDeviation },
-    },
-  } = useAppStore((state) => state);
+export const TableInfo: FC<Props> = ({ size, data }) => {
+  const { upperDeviation, lowerDeviation, toleranceGrade } = data;
   return (
     <div>
       <div className={styles.columns}>

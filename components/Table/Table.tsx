@@ -2,29 +2,21 @@
 
 import { FC } from "react";
 import { getDeviations, toleranceNames, gradeNames } from "../../data";
-import { DimensionType } from "../../types/types";
-import { IState, useAppStore } from "../../store/store";
+import { DimensionType, IToleranceData } from "../../types/types";
+
 import styles from "./Table.module.css";
 import clsx from "clsx";
 
 interface Props {
   type: DimensionType;
   size: number;
+  setLocalState: (data: IToleranceData) => void;
 }
 
-interface IToleranceData {
-  lowerDeviation: number;
-  upperDeviation: number;
-  toleranceGrade: string;
-}
-
-export const Table: FC<Props> = ({ type, size }) => {
-  const { setDeviations, setToleranceGrade } = useAppStore((state) => state);
-
+export const Table: FC<Props> = ({ type, size, setLocalState }) => {
   const onClick = (data: IToleranceData) => {
     const { upperDeviation, lowerDeviation, toleranceGrade } = data;
-    setDeviations({ upperDeviation, lowerDeviation }, type);
-    setToleranceGrade(toleranceGrade, type);
+    setLocalState({ upperDeviation, lowerDeviation, toleranceGrade });
   };
   return (
     <>
@@ -56,7 +48,8 @@ export const Table: FC<Props> = ({ type, size }) => {
                   <div
                     className={clsx(
                       styles.table__cell,
-                      styles.table__cell_header
+                      styles.table__cell_header,
+                      styles.table__cell_rowHeader
                     )}
                   >
                     {grade}
