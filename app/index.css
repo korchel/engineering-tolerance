@@ -1,11 +1,12 @@
 :root {
-  --light: #eef0f2;
-  --primary: #8b8b8b;
-  --secondary: #5b8e7d;
-  --secondary-hover: #0d7955;
-  --dark: #3a3f4e;
-  --black: #020100;
-  --success: #79b473;
+  --light: #fffaff;
+  --primary: #eaf7ff;
+  --secondary: #004f73;
+  --secondary-hover: #009ddc;
+  --accent: #009ddc;
+  --accent2: #1fbaad;
+  --dark: #4c5c68;
+  --black: #3b3b3b;
   font-family: "Rubik", sans-serif;
 }
 
@@ -17,4 +18,8 @@
 html {
   font-size: 16px;
   color: var(--black);
+}
+
+body {
+  background-color: var(--primary);
 }

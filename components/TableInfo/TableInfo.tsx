@@ -31,13 +31,13 @@ export const TableInfo: FC<Props> = ({ size, data }) => {
         </Grid>
 
         <Grid>
-          <div>Номинальный размер:</div>
+          <div>Номинальный размер, мм:</div>
           <Tag>{size}</Tag>
           <div>Класс:</div>
           <Tag>{toleranceGrade}</Tag>
-          <div>Верхнее отклонение:</div>
+          <div>Верхнее отклонение, мкм:</div>
           <Tag>{upperDeviation}</Tag>
-          <div>Нижнее отклонение:</div>
+          <div>Нижнее отклонение, мкм:</div>
           <Tag>{lowerDeviation}</Tag>
         </Grid>
       </div>

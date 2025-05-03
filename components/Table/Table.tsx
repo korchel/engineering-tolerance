@@ -6,14 +6,25 @@ import { DimensionType, IToleranceData } from "../../types/types";
 
 import styles from "./Table.module.css";
 import clsx from "clsx";
+import { useAppStore } from "../../store/store";
 
 interface Props {
   type: DimensionType;
   size: number;
+  activeToleranceGrade: string;
   setLocalState: (data: IToleranceData) => void;
 }
 
-export const Table: FC<Props> = ({ type, size, setLocalState }) => {
+export const Table: FC<Props> = ({
+  type,
+  size,
+  activeToleranceGrade,
+  setLocalState,
+}) => {
+  const currentToleranceGrade = useAppStore(
+    (state) => state[type].toleranceGrade
+  );
+
   const onClick = (data: IToleranceData) => {
     const { upperDeviation, lowerDeviation, toleranceGrade } = data;
     setLocalState({ upperDeviation, lowerDeviation, toleranceGrade });
@@ -72,7 +83,13 @@ export const Table: FC<Props> = ({ type, size, setLocalState }) => {
                           }
                           className={clsx(
                             styles.table__cell,
-                            styles.table__cell_button
+                            styles.table__cell_button,
+                            {
+                              [styles.table__cell_active]:
+                                toleranceGrade === activeToleranceGrade,
+                              [styles.table__cell_current]:
+                                toleranceGrade === currentToleranceGrade,
+                            }
                           )}
                         >
                           {toleranceGrade}

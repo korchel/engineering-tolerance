@@ -7,5 +7,5 @@
   text-wrap: nowrap;
   text-align: center;
   color: var(--light);
-  background-color: var(--secondary);
+  background-color: var(--accent);
 }

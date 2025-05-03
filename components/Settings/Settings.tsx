@@ -1,9 +1,10 @@
 "use client";
 
 import { ChangeEventHandler, useEffect } from "react";
+import styles from "./Settings.module.css";
 import { IState, useAppStore } from "../../store/store";
 import { Setting } from "./Setting/Setting";
-import { Grid, Tag } from "../ui";
+import { Button, Grid, Tag } from "../ui";
 import { Input } from "../ui/Input/Input";
 
 export const Settings = () => {
@@ -19,20 +20,23 @@ export const Settings = () => {
   };
 
   return (
-    <Grid>
-      <Input
-        name={"size"}
-        label={"Номинальный размер, мм:"}
-        onChange={(e) => onChange(e)}
-        value={size}
-      />
-      <div>Посадка:</div>
-      <Tag>
-        {holeIT} / {shaftIT}{" "}
-      </Tag>
-      <Setting type="shaft" />
-      <Setting type="hole" />
-    </Grid>
+    <div className={styles.settings}>
+      <Grid>
+        <Input
+          name={"size"}
+          label={"Номинальный размер, мм:"}
+          onChange={(e) => onChange(e)}
+          value={size}
+        />
+        <div>Посадка:</div>
+        <Tag>
+          {holeIT} / {shaftIT}{" "}
+        </Tag>
+        <Setting type="hole" />
+        <Setting type="shaft" />
+      </Grid>
+      <Button variant="primary">Сохранить схему</Button>
+    </div>
   );
 };
 

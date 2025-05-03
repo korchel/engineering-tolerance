@@ -1,9 +1,10 @@
 .btn {
+  height: 2rem;
+  min-width: 2rem;
   padding-inline: 0.5rem;
   cursor: pointer;
   border-radius: 0.25rem;
-  height: 2rem;
-  min-width: 2rem;
+  font-size: 1rem;
 }
 
 .btn_primary {
@@ -12,9 +13,21 @@
   border: none;
 }
 
+.btn_primary:hover {
+  background-color: var(--secondary-hover);
+  color: var(--light);
+  border: none;
+}
+
 .btn_outline {
-  background-color: var(--light);
+  background-color: transparent;
   border: 2px solid var(--secondary);
+  color: var(--secondary);
+}
+
+.btn_outline:hover {
+  border: 2px solid var(--secondary-hover);
+  color: var(--secondary-hover);
 }
 
 .btn_danger {

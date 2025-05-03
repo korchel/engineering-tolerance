@@ -21,8 +21,16 @@
   background-color: var(--secondary);
 }
 
+.table__cell_current {
+  background-color: var(--accent2);
+}
+
+.table__cell_active {
+  background-color: var(--accent);
+}
+
 .table__cell_button:hover {
-  background-color: var(--primary);
+  background-color: var(--accent);
   transform: scale(1.2);
 }
 

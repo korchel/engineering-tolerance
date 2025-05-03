@@ -1,0 +1,15 @@
+.svg {
+}
+
+.text {
+  stroke: var(--dark);
+  fill: var(--dark);
+  transform: scaleY(-1);
+  font-size: 16;
+}
+
+.rect {
+  fill: transparent;
+  stroke: var(--dark);
+  stroke-width: 2;
+}

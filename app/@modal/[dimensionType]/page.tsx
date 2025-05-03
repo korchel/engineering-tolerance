@@ -45,7 +45,12 @@ export default function Page({
     <Modal>
       <h2>Класс допуска</h2>
       <TableInfo size={size} data={localState} />
-      <Table size={25} type={dimensionType} setLocalState={setLocalState} />
+      <Table
+        size={25}
+        type={dimensionType}
+        setLocalState={setLocalState}
+        activeToleranceGrade={localState.toleranceGrade}
+      />
       <div className={styles.buttonGroup}>
         <Button variant="outline" onClick={() => router.back()}>
           Отмена
