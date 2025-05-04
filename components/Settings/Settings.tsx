@@ -1,11 +1,12 @@
 "use client";
 
-import { ChangeEventHandler, useEffect } from "react";
+import { ChangeEventHandler } from "react";
+
 import styles from "./Settings.module.css";
-import { IState, useAppStore } from "../../store/store";
+import { useAppStore } from "../../store/store";
 import { Setting } from "./Setting/Setting";
-import { Button, Grid, Tag } from "../ui";
-import { Input } from "../ui/Input/Input";
+import { Button, Grid, Tag, Input } from "../ui";
+import { createPDF } from "../../lib";
 
 export const Settings = () => {
   const {
@@ -35,7 +36,12 @@ export const Settings = () => {
         <Setting type="hole" />
         <Setting type="shaft" />
       </Grid>
-      <Button variant="primary">Сохранить схему</Button>
+      <Button
+        onClick={() => createPDF(`${holeIT}${shaftIT}`)}
+        variant="primary"
+      >
+        Сохранить схему
+      </Button>
     </div>
   );
 };

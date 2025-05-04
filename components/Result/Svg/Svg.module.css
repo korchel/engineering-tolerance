@@ -2,14 +2,14 @@
 }
 
 .text {
-  stroke: var(--dark);
-  fill: var(--dark);
+  stroke: var(--secondary);
+  fill: var(--secondary);
   transform: scaleY(-1);
   font-size: 16;
 }
 
 .rect {
   fill: transparent;
-  stroke: var(--dark);
+  stroke: var(--secondary);
   stroke-width: 2;
 }

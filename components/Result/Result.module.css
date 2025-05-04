@@ -1,8 +1,6 @@
 .result {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
+  justify-content: center;
 
   background-color: var(--light);
   border-radius: 0.5rem;
@@ -11,4 +9,8 @@
 
 .table {
   align-self: flex-start;
+}
+
+.pdf {
+  padding: 2rem;
 }

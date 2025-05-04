@@ -23,25 +23,27 @@ export const Result = () => {
   console.log(svgHeight);
   return (
     <div className={styles.result}>
-      <Svg
-        ES={ES}
-        EI={EI}
-        es={es}
-        ei={ei}
-        holeIT={holeIT}
-        shaftIT={shaftIT}
-        svgHeight={svgHeight}
-      />
-      <ResultTable
-        className={styles.table}
-        ES={ES}
-        EI={EI}
-        es={es}
-        ei={ei}
-        holeIT={holeIT}
-        shaftIT={shaftIT}
-        size={size}
-      />
+      <div id="result" className={styles.pdf}>
+        <Svg
+          ES={ES}
+          EI={EI}
+          es={es}
+          ei={ei}
+          holeIT={holeIT}
+          shaftIT={shaftIT}
+          svgHeight={svgHeight}
+        />
+        <ResultTable
+          className={styles.table}
+          ES={ES}
+          EI={EI}
+          es={es}
+          ei={ei}
+          holeIT={holeIT}
+          shaftIT={shaftIT}
+          size={size}
+        />
+      </div>
     </div>
   );
 };
