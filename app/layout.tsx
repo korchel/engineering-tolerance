@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./index.css";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const font = Inter({
   subsets: ["cyrillic"],
@@ -24,8 +26,10 @@ export default function RootLayout({
     <html lang="ru">
       <body className={font.className}>
         <div id="root">
-          {children}
-          {modal}
+          <Suspense fallback={<Loading />}>
+            {children}
+            {modal}
+          </Suspense>
         </div>
       </body>
     </html>

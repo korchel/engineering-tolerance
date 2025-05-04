@@ -42,15 +42,13 @@ export const ResultTable: FC<Props> = ({
   return (
     <table className={styles.table} {...props}>
       <tbody>
-        {data.map((item) => (
-          <>
-            <tr>
-              <th className={styles.th} scope="row">
-                {item.header}
-              </th>
-              <td>{item.value}</td>
-            </tr>
-          </>
+        {data.map((item, i) => (
+          <tr key={i}>
+            <th className={styles.th} scope="row">
+              {item.header}
+            </th>
+            <td>{item.value}</td>
+          </tr>
         ))}
       </tbody>
     </table>
