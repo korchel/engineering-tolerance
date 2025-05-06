@@ -15,5 +15,15 @@ export type Deviations = { upperDeviation: number; lowerDeviation: number };
 export interface IToleranceData {
   lowerDeviation: number;
   upperDeviation: number;
-  toleranceGrade: string;
+  toleranceName: string;
+  grade: Grade;
 }
+
+export type SpecialITs = {
+  shaft: {
+    [key: number]: string[];
+  };
+  hole: {
+    [key: number]: string[];
+  };
+};

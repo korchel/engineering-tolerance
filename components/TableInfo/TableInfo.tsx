@@ -12,7 +12,8 @@ interface Props {
 }
 
 export const TableInfo: FC<Props> = ({ size, data }) => {
-  const { upperDeviation, lowerDeviation, toleranceGrade } = data;
+  const { upperDeviation, lowerDeviation, toleranceName, grade } = data;
+
   return (
     <div>
       <div className={styles.columns}>
@@ -36,7 +37,7 @@ export const TableInfo: FC<Props> = ({ size, data }) => {
           <div>Номинальный размер, мм:</div>
           <Tag>{size}</Tag>
           <div>Класс:</div>
-          <Tag>{toleranceGrade}</Tag>
+          <Tag>{toleranceName + grade}</Tag>
           <div>Верхнее отклонение, мкм:</div>
           <Tag>{upperDeviation}</Tag>
           <div>Нижнее отклонение, мкм:</div>

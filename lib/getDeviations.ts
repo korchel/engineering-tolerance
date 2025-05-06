@@ -1,6 +1,6 @@
-import { sizeRanges } from "./sizeRanges";
-import { basicDeviations } from "./basicDeviations";
-import { tolerances } from "./tolerances";
+import { sizeRanges } from "../data/sizeRanges";
+import { basicDeviations } from "../data/basicDeviations";
+import { tolerances } from "../data/tolerances";
 import { Deviations, DimensionType, Grade } from "../types/types";
 
 export const getDeviations = (

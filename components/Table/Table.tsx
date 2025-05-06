@@ -1,12 +1,25 @@
 "use client";
 
 import { FC } from "react";
-import { getDeviations, toleranceNames, gradeNames } from "../../data";
-import { DimensionType, IToleranceData } from "../../types/types";
+import {
+  toleranceNames,
+  gradeNames,
+  usageSizeRanges,
+  commonITs,
+  recommendedITs,
+  notForFitsITs,
+} from "../../data";
+import {
+  Deviations,
+  DimensionType,
+  Grade,
+  IToleranceData,
+} from "../../types/types";
 
 import styles from "./Table.module.css";
 import clsx from "clsx";
 import { useAppStore } from "../../store/store";
+import { getDeviations } from "../../lib";
 
 interface Props {
   type: DimensionType;
@@ -25,9 +38,29 @@ export const Table: FC<Props> = ({
     (state) => state[type].toleranceName + state[type].grade
   );
 
-  const onClick = (data: IToleranceData) => {
-    const { upperDeviation, lowerDeviation, toleranceGrade } = data;
-    setLocalState({ upperDeviation, lowerDeviation, toleranceGrade });
+  const usageSizeRange = usageSizeRanges.find((item) => {
+    if (size >= item.range.from && size <= item.range.to) {
+      return true;
+    }
+    return false;
+  })!.type;
+
+  const onClick = ({
+    tolerance,
+    grade,
+  }: {
+    tolerance: string;
+    grade: Grade;
+  }) => {
+    const deviations = getDeviations(size, type, tolerance, grade);
+    const { upperDeviation, lowerDeviation } = deviations as Deviations;
+
+    setLocalState({
+      upperDeviation,
+      lowerDeviation,
+      toleranceName: tolerance,
+      grade,
+    });
   };
 
   return (
@@ -68,37 +101,38 @@ export const Table: FC<Props> = ({
                   </div>
                 </th>
                 {toleranceNames[type].map((tolerance, i) => {
-                  const deviations = getDeviations(
-                    size,
-                    type,
-                    tolerance,
-                    grade
-                  );
                   const toleranceGrade = tolerance + grade;
+                  const isCommonIT =
+                    commonITs[type][usageSizeRange].includes(toleranceGrade);
+                  const isRecommendedIT =
+                    recommendedITs[type][usageSizeRange].includes(
+                      toleranceGrade
+                    );
+                  const isNotForFits =
+                    notForFitsITs[type][usageSizeRange].includes(
+                      toleranceGrade
+                    );
 
                   return (
                     <td key={i}>
-                      {deviations ? (
-                        <button
-                          onClick={() =>
-                            onClick({ ...deviations, toleranceGrade })
+                      <button
+                        onClick={() => onClick({ tolerance, grade })}
+                        className={clsx(
+                          styles.table__cell,
+                          styles.table__cell_button,
+                          {
+                            [styles.normal]: !isRecommendedIT && !isCommonIT,
+                            [styles.common]: isCommonIT && !isRecommendedIT,
+                            [styles.recommended]: isRecommendedIT,
+                            [styles.table__cell_current]:
+                              toleranceGrade == currentToleranceGrade,
+                            [styles.table__cell_active]:
+                              toleranceGrade == activeToleranceGrade,
                           }
-                          className={clsx(
-                            styles.table__cell,
-                            styles.table__cell_button,
-                            {
-                              [styles.table__cell_current]:
-                                toleranceGrade == currentToleranceGrade,
-                              [styles.table__cell_active]:
-                                toleranceGrade == activeToleranceGrade,
-                            }
-                          )}
-                        >
-                          {toleranceGrade}
-                        </button>
-                      ) : (
-                        <div className={styles.table__cell}></div>
-                      )}
+                        )}
+                      >
+                        {toleranceGrade + (isNotForFits ? "*" : "")}
+                      </button>
                     </td>
                   );
                 })}

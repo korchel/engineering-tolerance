@@ -13,8 +13,6 @@ interface Props {
 }
 
 export const Setting: FC<Props> = ({ type }) => {
-  const { setDeviations, setToleranceGrade } = useAppStore((state) => state);
-
   const {
     [type]: {
       deviations: { upperDeviation, lowerDeviation },

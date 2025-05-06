@@ -26,23 +26,26 @@ export default function Page({
       deviations: { upperDeviation, lowerDeviation },
     },
     setDeviations,
-    setToleranceGrade,
+    setToleranceName,
+    setGrade,
   } = useAppStore((state) => state);
 
   const IT = toleranceName + grade;
-  const [localState, setLocalState] = useState({
+  const [localState, setLocalState] = useState<IToleranceData>({
     upperDeviation,
     lowerDeviation,
-    toleranceGrade: IT,
+    toleranceName,
+    grade,
   });
 
   const apply = (data: IToleranceData) => {
-    const { upperDeviation, lowerDeviation, toleranceGrade } = data;
+    const { upperDeviation, lowerDeviation, toleranceName, grade } = data;
     setDeviations({ upperDeviation, lowerDeviation }, dimensionType);
-    setToleranceGrade(toleranceGrade, dimensionType);
+    setToleranceName(toleranceName, dimensionType);
+    setGrade(grade, dimensionType);
     router.back();
   };
-
+  const toleranceGrade = localState.toleranceName + localState.grade;
   return (
     <Modal>
       <Title level="h2">Класс допуска</Title>
@@ -51,7 +54,7 @@ export default function Page({
         size={25}
         type={dimensionType}
         setLocalState={setLocalState}
-        activeToleranceGrade={localState.toleranceGrade}
+        activeToleranceGrade={toleranceGrade}
       />
       <div className={styles.buttonGroup}>
         <Button variant="outline" onClick={() => router.back()}>

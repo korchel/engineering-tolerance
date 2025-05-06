@@ -1,21 +1,22 @@
 import { create } from "zustand";
-import { Deviations, DimensionType } from "../types/types";
-import { getDeviations } from "../data";
+import { Deviations, DimensionType, Grade } from "../types/types";
+import { getDeviations } from "../lib";
 
 export interface IState {
   shaft: {
     deviations: Deviations;
     toleranceName: string;
-    grade: number | string;
+    grade: Grade;
   };
   hole: {
     deviations: Deviations;
     toleranceName: string;
-    grade: number | string;
+    grade: Grade;
   };
   size: number;
   setDeviations: (deviations: Deviations, type: DimensionType) => void;
-  setToleranceGrade: (toleranceGrade: string, type: DimensionType) => void;
+  setToleranceName: (toleranceName: string, type: DimensionType) => void;
+  setGrade: (grade: Grade, type: DimensionType) => void;
   setSize: (size: number) => void;
 }
 
@@ -41,9 +42,13 @@ export const useAppStore = create<IState>((set) => ({
     set((state) => ({
       [type]: { ...state[type], deviations },
     })),
-  setToleranceGrade: (toleranceGrade: string, type: DimensionType) =>
+  setToleranceName: (toleranceName: string, type: DimensionType) =>
     set((state) => ({
-      [type]: { ...state[type], toleranceGrade },
+      [type]: { ...state[type], toleranceName },
+    })),
+  setGrade: (grade: Grade, type: DimensionType) =>
+    set((state) => ({
+      [type]: { ...state[type], grade },
     })),
   setSize: (size: number) =>
     set((state) => ({

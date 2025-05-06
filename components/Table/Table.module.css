@@ -6,11 +6,10 @@
 }
 
 .table__cell {
-  padding-block: 0.5em;
   height: 2em;
   width: 3.5em;
   border-radius: 0.25em;
-  text-align: center;
+
   color: var(--light);
   transition: all 0.2s;
 }
@@ -18,7 +17,18 @@
 .table__cell_button {
   cursor: pointer;
   border: none;
+}
+
+.recommended {
   background-color: var(--secondary);
+}
+
+.common {
+  background-color: var(--secondary-tint-1);
+}
+
+.normal {
+  background-color: var(--secondary-tint-2);
 }
 
 .table__cell_current {
@@ -30,7 +40,6 @@
 }
 
 .table__cell_button:hover {
-  background-color: var(--accent);
   transform: scale(1.2);
 }
 
