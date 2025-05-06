@@ -6,8 +6,9 @@
   justify-self: end;
 }
 
-.grid__span2 {
+.title {
   grid-column: 1 / span 2;
+  justify-self: left;
 }
 
 .columns {

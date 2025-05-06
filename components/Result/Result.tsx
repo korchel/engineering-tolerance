@@ -10,17 +10,22 @@ export const Result = () => {
   const {
     size,
     hole: {
-      toleranceGrade: holeIT,
+      toleranceName: holeTolerance,
+      grade: holeGrade,
       deviations: { upperDeviation: ES, lowerDeviation: EI },
     },
     shaft: {
-      toleranceGrade: shaftIT,
+      toleranceName: shaftTolerance,
+      grade: shaftGrade,
       deviations: { upperDeviation: es, lowerDeviation: ei },
     },
-    setSize,
   } = useAppStore((state) => state);
+
   const svgHeight = Math.abs(ES) + Math.abs(ei) + 200;
-  console.log(svgHeight);
+
+  const shaftIT = shaftTolerance + shaftGrade;
+  const holeIT = holeTolerance + holeGrade;
+
   return (
     <div className={styles.result}>
       <div id="result" className={styles.pdf}>

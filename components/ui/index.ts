@@ -6,3 +6,4 @@ export { Input } from "./Input/Input";
 export { Spinner } from "./Spinner/Spinner";
 export { Modal } from "./Modal/Modal";
 export { Tag } from "./Tag/Tag";
+export { Title } from "./Title/Title";

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import styles from "./Setting.module.css";
-import { ButtonIcon, Tag } from "../../ui";
+import { ButtonIcon, Tag, Title } from "../../ui";
 import { FC } from "react";
 import { DimensionType } from "../../../types/types";
 import { useAppStore } from "../../../store/store";
@@ -18,18 +18,20 @@ export const Setting: FC<Props> = ({ type }) => {
   const {
     [type]: {
       deviations: { upperDeviation, lowerDeviation },
-      toleranceGrade,
+      toleranceName,
+      grade,
     },
   } = useAppStore((state) => state);
 
   return (
     <>
-      <h3 className={styles.grid__span2}>
+      <Title level="h3" className={styles.title}>
         {type === "shaft" ? "Вал" : "Отверстие"}
-      </h3>
+      </Title>
+
       <div className={styles.grid__justifyRight}>класс допуска:</div>
       <div className={clsx(styles.grid__justifyLeft, styles.columns)}>
-        <Tag>{toleranceGrade}</Tag>
+        <Tag>{toleranceName + grade}</Tag>
         <Link href={`/${type}`}>
           <ButtonIcon iconType="book" />
         </Link>

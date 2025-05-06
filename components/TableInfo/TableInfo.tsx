@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { Grid, Input, Tag } from "../ui";
+import { Grid, Input, Tag, Title } from "../ui";
 
 import { IToleranceData } from "../../types/types";
 import styles from "./TableInfo.module.css";
@@ -17,7 +17,9 @@ export const TableInfo: FC<Props> = ({ size, data }) => {
     <div>
       <div className={styles.columns}>
         <Grid>
-          <h3 className={styles.grid__span2}>Подбор допуска</h3>
+          <Title level="h3" className={styles.title}>
+            Подбор допуска
+          </Title>
           <Input
             label="Верхнее отклонение:"
             name="upperDeviation"

@@ -11,10 +11,13 @@ import { createPDF } from "../../lib";
 export const Settings = () => {
   const {
     size,
-    shaft: { toleranceGrade: shaftIT },
-    hole: { toleranceGrade: holeIT },
+    shaft: { toleranceName: shaftTolerance, grade: shaftGrade },
+    hole: { toleranceName: holeTolerance, grade: holeGrade },
     setSize,
   } = useAppStore((state) => state);
+
+  const shaftIT = shaftTolerance + shaftGrade;
+  const holeIT = holeTolerance + holeGrade;
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setSize(Number(event.target.value));

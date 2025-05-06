@@ -1,6 +1,8 @@
 import { DetailedHTMLProps, FC, TableHTMLAttributes } from "react";
 
 import styles from "./ResultTable.module.css";
+import clsx from "clsx";
+import { getResultData } from "../../../lib";
 
 interface Props
   extends DetailedHTMLProps<
@@ -26,18 +28,37 @@ export const ResultTable: FC<Props> = ({
   shaftIT,
   ...props
 }) => {
+  const {
+    fitType,
+    maxHoleSize,
+    minHoleSize,
+    maxShaftSize,
+    minShaftSize,
+    minClearance,
+    maxClearance,
+    minInterference,
+    maxInterference,
+    tolerance,
+  } = getResultData({
+    size,
+    ES,
+    EI,
+    es,
+    ei,
+  });
   const data = [
+    { header: "Тип посадки:", value: fitType },
     { header: "Номинальный размер, мм:", value: size },
     { header: "Посадка:", value: `${holeIT} / ${shaftIT}` },
-    { header: "Максимальный размер отверстия, мм:", value: size + ES },
-    { header: "Минимальный размер отверстия, мм:", value: size - ES },
-    { header: "Максимальный размер вала, мм:", value: size + es },
-    { header: "Минимальный размер вала, мм:", value: size - ei },
-    { header: "Наибольший зазор, мкм:", value: "data" },
-    { header: "Наименьший зазор, мкм:", value: "data" },
-    { header: "Наибольший натяг, мкм:", value: "data" },
-    { header: "Наименьший натяг, мкм:", value: "data" },
-    { header: "Допуск посадки, мм:", value: "data" },
+    { header: "Максимальный размер отверстия, мм:", value: maxHoleSize },
+    { header: "Минимальный размер отверстия, мм:", value: minHoleSize },
+    { header: "Максимальный размер вала, мм:", value: maxShaftSize },
+    { header: "Минимальный размер вала, мм:", value: minShaftSize },
+    { header: "Наименьший зазор, мкм:", value: minClearance },
+    { header: "Наибольший зазор, мкм:", value: maxClearance },
+    { header: "Наименьший натяг, мкм:", value: minInterference },
+    { header: "Наибольший натяг, мкм:", value: maxInterference },
+    { header: "Допуск посадки, мкм:", value: tolerance },
   ];
   return (
     <table className={styles.table} {...props}>

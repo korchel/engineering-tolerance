@@ -1,14 +1,17 @@
 import { create } from "zustand";
 import { Deviations, DimensionType } from "../types/types";
+import { getDeviations } from "../data";
 
 export interface IState {
   shaft: {
     deviations: Deviations;
-    toleranceGrade: string;
+    toleranceName: string;
+    grade: number | string;
   };
   hole: {
     deviations: Deviations;
-    toleranceGrade: string;
+    toleranceName: string;
+    grade: number | string;
   };
   size: number;
   setDeviations: (deviations: Deviations, type: DimensionType) => void;
@@ -19,19 +22,21 @@ export interface IState {
 export const useAppStore = create<IState>((set) => ({
   hole: {
     deviations: {
-      upperDeviation: 21,
+      upperDeviation: 25,
       lowerDeviation: 0,
     },
-    toleranceGrade: " H7 ",
+    toleranceName: "H",
+    grade: 7,
   },
   shaft: {
     deviations: {
-      upperDeviation: -7,
-      lowerDeviation: -20,
+      upperDeviation: 50,
+      lowerDeviation: 34,
     },
-    toleranceGrade: "g6",
+    toleranceName: "r",
+    grade: 6,
   },
-  size: 35,
+  size: 40,
   setDeviations: (deviations: Deviations, type: DimensionType) =>
     set((state) => ({
       [type]: { ...state[type], deviations },
@@ -40,5 +45,28 @@ export const useAppStore = create<IState>((set) => ({
     set((state) => ({
       [type]: { ...state[type], toleranceGrade },
     })),
-  setSize: (size: number) => set({ size }),
+  setSize: (size: number) =>
+    set((state) => ({
+      size,
+      hole: {
+        deviations: getDeviations(
+          size,
+          "hole",
+          state.hole.toleranceName,
+          state.hole.grade
+        ) as Deviations,
+        toleranceName: state.hole.toleranceName,
+        grade: state.hole.grade,
+      },
+      shaft: {
+        deviations: getDeviations(
+          size,
+          "shaft",
+          state.shaft.toleranceName,
+          state.shaft.grade
+        ) as Deviations,
+        toleranceName: state.shaft.toleranceName,
+        grade: state.shaft.grade,
+      },
+    })),
 }));

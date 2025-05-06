@@ -22,13 +22,14 @@ export const Table: FC<Props> = ({
   setLocalState,
 }) => {
   const currentToleranceGrade = useAppStore(
-    (state) => state[type].toleranceGrade
+    (state) => state[type].toleranceName + state[type].grade
   );
 
   const onClick = (data: IToleranceData) => {
     const { upperDeviation, lowerDeviation, toleranceGrade } = data;
     setLocalState({ upperDeviation, lowerDeviation, toleranceGrade });
   };
+
   return (
     <>
       <table className={styles.table}>
@@ -74,6 +75,7 @@ export const Table: FC<Props> = ({
                     grade
                   );
                   const toleranceGrade = tolerance + grade;
+
                   return (
                     <td key={i}>
                       {deviations ? (
@@ -85,10 +87,10 @@ export const Table: FC<Props> = ({
                             styles.table__cell,
                             styles.table__cell_button,
                             {
-                              [styles.table__cell_active]:
-                                toleranceGrade === activeToleranceGrade,
                               [styles.table__cell_current]:
-                                toleranceGrade === currentToleranceGrade,
+                                toleranceGrade == currentToleranceGrade,
+                              [styles.table__cell_active]:
+                                toleranceGrade == activeToleranceGrade,
                             }
                           )}
                         >

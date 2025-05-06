@@ -3,7 +3,7 @@
 import { Usable, use, useState } from "react";
 import { Table } from "../../../components/Table/Table";
 import { TableInfo } from "../../../components/TableInfo/TableInfo";
-import { Button, Modal } from "../../../components/ui";
+import { Button, Modal, Title } from "../../../components/ui";
 import { DimensionType, IToleranceData } from "../../../types/types";
 import { useAppStore } from "../../../store/store";
 import { useRouter } from "next/navigation";
@@ -21,17 +21,19 @@ export default function Page({
   const {
     size,
     [dimensionType]: {
-      toleranceGrade,
+      toleranceName,
+      grade,
       deviations: { upperDeviation, lowerDeviation },
     },
     setDeviations,
     setToleranceGrade,
   } = useAppStore((state) => state);
 
+  const IT = toleranceName + grade;
   const [localState, setLocalState] = useState({
-    upperDeviation: upperDeviation,
-    lowerDeviation: lowerDeviation,
-    toleranceGrade: toleranceGrade,
+    upperDeviation,
+    lowerDeviation,
+    toleranceGrade: IT,
   });
 
   const apply = (data: IToleranceData) => {
@@ -43,7 +45,7 @@ export default function Page({
 
   return (
     <Modal>
-      <h2>Класс допуска</h2>
+      <Title level="h2">Класс допуска</Title>
       <TableInfo size={size} data={localState} />
       <Table
         size={25}
