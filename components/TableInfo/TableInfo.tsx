@@ -1,10 +1,12 @@
 "use client";
 
 import { FC } from "react";
-import { Grid, Input, Tag, Title } from "../ui";
+import { Grid, Input, Label, Tag, Title } from "../ui";
 
 import { IToleranceData } from "../../types/types";
 import styles from "./TableInfo.module.css";
+import clsx from "clsx";
+import { Legend } from "../Legend/Legend";
 
 interface Props {
   size: number;
@@ -32,15 +34,15 @@ export const TableInfo: FC<Props> = ({ size, data }) => {
             type="number"
           />
         </Grid>
-
+        <Legend className={styles.justifyRight} />
         <Grid>
-          <div>Номинальный размер, мм:</div>
+          <Label>Номинальный размер, мм:</Label>
           <Tag>{size}</Tag>
-          <div>Класс:</div>
+          <Label>Класс:</Label>
           <Tag>{toleranceName + grade}</Tag>
-          <div>Верхнее отклонение, мкм:</div>
+          <Label>Верхнее отклонение, мкм:</Label>
           <Tag>{upperDeviation}</Tag>
-          <div>Нижнее отклонение, мкм:</div>
+          <Label>Нижнее отклонение, мкм:</Label>
           <Tag>{lowerDeviation}</Tag>
         </Grid>
       </div>

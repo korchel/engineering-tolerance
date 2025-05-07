@@ -3,6 +3,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-width: 90%;
+  max-height: 90%;
+  overflow: hidden;
   padding: 1rem;
 
   background-color: var(--light);
@@ -10,7 +13,8 @@
 }
 
 .backdrop {
-  position: fixed;
+  position: absolute;
+  width: 100%;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.7);
 }

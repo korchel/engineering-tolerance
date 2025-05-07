@@ -1,0 +1,28 @@
+.legend {
+  display: grid;
+  grid-template-columns: 1fr 150px;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legendItem {
+  height: 1em;
+  width: 1em;
+  border-radius: 0.25em;
+}
+
+.recommended {
+  background-color: var(--secondary);
+}
+
+.common {
+  background-color: var(--secondary-tint-1);
+}
+
+.notForFits {
+  font-weight: bold;
+}
+
+.special {
+  background-color: var(--secondary-tint-2);
+}

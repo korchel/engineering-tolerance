@@ -18,6 +18,9 @@
   color: var(--light);
   border: none;
 }
+.btn_primary:disabled {
+  pointer-events: none;
+}
 
 .btn_outline {
   background-color: transparent;

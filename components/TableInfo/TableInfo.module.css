@@ -1,9 +1,14 @@
 .columns {
   display: flex;
   justify-content: space-between;
+  gap: 2rem;
 }
 
 .title {
   grid-column: 1 / span 2;
   justify-self: left;
+}
+
+.justifyRight {
+  margin-left: auto;
 }

@@ -48,13 +48,14 @@ export const Table: FC<Props> = ({
   const onClick = ({
     tolerance,
     grade,
+    upperDeviation,
+    lowerDeviation,
   }: {
     tolerance: string;
     grade: Grade;
+    upperDeviation: number;
+    lowerDeviation: number;
   }) => {
-    const deviations = getDeviations(size, type, tolerance, grade);
-    const { upperDeviation, lowerDeviation } = deviations as Deviations;
-
     setLocalState({
       upperDeviation,
       lowerDeviation,
@@ -64,11 +65,11 @@ export const Table: FC<Props> = ({
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <table className={styles.table}>
         <thead>
           <tr>
-            <td></td>
+            <td className={clsx(styles.commonHeader)}></td>
             {toleranceNames[type].map((tolerance, i) => {
               return (
                 <th
@@ -76,7 +77,8 @@ export const Table: FC<Props> = ({
                   scope="col"
                   className={clsx(
                     styles.table__cell,
-                    styles.table__cell_header
+                    styles.table__cell_header,
+                    styles.header
                   )}
                 >
                   {tolerance}
@@ -89,11 +91,10 @@ export const Table: FC<Props> = ({
           {gradeNames.map((grade, i) => {
             return (
               <tr key={i}>
-                <th scope="row">
+                <th scope="row" className={styles.rowHeader}>
                   <div
                     className={clsx(
                       styles.table__cell,
-                      styles.table__cell_header,
                       styles.table__cell_rowHeader
                     )}
                   >
@@ -112,11 +113,24 @@ export const Table: FC<Props> = ({
                     notForFitsITs[type][usageSizeRange].includes(
                       toleranceGrade
                     );
+                  const deviations = getDeviations(
+                    size,
+                    type,
+                    tolerance,
+                    grade
+                  );
 
-                  return (
+                  return deviations ? (
                     <td key={i}>
                       <button
-                        onClick={() => onClick({ tolerance, grade })}
+                        onClick={() =>
+                          onClick({
+                            tolerance,
+                            grade,
+                            upperDeviation: deviations.upperDeviation,
+                            lowerDeviation: deviations.lowerDeviation,
+                          })
+                        }
                         className={clsx(
                           styles.table__cell,
                           styles.table__cell_button,
@@ -134,6 +148,8 @@ export const Table: FC<Props> = ({
                         {toleranceGrade + (isNotForFits ? "*" : "")}
                       </button>
                     </td>
+                  ) : (
+                    <td key={i} className={styles.table__cell}></td>
                   );
                 })}
               </tr>
@@ -141,6 +157,6 @@ export const Table: FC<Props> = ({
           })}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };

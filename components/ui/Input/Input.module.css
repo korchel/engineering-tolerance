@@ -6,3 +6,7 @@
   outline-color: var(--secondary-hover);
   background-color: transparent;
 }
+
+.label {
+  text-wrap: nowrap;
+}

@@ -18,6 +18,7 @@ export default function Page({
     params as unknown as Usable<{ dimensionType: DimensionType }>
   );
   const router = useRouter();
+
   const {
     size,
     [dimensionType]: {
@@ -30,7 +31,6 @@ export default function Page({
     setGrade,
   } = useAppStore((state) => state);
 
-  const IT = toleranceName + grade;
   const [localState, setLocalState] = useState<IToleranceData>({
     upperDeviation,
     lowerDeviation,
@@ -45,22 +45,30 @@ export default function Page({
     setGrade(grade, dimensionType);
     router.back();
   };
-  const toleranceGrade = localState.toleranceName + localState.grade;
+
+  const localToleranceGrade = localState.toleranceName + localState.grade;
+
   return (
     <Modal>
-      <Title level="h2">Класс допуска</Title>
+      <Title className={styles.mb1} level="h2">
+        Класс допуска
+      </Title>
       <TableInfo size={size} data={localState} />
       <Table
         size={25}
         type={dimensionType}
         setLocalState={setLocalState}
-        activeToleranceGrade={toleranceGrade}
+        activeToleranceGrade={localToleranceGrade}
       />
       <div className={styles.buttonGroup}>
         <Button variant="outline" onClick={() => router.back()}>
           Отмена
         </Button>
-        <Button variant="primary" onClick={() => apply(localState)}>
+        <Button
+          disabled={localToleranceGrade === toleranceName + grade}
+          variant="primary"
+          onClick={() => apply(localState)}
+        >
           Применить
         </Button>
       </div>

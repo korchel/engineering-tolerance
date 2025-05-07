@@ -1,4 +1,12 @@
+.container {
+  overflow: auto;
+
+  padding-right: 4px;
+  padding-bottom: 4px;
+}
+
 .table {
+  table-layout: fixed;
   border-collapse: collapse;
   row-gap: 0;
   column-gap: 0;
@@ -8,7 +16,6 @@
 .table__cell {
   height: 2em;
   width: 3.5em;
-  border-radius: 0.25em;
 
   color: var(--light);
   transition: all 0.2s;
@@ -17,6 +24,7 @@
 .table__cell_button {
   cursor: pointer;
   border: none;
+  border-radius: 0.25em;
 }
 
 .recommended {
@@ -32,7 +40,8 @@
 }
 
 .table__cell_current {
-  background-color: var(--accent2);
+  border: 4px solid var(--accent);
+  font-weight: bold;
 }
 
 .table__cell_active {
@@ -48,6 +57,30 @@
 }
 
 .table__cell_rowHeader {
-  width: 1.5rem;
+  color: var(--dark);
   text-align: start;
+  width: 1.5rem;
+}
+
+.header {
+  background-color: var(--light);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.rowHeader {
+  background-color: var(--light);
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.commonHeader {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 2;
+
+  background-color: var(--light);
 }
