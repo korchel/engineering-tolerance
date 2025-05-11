@@ -50,27 +50,27 @@ export default function Page({
 
   return (
     <Modal>
-      <Title className={styles.mb1} level="h2">
-        Класс допуска
-      </Title>
-      <TableInfo size={size} data={localState} />
-      <Table
-        size={25}
-        type={dimensionType}
-        setLocalState={setLocalState}
-        activeToleranceGrade={localToleranceGrade}
-      />
-      <div className={styles.buttonGroup}>
-        <Button variant="outline" onClick={() => router.back()}>
-          Отмена
-        </Button>
-        <Button
-          disabled={localToleranceGrade === toleranceName + grade}
-          variant="primary"
-          onClick={() => apply(localState)}
-        >
-          Применить
-        </Button>
+      <div className={styles.flex}>
+        <Title level="h2">Класс допуска</Title>
+        <TableInfo size={size} data={localState} />
+        <Table
+          size={25}
+          type={dimensionType}
+          setLocalState={setLocalState}
+          activeToleranceGrade={localToleranceGrade}
+        />
+        <div className={styles.buttonGroup}>
+          <Button variant="outline" onClick={() => router.back()}>
+            Отмена
+          </Button>
+          <Button
+            disabled={localToleranceGrade === toleranceName + grade}
+            variant="primary"
+            onClick={() => apply(localState)}
+          >
+            Применить
+          </Button>
+        </div>
       </div>
     </Modal>
   );

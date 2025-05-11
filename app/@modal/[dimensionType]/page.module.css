@@ -1,10 +1,13 @@
 .buttonGroup {
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
-  float: right;
+  margin-left: auto;
 }
 
-.mb1 {
-  margin-bottom: 1rem;
+.flex {
+  display: flex;
+  flex-flow: column;
+  gap: 0.6rem;
+  min-height: 0;
+  height: 100%;
 }

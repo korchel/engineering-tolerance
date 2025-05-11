@@ -65,7 +65,7 @@ export const Table: FC<Props> = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.tableContainer}>
       <table className={styles.table}>
         <thead>
           <tr>

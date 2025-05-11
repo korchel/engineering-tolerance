@@ -1,6 +1,6 @@
-.container {
+.tableContainer {
   overflow: auto;
-
+  flex: 1;
   padding-right: 4px;
   padding-bottom: 4px;
 }
