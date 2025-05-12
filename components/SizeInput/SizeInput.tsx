@@ -1,9 +1,4 @@
-import {
-  ChangeEventHandler,
-  FocusEventHandler,
-  KeyboardEventHandler,
-  useState,
-} from "react";
+import { ChangeEventHandler, KeyboardEventHandler, useState } from "react";
 
 import { Input } from "../ui";
 import { useAppStore } from "../../store/store";
@@ -28,10 +23,6 @@ export const SizeInput = () => {
     }
   };
 
-  const handleBlur: FocusEventHandler<HTMLInputElement> = () => {
-    applyValue();
-  };
-
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputSize(Number(event.target.value));
   };
@@ -42,7 +33,6 @@ export const SizeInput = () => {
       label={"Номинальный размер, мм:"}
       onChange={(e) => handleChange(e)}
       onKeyDown={(e) => handleEnter(e)}
-      onBlur={(e) => handleBlur(e)}
       value={inputSize}
       error={error}
     />

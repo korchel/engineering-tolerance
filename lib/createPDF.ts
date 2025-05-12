@@ -8,9 +8,8 @@ export const createPDF = async (name: string) => {
     { scale: 3 }
   );
   const img = data.toDataURL("image/png");
-  const imgProperties = pdf.getImageProperties(img);
   const width = pdf.internal.pageSize.getWidth();
-  const height = (imgProperties.height * width) / imgProperties.width;
+  const height = pdf.internal.pageSize.getHeight();
   pdf.addImage(img, "PNG", 0, 0, width, height);
   pdf.save(name);
 };

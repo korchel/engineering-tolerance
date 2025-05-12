@@ -9,18 +9,17 @@ interface Props {
   es: number;
   holeIT: string;
   shaftIT: string;
-  svgHeight: number;
 }
 
-export const Svg: FC<Props> = ({
-  EI,
-  ES,
-  ei,
-  es,
-  holeIT,
-  shaftIT,
-  svgHeight,
-}) => {
+export const Svg: FC<Props> = ({ EI, ES, ei, es, holeIT, shaftIT }) => {
+  const svgHeight = 350;
+  const tolerance = Math.max(
+    ES - ei + EI - es,
+    es - EI + ei - ES,
+    ES - ei + es - EI
+  );
+  const scalingFactor = tolerance > svgHeight ? svgHeight / (2 * tolerance) : 1;
+  console.log(tolerance, scalingFactor);
   return (
     <svg
       width="500"
@@ -40,37 +39,37 @@ export const Svg: FC<Props> = ({
         <g transform={`translate(0 ${-svgHeight / 2})`}>
           <rect
             x="100"
-            y={`${EI}`}
-            height={`${ES - EI}`}
+            y={`${EI * scalingFactor}`}
+            height={`${(ES - EI) * scalingFactor}`}
             width="100"
             className={styles.rect}
           />
           <g className={styles.text}>
-            <text x="205" y={-ES}>
+            <text x="205" y={-ES * scalingFactor}>
               {ES}
             </text>
-            <text x="205" y={-EI + 10}>
+            <text x="205" y={-EI * scalingFactor + 10}>
               {EI}
             </text>
-            <text x="135" y={-EI + 25} fontSize="25">
+            <text x="135" y={-EI * scalingFactor + 25} fontSize="25">
               {holeIT}
             </text>
           </g>
           <rect
             x="300"
-            y={`${ei}`}
-            height={`${es - ei}`}
+            y={`${ei * scalingFactor}`}
+            height={`${(es - ei) * scalingFactor}`}
             width="100"
             className={styles.rect}
           />
           <g className={styles.text}>
-            <text x="405" y={-es}>
+            <text x="405" y={-es * scalingFactor}>
               {es}
             </text>
-            <text x="405" y={-ei + 10}>
+            <text x="405" y={-ei * scalingFactor + 10}>
               {ei}
             </text>
-            <text x="335" y={-ei + 25} fontSize="25">
+            <text x="335" y={-ei * scalingFactor + 25} fontSize="25">
               {shaftIT}
             </text>
           </g>

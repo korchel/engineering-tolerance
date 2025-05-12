@@ -21,8 +21,6 @@ export const Result = () => {
     },
   } = useAppStore((state) => state);
 
-  const svgHeight = Math.abs(ES) + Math.abs(ei) + 200;
-
   const shaftIT = shaftTolerance + shaftGrade;
   const holeIT = holeTolerance + holeGrade;
 
@@ -36,7 +34,6 @@ export const Result = () => {
           ei={ei}
           holeIT={holeIT}
           shaftIT={shaftIT}
-          svgHeight={svgHeight}
         />
         <ResultTable
           className={styles.table}

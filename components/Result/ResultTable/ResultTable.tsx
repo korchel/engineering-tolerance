@@ -46,6 +46,7 @@ export const ResultTable: FC<Props> = ({
     es,
     ei,
   });
+
   const data = [
     { header: "Тип посадки:", value: fitType },
     { header: "Номинальный размер, мм:", value: size },
