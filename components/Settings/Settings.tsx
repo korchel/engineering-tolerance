@@ -1,37 +1,26 @@
 "use client";
 
-import { ChangeEventHandler } from "react";
-
 import styles from "./Settings.module.css";
 import { useAppStore } from "../../store/store";
 import { Setting } from "./Setting/Setting";
-import { Button, Grid, Tag, Input } from "../ui";
+import { Button, Grid, Tag } from "../ui";
 import { createPDF } from "../../lib";
+
+import { SizeInput } from "../SizeInput/SizeInput";
 
 export const Settings = () => {
   const {
-    size,
     shaft: { toleranceName: shaftTolerance, grade: shaftGrade },
     hole: { toleranceName: holeTolerance, grade: holeGrade },
-    setSize,
   } = useAppStore((state) => state);
 
   const shaftIT = shaftTolerance + shaftGrade;
   const holeIT = holeTolerance + holeGrade;
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setSize(Number(event.target.value));
-  };
-
   return (
     <div className={styles.settings}>
       <Grid>
-        <Input
-          name={"size"}
-          label={"Номинальный размер, мм:"}
-          onChange={(e) => onChange(e)}
-          value={size}
-        />
+        <SizeInput />
         <div>Посадка:</div>
         <Tag>
           {holeIT} / {shaftIT}{" "}

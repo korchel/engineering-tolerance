@@ -14,17 +14,21 @@ export interface Props
   > {
   name: string;
   label: string;
+  error: string;
   type?: string;
 }
 
 export const Input: FC<Props> = forwardRef(
-  ({ name, label, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
+  ({ name, label, error, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
     return (
       <>
         <label className={styles.label} htmlFor={name}>
           {label}
         </label>
-        <input className={styles.input} type="number" id={name} {...props} />
+        <div className={styles.inputBlock}>
+          <input className={styles.input} type="number" id={name} {...props} />
+          {error && <div className={styles.error}>{error}</div>}
+        </div>
       </>
     );
   }

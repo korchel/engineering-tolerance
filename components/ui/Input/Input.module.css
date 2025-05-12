@@ -5,8 +5,21 @@
   border-radius: 0.25rem;
   outline-color: var(--secondary-hover);
   background-color: transparent;
+  max-width: 100%;
 }
 
 .label {
   text-wrap: nowrap;
+}
+
+.error {
+  font-size: 0.7rem;
+  color: var(--danger);
+  position: absolute;
+  top: -1rem;
+  left: 4px;
+}
+
+.inputBlock {
+  position: relative;
 }

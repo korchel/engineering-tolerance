@@ -4,9 +4,10 @@
   --secondary: #004f73;
   --secondary-tint-1: #0089c8;
   --secondary-tint-2: #87b1cc;
-  --secondary-hover: #40708e;
+  --secondary-hover: #0089c8;
   --accent: #f56f30;
   --accent2: #00925b;
+  --danger: #ad3d25;
   --dark: #4c5c68;
   --black: #3b3b3b;
   font-family: "Rubik", sans-serif;
