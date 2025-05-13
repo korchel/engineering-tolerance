@@ -21,7 +21,7 @@ export const getResultData = ({ size, ES, EI, es, ei }: Props) => {
   const minShaftSize = size + ei / 1000;
 
   const fitType = clsx({
-    [fitTypes.clearance]: minHoleSize > maxShaftSize,
+    [fitTypes.clearance]: minHoleSize >= maxShaftSize,
     [fitTypes.interference]: minShaftSize > maxHoleSize,
     [fitTypes.transition]:
       maxShaftSize > minHoleSize && minHoleSize > minShaftSize,

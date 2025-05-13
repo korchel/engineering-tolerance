@@ -9,11 +9,11 @@ interface Props
     ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-  variant: "primary" | "outline" | "danger";
+  variant?: "primary" | "outline" | "danger";
 }
 
 export const Button: FC<Props> = ({
-  variant,
+  variant = "primary",
   children,
   className,
   ...props

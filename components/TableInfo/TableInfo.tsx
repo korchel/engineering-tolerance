@@ -1,39 +1,26 @@
 "use client";
 
 import { FC } from "react";
-import { Grid, Input, Label, Tag, Title } from "../ui";
+import { Grid, Label, Tag } from "../ui";
 
-import { IToleranceData } from "../../types/types";
+import { InputToleranceData, IToleranceData } from "../../types/types";
 import styles from "./TableInfo.module.css";
-import clsx from "clsx";
 import { Legend } from "../Legend/Legend";
+import { InputDeviations } from "../InputDeviations/InputDeviations";
 
 interface Props {
   size: number;
   data: IToleranceData;
+  setInputDeviations: (data: InputToleranceData) => void;
 }
 
-export const TableInfo: FC<Props> = ({ size, data }) => {
+export const TableInfo: FC<Props> = ({ size, data, setInputDeviations }) => {
   const { upperDeviation, lowerDeviation, toleranceName, grade } = data;
 
   return (
     <div>
       <div className={styles.columns}>
-        <Grid>
-          <Title level="h3" className={styles.title}>
-            Подбор допуска
-          </Title>
-          <Input
-            label="Верхнее отклонение:"
-            name="upperDeviation"
-            type="number"
-          />
-          <Input
-            label="Нижнее отклонение:"
-            name="lowerDeviation"
-            type="number"
-          />
-        </Grid>
+        <InputDeviations setInputDeviations={setInputDeviations} />
         <Legend className={styles.justifyRight} />
         <Grid>
           <Label>Номинальный размер, мм:</Label>

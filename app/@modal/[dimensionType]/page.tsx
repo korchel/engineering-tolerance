@@ -1,10 +1,14 @@
 "use client";
 
-import { Usable, use, useState } from "react";
+import { Usable, use, useEffect, useState } from "react";
 import { Table } from "../../../components/Table/Table";
 import { TableInfo } from "../../../components/TableInfo/TableInfo";
 import { Button, Modal, Title } from "../../../components/ui";
-import { DimensionType, IToleranceData } from "../../../types/types";
+import {
+  DimensionType,
+  InputDeviationsData,
+  IToleranceData,
+} from "../../../types/types";
 import { useAppStore } from "../../../store/store";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
@@ -18,6 +22,7 @@ export default function Page({
     params as unknown as Usable<{ dimensionType: DimensionType }>
   );
   const router = useRouter();
+  const clodeModal = () => router.back();
 
   const {
     size,
@@ -38,26 +43,46 @@ export default function Page({
     grade,
   });
 
+  const [inputDeviations, setInputDeviations] = useState<InputDeviationsData>({
+    upperDeviation: null,
+    lowerDeviation: null,
+  });
+
   const apply = (data: IToleranceData) => {
     const { upperDeviation, lowerDeviation, toleranceName, grade } = data;
     setDeviations({ upperDeviation, lowerDeviation }, dimensionType);
     setToleranceName(toleranceName, dimensionType);
     setGrade(grade, dimensionType);
-    router.back();
+    clodeModal();
   };
 
   const localToleranceGrade = localState.toleranceName + localState.grade;
 
+  useEffect(() => {
+    const onKedyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        clodeModal();
+      }
+    };
+    window.addEventListener("keydown", onKedyDown);
+    return () => window.removeEventListener("keydown", (e) => onKedyDown(e));
+  }, []);
+
   return (
-    <Modal>
+    <Modal closeModal={clodeModal}>
       <div className={styles.flex}>
         <Title level="h2">Класс допуска</Title>
-        <TableInfo size={size} data={localState} />
+        <TableInfo
+          size={size}
+          data={localState}
+          setInputDeviations={setInputDeviations}
+        />
         <Table
           size={25}
           type={dimensionType}
           setLocalState={setLocalState}
           activeToleranceGrade={localToleranceGrade}
+          inputDeviations={inputDeviations}
         />
         <div className={styles.buttonGroup}>
           <Button variant="outline" onClick={() => router.back()}>

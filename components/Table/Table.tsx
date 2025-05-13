@@ -13,6 +13,7 @@ import {
   Deviations,
   DimensionType,
   Grade,
+  InputToleranceData,
   IToleranceData,
 } from "../../types/types";
 
@@ -26,6 +27,7 @@ interface Props {
   size: number;
   activeToleranceGrade: string;
   setLocalState: (data: IToleranceData) => void;
+  inputDeviations: InputToleranceData;
 }
 
 export const Table: FC<Props> = ({
@@ -33,6 +35,7 @@ export const Table: FC<Props> = ({
   size,
   activeToleranceGrade,
   setLocalState,
+  inputDeviations,
 }) => {
   const currentToleranceGrade = useAppStore(
     (state) => state[type].toleranceName + state[type].grade
@@ -120,6 +123,7 @@ export const Table: FC<Props> = ({
                     grade
                   );
 
+                  const disabled = getDisabled(deviations, inputDeviations);
                   return deviations ? (
                     <td key={i}>
                       <button
@@ -134,6 +138,7 @@ export const Table: FC<Props> = ({
                         className={clsx(
                           styles.table__cell,
                           styles.table__cell_button,
+
                           {
                             [styles.normal]: !isRecommendedIT && !isCommonIT,
                             [styles.common]: isCommonIT && !isRecommendedIT,
@@ -142,6 +147,7 @@ export const Table: FC<Props> = ({
                               toleranceGrade == currentToleranceGrade,
                             [styles.table__cell_active]:
                               toleranceGrade == activeToleranceGrade,
+                            [styles.table__cell_button_disabled]: disabled,
                           }
                         )}
                       >
@@ -158,5 +164,24 @@ export const Table: FC<Props> = ({
         </tbody>
       </table>
     </div>
+  );
+};
+
+const getDisabled = (
+  deviations: Deviations | null,
+  inputDeviations: InputToleranceData
+) => {
+  if (deviations === null) {
+    return true;
+  }
+  if (
+    inputDeviations.upperDeviation === null ||
+    inputDeviations.lowerDeviation === null
+  ) {
+    return false;
+  }
+  return !(
+    deviations.upperDeviation < inputDeviations.upperDeviation &&
+    deviations.lowerDeviation > inputDeviations.lowerDeviation
   );
 };

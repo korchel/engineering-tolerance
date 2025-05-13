@@ -12,24 +12,20 @@ export interface Props
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  name: string;
   label: string;
-  error: string;
-  type?: string;
+  error?: string;
 }
 
-export const Input: FC<Props> = forwardRef(
-  ({ name, label, error, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
-    return (
-      <>
-        <label className={styles.label} htmlFor={name}>
-          {label}
-        </label>
-        <div className={styles.inputBlock}>
-          <input className={styles.input} type="number" id={name} {...props} />
-          {error && <div className={styles.error}>{error}</div>}
-        </div>
-      </>
-    );
-  }
-);
+export const Input: FC<Props> = ({ label, error, ...props }) => {
+  return (
+    <>
+      <label className={styles.label} htmlFor={label}>
+        {label}
+      </label>
+      <div className={styles.inputBlock}>
+        <input className={styles.input} type="number" id={label} {...props} />
+        {error && <div className={styles.error}>{error}</div>}
+      </div>
+    </>
+  );
+};

@@ -19,7 +19,7 @@ export const Svg: FC<Props> = ({ EI, ES, ei, es, holeIT, shaftIT }) => {
     ES - ei + es - EI
   );
   const scalingFactor = tolerance > svgHeight ? svgHeight / (2 * tolerance) : 1;
-  console.log(tolerance, scalingFactor);
+
   return (
     <svg
       width="500"

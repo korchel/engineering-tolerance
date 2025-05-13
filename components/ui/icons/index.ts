@@ -1,2 +1,2 @@
 export { BookIcon } from "./BookIcon";
-export { Cross } from "./Cross";
+export { CrossIcon } from "./CrossIcon";

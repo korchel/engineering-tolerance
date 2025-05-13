@@ -27,6 +27,15 @@
   border-radius: 0.25em;
 }
 
+.table__cell_button:hover {
+  transform: scale(1.2);
+}
+
+.table__cell_button_disabled {
+  color: var(--disabled);
+  background-color: var(--disabled);
+}
+
 .recommended {
   background-color: var(--secondary);
 }
@@ -46,10 +55,6 @@
 
 .table__cell_active {
   background-color: var(--accent);
-}
-
-.table__cell_button:hover {
-  transform: scale(1.2);
 }
 
 .table__cell_header {

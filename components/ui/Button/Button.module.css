@@ -7,6 +7,10 @@
   font-size: 1rem;
 }
 
+.btn:disabled {
+  pointer-events: none;
+}
+
 .btn_primary {
   background-color: var(--secondary);
   color: var(--light);
@@ -17,9 +21,6 @@
   background-color: var(--secondary-hover);
   color: var(--light);
   border: none;
-}
-.btn_primary:disabled {
-  pointer-events: none;
 }
 
 .btn_outline {

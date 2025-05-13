@@ -1,18 +1,24 @@
 import { DetailedHTMLProps, FC, HTMLAttributes } from "react";
 
 import styles from "./Modal.module.css";
-
-import { Cross } from "../icons";
+import { ButtonIcon } from "../ButtonIcon/ButtonIcon";
 
 interface Props
   extends DetailedHTMLProps<HTMLAttributes<HTMLHRElement>, HTMLHRElement> {
-  // closeModal: () => void;
+  closeModal: () => void;
 }
 
-export const Modal: FC<Props> = ({ children }) => {
+export const Modal: FC<Props> = ({ closeModal, children }) => {
   return (
     <div className={styles.backdrop}>
-      <div className={styles.modal}>{children}</div>
+      <div className={styles.modal}>
+        <ButtonIcon
+          iconType="cross"
+          onClick={closeModal}
+          className={styles.closeButton}
+        />
+        {children}
+      </div>
     </div>
   );
 };

@@ -4,11 +4,6 @@
   gap: 2rem;
 }
 
-.title {
-  grid-column: 1 / span 2;
-  justify-self: left;
-}
-
 .justifyRight {
   margin-left: auto;
 }

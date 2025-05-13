@@ -19,6 +19,11 @@ export interface IToleranceData {
   grade: Grade;
 }
 
+export interface InputDeviationsData {
+  upperDeviation: null | number;
+  lowerDeviation: null | number;
+}
+
 export type SpecialITs = {
   shaft: {
     [key: number]: string[];
