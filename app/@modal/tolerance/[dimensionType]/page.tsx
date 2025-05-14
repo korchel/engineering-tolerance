@@ -13,11 +13,7 @@ import {
 import { useAppStore } from "../../../../store";
 import styles from "./page.module.css";
 
-export default function Page({
-  params,
-}: {
-  params: { dimensionType: DimensionType };
-}) {
+export default function Page({ params }: { params: Promise<any> }) {
   const { dimensionType } = use(
     params as unknown as Usable<{ dimensionType: DimensionType }>
   );

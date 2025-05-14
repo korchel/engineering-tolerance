@@ -11,8 +11,8 @@ const font = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Engineering tolerance",
-  description: "Engineering tolerance",
+  title: "Limits & fits",
+  description: "Limits & fits",
 };
 
 export default function RootLayout({
