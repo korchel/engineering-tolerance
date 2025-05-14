@@ -1,6 +1,7 @@
 "use client";
 
 import { Usable, use, useEffect, useState } from "react";
+import { notFound } from "next/navigation";
 import { Table } from "../../../components/Table/Table";
 import { TableInfo } from "../../../components/TableInfo/TableInfo";
 import { Button, Modal, Title } from "../../../components/ui";
@@ -23,6 +24,10 @@ export default function Page({
   );
   const router = useRouter();
   const clodeModal = () => router.back();
+
+  if (dimensionType !== "shaft" && dimensionType !== "hole") {
+    return notFound();
+  }
 
   const {
     size,
