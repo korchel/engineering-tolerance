@@ -1,4 +1,4 @@
-import { SizeRange } from "../types/types";
+import { SizeRange } from "../types/fitTypes";
 
 export const sizeRanges: SizeRange = [
   { type: 1, range: { from: 1, to: 3 } },

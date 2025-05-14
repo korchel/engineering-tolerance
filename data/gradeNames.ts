@@ -1,4 +1,4 @@
-import { Grade } from "../types/types";
+import { Grade } from "../types/fitTypes";
 
 export const gradeNames: Grade[] = [
   "01",

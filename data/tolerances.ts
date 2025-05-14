@@ -1,6 +1,6 @@
 //мкм
 
-import { Tolerance } from "../types/types";
+import { Tolerance } from "../types/fitTypes";
 
 export const tolerances: Tolerance = {
   "01": {

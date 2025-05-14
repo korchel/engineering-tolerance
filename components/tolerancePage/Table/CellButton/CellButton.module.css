@@ -1,0 +1,35 @@
+.сellButton {
+  cursor: pointer;
+  border: none;
+  border-radius: 0.25em;
+}
+
+.сellButton:hover {
+  transform: scale(1.2);
+}
+
+.сellButton_disabled {
+  color: var(--disabled);
+  background-color: var(--disabled);
+}
+
+.сellButton_recommended {
+  background-color: var(--secondary);
+}
+
+.сellButton_common {
+  background-color: var(--secondary-tint-1);
+}
+
+.сellButton_normal {
+  background-color: var(--secondary-tint-2);
+}
+
+.сellButton_current {
+  border: 4px solid var(--accent);
+  font-weight: bold;
+}
+
+.сellButton_active {
+  background-color: var(--accent);
+}

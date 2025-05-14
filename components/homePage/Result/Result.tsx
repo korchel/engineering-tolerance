@@ -1,8 +1,7 @@
 "use client";
 
-import { useAppStore } from "../../store/store";
+import { useAppStore } from "../../../store/store";
 import { ResultTable } from "./ResultTable/ResultTable";
-import { Grid } from "../ui";
 import styles from "./Result.module.css";
 import { Svg } from "./Svg/Svg";
 

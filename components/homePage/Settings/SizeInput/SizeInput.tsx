@@ -1,7 +1,7 @@
 import { ChangeEventHandler, KeyboardEventHandler, useState } from "react";
 
-import { Input } from "../ui";
-import { useAppStore } from "../../store/store";
+import { Input } from "../../../ui";
+import { useAppStore } from "../../../../store";
 
 export const SizeInput = () => {
   const { size, setSize } = useAppStore((state) => state);

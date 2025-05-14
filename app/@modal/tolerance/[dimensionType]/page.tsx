@@ -1,17 +1,16 @@
 "use client";
 
 import { Usable, use, useEffect, useState } from "react";
-import { notFound } from "next/navigation";
-import { Table } from "../../../components/Table/Table";
-import { TableInfo } from "../../../components/TableInfo/TableInfo";
-import { Button, Modal, Title } from "../../../components/ui";
+import { useRouter, notFound } from "next/navigation";
+
+import { Table, TableInfo } from "../../../../components";
+import { Button, Modal, Title } from "../../../../components/ui";
 import {
   DimensionType,
   InputDeviationsData,
   IToleranceData,
-} from "../../../types/types";
-import { useAppStore } from "../../../store/store";
-import { useRouter } from "next/navigation";
+} from "../../../../types";
+import { useAppStore } from "../../../../store";
 import styles from "./page.module.css";
 
 export default function Page({

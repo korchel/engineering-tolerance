@@ -1,12 +1,11 @@
 "use client";
 
 import styles from "./Settings.module.css";
-import { useAppStore } from "../../store/store";
+import { useAppStore } from "../../../store";
 import { Setting } from "./Setting/Setting";
-import { Button, Grid, Tag } from "../ui";
-import { createPDF } from "../../lib";
-
-import { SizeInput } from "../SizeInput/SizeInput";
+import { Button, Grid, Tag } from "../../ui";
+import { createPDF } from "../../../lib";
+import { SizeInput } from "./SizeInput/SizeInput";
 
 export const Settings = () => {
   const {
@@ -37,14 +36,3 @@ export const Settings = () => {
     </div>
   );
 };
-
-// const getQuery = (data: Pick<IState, "hole" | "shaft" | "size">) => {
-//   const { size, hole, shaft } = data;
-//   return `size=${size}
-//     &es=${hole.deviations.lowerDeviation}
-//     &ei=${hole.deviations.lowerDeviation}
-//     &it=${hole.deviations.lowerDeviation}
-//     &ES=${shaft.deviations.lowerDeviation}
-//     &EI=${shaft.deviations.lowerDeviation}
-//     &IT=${shaft.deviations.lowerDeviation}`;
-// };

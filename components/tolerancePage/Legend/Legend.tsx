@@ -1,6 +1,7 @@
 import clsx from "clsx";
-import styles from "./Legend.module.css";
 import { FC } from "react";
+
+import styles from "./Legend.module.css";
 
 interface Props {
   className?: string;

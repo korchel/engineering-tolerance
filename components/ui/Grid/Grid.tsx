@@ -1,6 +1,7 @@
 import { FC, ReactNode } from "react";
-import styles from "./Grid.module.css";
 import clsx from "clsx";
+
+import styles from "./Grid.module.css";
 
 interface Props {
   children: ReactNode;

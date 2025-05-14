@@ -1,10 +1,5 @@
-import {
-  DetailedHTMLProps,
-  FC,
-  ForwardedRef,
-  forwardRef,
-  InputHTMLAttributes,
-} from "react";
+import { DetailedHTMLProps, FC, InputHTMLAttributes } from "react";
+
 import styles from "./Input.module.css";
 
 export interface Props

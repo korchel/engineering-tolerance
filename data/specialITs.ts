@@ -1,4 +1,4 @@
-import { SpecialITs } from "../types/types";
+import { SpecialITs } from "../types/fitTypes";
 
 export const usageSizeRanges = [
   { type: 1, range: { from: 0, to: 1 } },

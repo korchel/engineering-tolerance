@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import styles from "./Setting.module.css";
-import { ButtonIcon, Tag, Title } from "../../ui";
 import { FC } from "react";
-import { DimensionType } from "../../../types/types";
-import { useAppStore } from "../../../store/store";
 import clsx from "clsx";
+
+import styles from "./Setting.module.css";
+import { ButtonIcon, Tag, Title } from "../../../ui";
+import { DimensionType } from "../../../../types";
+import { useAppStore } from "../../../../store";
 
 interface Props {
   type: DimensionType;
@@ -30,7 +31,7 @@ export const Setting: FC<Props> = ({ type }) => {
       <div className={styles.grid__justifyRight}>класс допуска:</div>
       <div className={clsx(styles.grid__justifyLeft, styles.columns)}>
         <Tag>{toleranceName + grade}</Tag>
-        <Link href={`/${type}`}>
+        <Link href={`/tolerance/${type}`}>
           <ButtonIcon iconType="book" />
         </Link>
       </div>

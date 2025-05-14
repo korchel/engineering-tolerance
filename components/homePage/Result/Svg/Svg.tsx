@@ -48,7 +48,7 @@ export const Svg: FC<Props> = ({ EI, ES, ei, es, holeIT, shaftIT }) => {
             <text x="205" y={-ES * scalingFactor}>
               {ES}
             </text>
-            <text x="205" y={-EI * scalingFactor + 10}>
+            <text x="205" y={-EI * scalingFactor + 15}>
               {EI}
             </text>
             <text x="135" y={-EI * scalingFactor + 25} fontSize="25">
@@ -66,7 +66,7 @@ export const Svg: FC<Props> = ({ EI, ES, ei, es, holeIT, shaftIT }) => {
             <text x="405" y={-es * scalingFactor}>
               {es}
             </text>
-            <text x="405" y={-ei * scalingFactor + 10}>
+            <text x="405" y={-ei * scalingFactor + 15}>
               {ei}
             </text>
             <text x="335" y={-ei * scalingFactor + 25} fontSize="25">

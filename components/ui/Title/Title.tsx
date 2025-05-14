@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from "react";
+import clsx from "clsx";
 
 import styles from "./Title.module.css";
-import clsx from "clsx";
 
 interface Props {
   level?: "h1" | "h2" | "h3";

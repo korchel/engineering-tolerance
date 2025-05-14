@@ -1,6 +1,6 @@
 //мkм
 
-import { DimensionType, Grade } from "../types/types";
+import { DimensionType, Grade } from "../types/fitTypes";
 import { deltas } from "./deltas";
 
 import { gradeNames } from "./gradeNames";

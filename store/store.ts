@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { Deviations, DimensionType, Grade } from "../types/types";
+
+import { Deviations, DimensionType, Grade } from "../types";
 import { getDeviations } from "../lib";
 
 export interface IState {

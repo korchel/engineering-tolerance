@@ -1,9 +1,10 @@
 "use client";
 
+import clsx from "clsx";
 import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from "react";
+
 import { BookIcon, CrossIcon } from "../icons";
 import style from "./ButtonIcon.module.css";
-import clsx from "clsx";
 
 interface Props
   extends DetailedHTMLProps<

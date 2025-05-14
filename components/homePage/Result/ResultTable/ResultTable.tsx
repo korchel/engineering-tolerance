@@ -1,8 +1,7 @@
 import { DetailedHTMLProps, FC, TableHTMLAttributes } from "react";
 
 import styles from "./ResultTable.module.css";
-import clsx from "clsx";
-import { getResultData } from "../../../lib";
+import { getResultData } from "../../../../lib";
 
 interface Props
   extends DetailedHTMLProps<

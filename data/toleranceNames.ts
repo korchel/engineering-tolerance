@@ -1,4 +1,4 @@
-import { DimensionType } from "../types/types";
+import { DimensionType } from "../types/fitTypes";
 
 export const toleranceNames: { [key in DimensionType]: string[] } = {
   shaft: [

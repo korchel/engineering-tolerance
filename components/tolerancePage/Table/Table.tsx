@@ -1,6 +1,8 @@
 "use client";
 
 import { FC } from "react";
+import clsx from "clsx";
+
 import {
   toleranceNames,
   gradeNames,
@@ -8,26 +10,25 @@ import {
   commonITs,
   recommendedITs,
   notForFitsITs,
-} from "../../data";
+} from "../../../data";
 import {
   Deviations,
   DimensionType,
   Grade,
-  InputToleranceData,
+  InputDeviationsData,
   IToleranceData,
-} from "../../types/types";
-
+} from "../../../types";
 import styles from "./Table.module.css";
-import clsx from "clsx";
-import { useAppStore } from "../../store/store";
-import { getDeviations } from "../../lib";
+import { useAppStore } from "../../../store";
+import { getDeviations, getDisabled } from "../../../lib";
+import { CellButton } from "./CellButton/CellButton";
 
 interface Props {
   type: DimensionType;
   size: number;
   activeToleranceGrade: string;
   setLocalState: (data: IToleranceData) => void;
-  inputDeviations: InputToleranceData;
+  inputDeviations: InputDeviationsData;
 }
 
 export const Table: FC<Props> = ({
@@ -122,11 +123,16 @@ export const Table: FC<Props> = ({
                     tolerance,
                     grade
                   );
-
-                  const disabled = getDisabled(deviations, inputDeviations);
+                  const isDisabled = getDisabled(deviations, inputDeviations);
                   return deviations ? (
                     <td key={i}>
-                      <button
+                      <CellButton
+                        isCommonIT={isCommonIT}
+                        isRecommendedIT={isRecommendedIT}
+                        isActive={toleranceGrade === activeToleranceGrade}
+                        isCurrent={toleranceGrade === currentToleranceGrade}
+                        isDisabled={isDisabled}
+                        className={styles.table__cell}
                         onClick={() =>
                           onClick({
                             tolerance,
@@ -135,24 +141,9 @@ export const Table: FC<Props> = ({
                             lowerDeviation: deviations.lowerDeviation,
                           })
                         }
-                        className={clsx(
-                          styles.table__cell,
-                          styles.table__cell_button,
-
-                          {
-                            [styles.normal]: !isRecommendedIT && !isCommonIT,
-                            [styles.common]: isCommonIT && !isRecommendedIT,
-                            [styles.recommended]: isRecommendedIT,
-                            [styles.table__cell_current]:
-                              toleranceGrade == currentToleranceGrade,
-                            [styles.table__cell_active]:
-                              toleranceGrade == activeToleranceGrade,
-                            [styles.table__cell_button_disabled]: disabled,
-                          }
-                        )}
                       >
                         {toleranceGrade + (isNotForFits ? "*" : "")}
-                      </button>
+                      </CellButton>
                     </td>
                   ) : (
                     <td key={i} className={styles.table__cell}></td>
@@ -164,24 +155,5 @@ export const Table: FC<Props> = ({
         </tbody>
       </table>
     </div>
-  );
-};
-
-const getDisabled = (
-  deviations: Deviations | null,
-  inputDeviations: InputToleranceData
-) => {
-  if (deviations === null) {
-    return true;
-  }
-  if (
-    inputDeviations.upperDeviation === null ||
-    inputDeviations.lowerDeviation === null
-  ) {
-    return false;
-  }
-  return !(
-    deviations.upperDeviation < inputDeviations.upperDeviation &&
-    deviations.lowerDeviation > inputDeviations.lowerDeviation
   );
 };

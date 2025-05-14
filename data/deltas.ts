@@ -4,7 +4,7 @@
 //   }
 // }
 
-import { Deltas } from "../types/types";
+import { Deltas } from "../types/fitTypes";
 
 export const deltas: Deltas = {
   3: {

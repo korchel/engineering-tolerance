@@ -1,7 +1,7 @@
 import { sizeRanges } from "../data/sizeRanges";
 import { basicDeviations } from "../data/basicDeviations";
 import { tolerances } from "../data/tolerances";
-import { Deviations, DimensionType, Grade } from "../types/types";
+import { Deviations, DimensionType, Grade } from "../types/fitTypes";
 
 export const getDeviations = (
   size: number,

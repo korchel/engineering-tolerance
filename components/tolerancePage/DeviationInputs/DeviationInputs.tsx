@@ -1,9 +1,9 @@
 "use client";
 
 import { FC } from "react";
-import { InputDeviationsData } from "../../types/types";
-import { Button, Grid, Input, Title } from "../ui";
-import styles from "./InputDeviations.module.css";
+import { InputDeviationsData } from "../../../types/fitTypes";
+import { Button, Grid, Input, Title } from "../../ui";
+import styles from "./DeviationInputs.module.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Inputs {
   lowerDeviation: number;
 }
 
-export const InputDeviations: FC<Props> = ({ setInputDeviations }) => {
+export const DeviationInputs: FC<Props> = ({ setInputDeviations }) => {
   const {
     register,
     handleSubmit,
