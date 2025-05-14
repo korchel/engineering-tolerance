@@ -42,7 +42,7 @@ export default function RootLayout({
           sizes="16x16"
           href="/favicons/favicon-16x16.png"
         />
-        <link rel="manifest" href="/favicons/site.webmanifest" />
+        <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={font.className}>
         <div id="root">
