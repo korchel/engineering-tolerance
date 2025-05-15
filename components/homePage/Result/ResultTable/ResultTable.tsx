@@ -54,11 +54,23 @@ export const ResultTable: FC<Props> = ({
     { header: "Минимальный размер отверстия, мм:", value: minHoleSize },
     { header: "Максимальный размер вала, мм:", value: maxShaftSize },
     { header: "Минимальный размер вала, мм:", value: minShaftSize },
-    { header: "Наименьший зазор, мкм:", value: minClearance },
-    { header: "Наибольший зазор, мкм:", value: maxClearance },
-    { header: "Наименьший натяг, мкм:", value: minInterference },
-    { header: "Наибольший натяг, мкм:", value: maxInterference },
-    { header: "Допуск посадки, мкм:", value: tolerance },
+    {
+      header: "Наименьший зазор, мкм:",
+      value: minClearance ? minClearance.toFixed(1) : "--",
+    },
+    {
+      header: "Наибольший зазор, мкм:",
+      value: maxClearance ? maxClearance.toFixed(1) : "--",
+    },
+    {
+      header: "Наименьший натяг, мкм:",
+      value: minInterference ? minInterference.toFixed(1) : "--",
+    },
+    {
+      header: "Наибольший натяг, мкм:",
+      value: maxInterference ? maxInterference.toFixed(1) : "--",
+    },
+    { header: "Диапазон посадки, мкм:", value: tolerance.toFixed(1) },
   ];
   return (
     <table className={styles.table} {...props}>
