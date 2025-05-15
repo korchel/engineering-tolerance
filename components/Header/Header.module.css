@@ -1,0 +1,18 @@
+.header {
+  height: 4rem;
+
+  background-color: var(--light);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+}
+.headerContainer {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+}

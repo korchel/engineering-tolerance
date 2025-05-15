@@ -1,11 +1,15 @@
 import { FC, PropsWithChildren } from "react";
 
 import styles from "./Container.module.css";
+import clsx from "clsx";
 
 interface Props {
   className?: string;
 }
 
-export const Container: FC<PropsWithChildren<Props>> = ({ children }) => {
-  return <div className={styles.container}>{children}</div>;
+export const Container: FC<PropsWithChildren<Props>> = ({
+  className,
+  children,
+}) => {
+  return <div className={clsx(className, styles.container)}>{children}</div>;
 };

@@ -4,3 +4,5 @@ export { Result } from "./homePage/Result/Result";
 export { DeviationInputs } from "./tolerancePage/DeviationInputs/DeviationInputs";
 export { Table } from "./tolerancePage/Table/Table";
 export { TableInfo } from "./tolerancePage/TableInfo/TableInfo";
+
+export { Header } from "./Header/Header";

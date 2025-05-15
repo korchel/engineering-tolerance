@@ -3,6 +3,7 @@ import "./index.css";
 import { Inter } from "next/font/google";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { Header } from "../components";
 
 const font = Inter({
   subsets: ["cyrillic"],
@@ -45,7 +46,8 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={font.className}>
-        <div id="root">
+        <Header />
+        <div className="content">
           <Suspense fallback={<Loading />}>
             {children}
             {modal}

@@ -27,6 +27,7 @@ html {
 body {
   background-color: var(--primary);
 }
-body {
-  scrollbar-gutter: stable both-edges;
+
+.content {
+  margin-block: 2rem;
 }

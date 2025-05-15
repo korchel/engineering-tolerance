@@ -5,6 +5,7 @@ export { Grid } from "./Grid/Grid";
 export { Input } from "./Input/Input";
 export { Spinner } from "./Spinner/Spinner";
 export { Label } from "./Label/Label";
+export { LinkComponent } from "./LinkComponent/LinkComponent";
 export { Modal } from "./Modal/Modal";
 export { Tag } from "./Tag/Tag";
 export { Title } from "./Title/Title";
