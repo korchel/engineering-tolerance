@@ -1,0 +1,13 @@
+.sideBar {
+  position: absolute;
+  top: 0;
+  right: 11.5rem;
+}
+
+.nav {
+  position: fixed;
+  width: 10.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

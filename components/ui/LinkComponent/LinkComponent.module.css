@@ -2,9 +2,11 @@
   color: var(--secondary);
   padding-block: 0.5rem;
   padding-inline: 1rem;
+  border: 2px solid transparent;
   border-radius: 1.125rem;
   text-decoration: none;
   text-transform: uppercase;
+  transition: all 0.2s;
 }
 
 .link:hover {
@@ -21,4 +23,5 @@
 
 .active {
   background-color: var(--primary);
+  border: 2px solid var(--secondary);
 }

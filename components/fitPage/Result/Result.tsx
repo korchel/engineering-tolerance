@@ -4,6 +4,7 @@ import { useAppStore } from "../../../store/store";
 import { ResultTable } from "./ResultTable/ResultTable";
 import styles from "./Result.module.css";
 import { Svg } from "./Svg/Svg";
+import clsx from "clsx";
 
 export const Result = () => {
   const {
@@ -24,7 +25,7 @@ export const Result = () => {
   const holeIT = holeTolerance + holeGrade;
 
   return (
-    <div className={styles.result}>
+    <div className={clsx(styles.result, "paper")}>
       <div id="result" className={styles.pdf}>
         <Svg
           ES={ES}

@@ -1,5 +1,5 @@
-export { Settings } from "./homePage/Settings/Settings";
-export { Result } from "./homePage/Result/Result";
+export { Settings } from "./fitPage/Settings/Settings";
+export { Result } from "./fitPage/Result/Result";
 
 export { DeviationInputs } from "./tolerancePage/DeviationInputs/DeviationInputs";
 export { Table } from "./tolerancePage/Table/Table";
