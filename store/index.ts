@@ -1,1 +1,2 @@
-export { useAppStore } from "./store";
+export { useAppStore } from "./appStore";
+export { useSectionStore } from "./sectionStore";

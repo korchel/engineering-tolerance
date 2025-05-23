@@ -20,13 +20,13 @@
 }
 
 html {
+  scroll-behavior: smooth;
   font-size: 16px;
   color: var(--black);
 }
 
 body {
   background-color: var(--primary);
-  scroll-behavior: smooth;
 }
 
 .content {

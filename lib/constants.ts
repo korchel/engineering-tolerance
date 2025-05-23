@@ -3,3 +3,9 @@ export const fitTypes = {
   interference: "С натягом",
   transition: "Переходная",
 };
+
+export const homePageSections = {
+  deviations: "deviations",
+  fits: "fits",
+  standarts: "standarts",
+};

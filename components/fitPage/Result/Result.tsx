@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppStore } from "../../../store/store";
+import { useAppStore } from "../../../store/appStore";
 import { ResultTable } from "./ResultTable/ResultTable";
 import styles from "./Result.module.css";
 import { Svg } from "./Svg/Svg";
