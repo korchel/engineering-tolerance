@@ -1,0 +1,10 @@
+.fitTable {
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.fitTable th,
+.fitTable td {
+  border: 1px solid;
+  padding: 0.5rem;
+}

@@ -12,6 +12,7 @@ export default async function Home() {
         <SideBar />
         <div className="paper" style={{ width: "80%" }}>
           <Section id={homePageSections.deviations}>
+            <Title level="h2">Допуски</Title>
             <Paragraph>
               Две детали, элементы которых входят друг в друга, образуют
               соединение.
@@ -103,6 +104,7 @@ export default async function Home() {
           </Section>
           <HRTag />
           <Section id={homePageSections.fits}>
+            <Title level="h2">Посадки</Title>
             <Paragraph>
               На сборочных чертежах, в месте соединения рядом с размером
               указывают посадку.
@@ -205,10 +207,8 @@ export default async function Home() {
             </Paragraph>
           </Section>
           <HRTag />
-          <Section id={homePageSections.standarts}>
-            <Paragraph>
-              Информацию, представленную выше, можно найти в ГОСТ25346.
-            </Paragraph>
+          <Section id={homePageSections.fitSelection}>
+            <Title level="h2">Выбор посадки</Title>
             <FitTable />
             <Title level="h3">Скользящие посадки</Title>
             <Paragraph>
@@ -238,22 +238,7 @@ export default async function Home() {
             <Paragraph>standarts</Paragraph>
             <Paragraph>standarts</Paragraph>
             <Title level="h3">Широкоходовые посадки</Title>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
           </Section>
-          <HRTag />
         </div>
       </Container>
     </>

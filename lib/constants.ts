@@ -7,5 +7,5 @@ export const fitTypes = {
 export const homePageSections = {
   deviations: "deviations",
   fits: "fits",
-  standarts: "standarts",
+  fitSelection: "fitSelection",
 };

@@ -25,10 +25,10 @@ export const SideBar = () => {
           Посадки
         </LinkComponent>
         <LinkComponent
-          href={`#${homePageSections.standarts}`}
-          isActive={currentSection === homePageSections.standarts}
+          href={`#${homePageSections.fitSelection}`}
+          isActive={currentSection === homePageSections.fitSelection}
         >
-          Стандарты
+          Выбор посадки
         </LinkComponent>
       </nav>
     </aside>

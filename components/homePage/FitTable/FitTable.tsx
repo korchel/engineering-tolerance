@@ -1,6 +1,8 @@
+import styles from "./FitTable.module.css";
+
 export const FitTable = () => {
   return (
-    <table>
+    <table className={styles.fitTable}>
       <thead>
         <tr>
           <th>Тип посадки</th>
@@ -11,45 +13,47 @@ export const FitTable = () => {
       </thead>
       <tbody>
         <tr>
-          <td rowSpan={5}>С зазором</td>
-          <td>Скользящие</td>
+          <th rowSpan={5} scope="row">
+            С зазором
+          </th>
+          <th scope="row">Скользящие</th>
           <td colSpan={2}>
             H6/h5, H7/h6, H8/h7, H8/h8, H9/h8, H10/h9, H11/h10
           </td>
         </tr>
         <tr>
-          <td>Движения</td>
+          <th scope="row">Движения</th>
           <td>H6/g5, H7/g6</td>
           <td>G6/h5, G7/h6</td>
         </tr>
         <tr>
-          <td>Ходовые</td>
+          <th scope="row">Ходовые</th>
           <td>H7/f6, H8/f7, H8/f8, H9/f8</td>
           <td>F7/h6, F8/h7, F9/h8, F8/h9, F9/h9</td>
         </tr>
         <tr>
-          <td>Легкоходовые</td>
+          <th scope="row">Легкоходовые</th>
           <td></td>
           <td></td>
         </tr>
         <tr>
-          <td>Широкоходовые</td>
+          <th scope="row">Широкоходовые</th>
           <td></td>
           <td></td>
         </tr>
         <tr>
-          <td rowSpan={3}>С натягом</td>
-          <td>Прессовые тяжелые</td>
+          <th rowSpan={3}>С натягом</th>
+          <th scope="row">Прессовые тяжелые</th>
           <td></td>
           <td></td>
         </tr>
         <tr>
-          <td>Прессовые средние</td>
+          <th scope="row">Прессовые средние</th>
           <td></td>
           <td></td>
         </tr>
         <tr>
-          <td>Легкопрессовые</td>
+          <th scope="row">Легкопрессовые</th>
           <td></td>
           <td></td>
         </tr>

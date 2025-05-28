@@ -3,6 +3,7 @@
 import { FC, ReactNode, RefObject, useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
 import { useSectionStore } from "../../../store";
+import styles from "./Section.module.css";
 
 interface Props {
   id: string;
@@ -27,7 +28,7 @@ export const Section: FC<Props> = ({ id, children }) => {
   }, [intersection?.isIntersecting]);
 
   return (
-    <section id={id} ref={intersectionRef}>
+    <section className={styles.section} id={id} ref={intersectionRef}>
       {children}
     </section>
   );
