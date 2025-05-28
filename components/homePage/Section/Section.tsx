@@ -14,7 +14,7 @@ export const Section: FC<Props> = ({ id, children }) => {
   const intersection = useIntersection(
     intersectionRef as RefObject<HTMLElement>,
     {
-      threshold: 0.5,
+      threshold: 0.1,
     }
   );
 
@@ -23,7 +23,6 @@ export const Section: FC<Props> = ({ id, children }) => {
   useEffect(() => {
     if (intersection?.isIntersecting) {
       setCurrentSection(id);
-      console.log(id);
     }
   }, [intersection?.isIntersecting]);
 
