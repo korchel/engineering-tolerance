@@ -4,15 +4,21 @@ import clsx from "clsx";
 import styles from "./Title.module.css";
 
 interface Props {
-  level?: "h1" | "h2" | "h3";
+  level?: "h1" | "h2" | "h3" | "h4";
   children: ReactNode;
+  centered?: boolean;
   className?: string;
 }
 
-export const Title: FC<Props> = ({ level = "h1", children, className }) => {
+export const Title: FC<Props> = ({
+  level = "h1",
+  centered = false,
+  children,
+  className,
+}) => {
   return React.createElement(
     level,
-    { className: clsx(className, styles.title) },
+    { className: clsx(className, styles.title, { [styles.title]: centered }) },
     children
   );
 };

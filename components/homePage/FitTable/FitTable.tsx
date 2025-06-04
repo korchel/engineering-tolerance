@@ -60,13 +60,13 @@ export const FitTable = () => {
         <tr>
           <th rowSpan={4}>Переходные</th>
           <th scope="row">Плотные</th>
-          <td></td>
-          <td></td>
-        </tr>{" "}
+          <td>H6/js5, H7/js6, H8/js7</td>
+          <td>JS5/h5, JS7/h6</td>
+        </tr>
         <tr>
           <th scope="row">Напряженные</th>
-          <td></td>
-          <td></td>
+          <td>H6/k5, H7/k6, H8/k7</td>
+          <td>K6/h5, K7/h6</td>
         </tr>
         <tr>
           <th scope="row">Тугие</th>
