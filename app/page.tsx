@@ -12,7 +12,9 @@ export default async function Home() {
         <SideBar />
         <div className="paper" style={{ width: "80%" }}>
           <Section id={homePageSections.deviations}>
-            <Title level="h2">Допуски</Title>
+            <Title level="h2" centered>
+              Допуски
+            </Title>
             <Paragraph>
               Две детали, элементы которых входят друг в друга, образуют
               соединение.
@@ -104,7 +106,9 @@ export default async function Home() {
           </Section>
           <HRTag />
           <Section id={homePageSections.fits}>
-            <Title level="h2">Посадки</Title>
+            <Title level="h2" centered>
+              Посадки
+            </Title>
             <Paragraph>
               На сборочных чертежах, в месте соединения рядом с размером
               указывают посадку.
@@ -198,7 +202,9 @@ export default async function Home() {
           </Section>
           <HRTag />
           <Section id={homePageSections.fitSelection}>
-            <Title level="h2">Выбор посадки</Title>
+            <Title level="h2" centered>
+              Выбор посадки
+            </Title>
             <Paragraph>
               В таблице ниже перечислены рекоммендуемые посадки для размеров от
               1 до 500мм (ГОСТ 25346).
@@ -216,7 +222,9 @@ export default async function Home() {
               разные отклонения, то применение системы вала позволит упростить
               обработку вала).
             </Paragraph>
-            <Title level="h3">Посадки с зазором</Title>
+            <Title level="h3" centered>
+              Посадки с зазором
+            </Title>
             <Title level="h4">Скользящие посадки</Title>
             <Paragraph>
               Скользящие посадки H/h - самые плотные из свободных посадок. Такие
@@ -249,10 +257,27 @@ export default async function Home() {
               <li>крышки цилиндров.</li>
             </ul>
             <Title level="h4">Легкоходовые посадки</Title>
-            <Paragraph>standarts</Paragraph>
-            <Paragraph>standarts</Paragraph>
+            <Paragraph>
+              Легкоходовые посадки H/e обеспечивает легкоподвижное соединение,
+              допускающее радиальное перемещение или биение сопрягаемых
+              поверхностей:
+            </Paragraph>
+            <ul>
+              <li>подшипники многоопорных валов,</li>
+              <li>подшипники скольжения неответственных машин,</li>
+              <li>направляющие осевых перемещений.</li>
+            </ul>
             <Title level="h4">Широкоходовые посадки</Title>
-            <Title level="h3">Посадки с натягом</Title>
+            <Paragraph>
+              Посадки H/d легкоподвижных соединений общего применения, допускают
+              радиальное перемещение и и компенсируют погрешности взаимного
+              расположения трущихся поверхностей. Они используются в тех
+              случаях, когда необходимо компенсировать погрешности сборки или
+              температурные деформации.
+            </Paragraph>
+            <Title level="h3" centered>
+              Посадки с натягом
+            </Title>
             <Title level="h4">Прессовые тяжелые</Title>
             <Paragraph>
               Прессовые тяжелые H/u, H/x и H/z - посадки с большим
@@ -276,8 +301,20 @@ export default async function Home() {
               </li>
             </ul>
             <Title level="h4">Легкопрессовые</Title>
-            <Title level="h3">Посадки переходные</Title>
+            <Paragraph>
+              Легкопрессовые посадки типа H/p обеспечивают минимальный
+              гарантированный натяг и применяются для соединения тонкостенных
+              деталей при передаче небольших моментов и усилий.
+            </Paragraph>
+            <Title level="h3" centered>
+              Посадки переходные
+            </Title>
             <Title level="h4">Плотные</Title>
+            <Paragraph>
+              Плотные посадки типа H/js применяются в легкоразъемных неподвижных
+              соединениях, подвергающихся частой разборке. Вероятность зазора в
+              них 92-98%.
+            </Paragraph>
             <Title level="h4">Напряженные</Title>
             <Paragraph>
               Напряженные посадки типа H/k применяются в неподвижных разъёмных

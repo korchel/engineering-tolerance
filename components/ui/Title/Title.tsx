@@ -18,7 +18,9 @@ export const Title: FC<Props> = ({
 }) => {
   return React.createElement(
     level,
-    { className: clsx(className, styles.title, { [styles.title]: centered }) },
+    {
+      className: clsx(className, styles.title, { [styles.centered]: centered }),
+    },
     children
   );
 };

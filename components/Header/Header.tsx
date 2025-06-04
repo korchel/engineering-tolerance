@@ -3,13 +3,15 @@
 import { usePathname } from "next/navigation";
 import { Container, LinkComponent } from "../ui";
 import styles from "./Header.module.css";
+import { Logo } from "../ui/icons";
 
 export const Header = () => {
   const pathname = usePathname();
   return (
     <header className={styles.header}>
       <Container className={styles.headerContainer}>
-        <div>LOGO</div>
+        <Logo />
+
         <nav className={styles.nav}>
           <LinkComponent href="/" isActive={pathname === "/"}>
             Допуски и посадки
