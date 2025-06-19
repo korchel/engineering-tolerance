@@ -15,6 +15,7 @@ interface Props {
 
 export const Setting: FC<Props> = ({ type }) => {
   const {
+    size,
     [type]: {
       deviations: { upperDeviation, lowerDeviation },
       toleranceName,
@@ -31,7 +32,7 @@ export const Setting: FC<Props> = ({ type }) => {
       <div className={styles.grid__justifyRight}>класс допуска:</div>
       <div className={clsx(styles.grid__justifyLeft, styles.columns)}>
         <Tag>{toleranceName + grade}</Tag>
-        <Link href={`/tolerance/${type}`}>
+        <Link href={`/tolerance/${type}/?${size}`}>
           <ButtonIcon iconType="book" />
         </Link>
       </div>

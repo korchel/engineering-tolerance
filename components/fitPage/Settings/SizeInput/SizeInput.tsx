@@ -24,6 +24,7 @@ export const SizeInput = () => {
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    // TOTO add button, move calculation
     setInputSize(Number(event.target.value));
   };
 

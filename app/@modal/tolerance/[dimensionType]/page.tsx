@@ -1,104 +1,55 @@
-"use client";
-
-import { Usable, use, useEffect, useState } from "react";
-import { useRouter, notFound } from "next/navigation";
-
-import { Table, TableInfo } from "../../../../components";
-import { Button, Modal, Title } from "../../../../components/ui";
+import { TolerancePickModal } from "../../../../components/tolerancePage/tolerancePickModal/TolerancePickModal";
 import {
-  DimensionType,
-  InputDeviationsData,
-  IToleranceData,
-} from "../../../../types";
-import { useAppStore } from "../../../../store";
-import styles from "./page.module.css";
+  commonITs,
+  gradeNames,
+  notForFitsITs,
+  recommendedITs,
+  toleranceNames,
+  usageSizeRanges,
+} from "../../../../data";
+import { getDeviations } from "../../../../lib";
+import { DimensionType } from "../../../../types";
 
-export default function Page({ params }: { params: Promise<any> }) {
-  const { dimensionType } = use(
-    params as unknown as Usable<{ dimensionType: DimensionType }>
-  );
-  const router = useRouter();
-  const clodeModal = () => router.back();
-
-  if (dimensionType !== "shaft" && dimensionType !== "hole") {
-    return notFound();
-  }
-
-  const {
-    size,
-    [dimensionType]: {
-      toleranceName,
-      grade,
-      deviations: { upperDeviation, lowerDeviation },
-    },
-    setDeviations,
-    setToleranceName,
-    setGrade,
-  } = useAppStore((state) => state);
-
-  const [localState, setLocalState] = useState<IToleranceData>({
-    upperDeviation,
-    lowerDeviation,
-    toleranceName,
-    grade,
+export default function Page({
+  searchParams,
+  params: { dimensionType },
+}: {
+  params: { dimensionType: DimensionType };
+  searchParams: { size?: number };
+}) {
+  const size = +(searchParams.size || 20);
+  const usageSizeRange = usageSizeRanges.find((item) => {
+    if (size >= item.range.from && size <= item.range.to) {
+      return true;
+    }
+    return false;
+  })!.type;
+  const deviationsData = gradeNames.map((grade) => {
+    return toleranceNames.hole.map((tolerance) => {
+      const deviations = getDeviations(size, dimensionType, tolerance, grade);
+      const isCommonIT = commonITs[dimensionType][usageSizeRange].includes(
+        tolerance + grade
+      );
+      const isRecommendedIT = recommendedITs[dimensionType][
+        usageSizeRange
+      ].includes(tolerance + grade);
+      const isNotForFits = notForFitsITs[dimensionType][
+        usageSizeRange
+      ].includes(tolerance + grade);
+      return {
+        toleranceName: tolerance,
+        grade,
+        deviations,
+        isCommonIT,
+        isRecommendedIT,
+        isNotForFits,
+      };
+    });
   });
-
-  const [inputDeviations, setInputDeviations] = useState<InputDeviationsData>({
-    upperDeviation: null,
-    lowerDeviation: null,
-  });
-
-  const apply = (data: IToleranceData) => {
-    const { upperDeviation, lowerDeviation, toleranceName, grade } = data;
-    setDeviations({ upperDeviation, lowerDeviation }, dimensionType);
-    setToleranceName(toleranceName, dimensionType);
-    setGrade(grade, dimensionType);
-    clodeModal();
-  };
-
-  const localToleranceGrade = localState.toleranceName + localState.grade;
-
-  useEffect(() => {
-    const onKedyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        clodeModal();
-      }
-    };
-    window.addEventListener("keydown", onKedyDown);
-    return () => window.removeEventListener("keydown", (e) => onKedyDown(e));
-  }, []);
-
   return (
-    <Modal closeModal={clodeModal}>
-      <div className={styles.flex}>
-        <Title level="h2" centered>
-          Класс допуска
-        </Title>
-        <TableInfo
-          size={size}
-          data={localState}
-          setInputDeviations={setInputDeviations}
-        />
-        <Table
-          size={25}
-          type={dimensionType}
-          setLocalState={setLocalState}
-          activeToleranceGrade={localToleranceGrade}
-          inputDeviations={inputDeviations}
-        />
-        <div className={styles.buttonGroup}>
-          <Button variant="outline" onClick={() => router.back()}>
-            Отмена
-          </Button>
-          <Button
-            disabled={localToleranceGrade === toleranceName + grade}
-            variant="primary"
-            onClick={() => apply(localState)}
-          >
-            Применить
-          </Button>
-        </div>
-      </div>
-    </Modal>
+    <TolerancePickModal
+      dimensionType={dimensionType}
+      deviationsData={deviationsData}
+    />
   );
 }

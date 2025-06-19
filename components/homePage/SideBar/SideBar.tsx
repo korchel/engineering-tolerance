@@ -8,7 +8,7 @@ import { useSectionStore } from "../../../store";
 
 export const SideBar = () => {
   const currentSection = useSectionStore((state) => state.currentSection);
-  console.log(currentSection);
+
   return (
     <aside className={styles.sideBar}>
       <nav className={styles.nav}>

@@ -12,6 +12,15 @@ export type Tolerance = {
 
 export type Deviations = { upperDeviation: number; lowerDeviation: number };
 
+export type DeviationsData = {
+  toleranceName: string;
+  grade: Grade;
+  deviations: Deviations | null;
+  isCommonIT: boolean;
+  isRecommendedIT: boolean;
+  isNotForFits: boolean;
+};
+
 export interface IToleranceData {
   lowerDeviation: number;
   upperDeviation: number;

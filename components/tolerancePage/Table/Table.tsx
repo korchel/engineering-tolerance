@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import clsx from "clsx";
 
 import {
@@ -10,9 +10,11 @@ import {
   commonITs,
   recommendedITs,
   notForFitsITs,
+  getButtonNames,
 } from "../../../data";
 import {
   Deviations,
+  DeviationsData,
   DimensionType,
   Grade,
   InputDeviationsData,
@@ -22,6 +24,7 @@ import styles from "./Table.module.css";
 import { useAppStore } from "../../../store";
 import { getDeviations, getDisabled } from "../../../lib";
 import { CellButton } from "./CellButton/CellButton";
+import { api } from "../../../services/api";
 
 interface Props {
   type: DimensionType;
@@ -29,6 +32,7 @@ interface Props {
   activeToleranceGrade: string;
   setLocalState: (data: IToleranceData) => void;
   inputDeviations: InputDeviationsData;
+  deviationsData: Array<DeviationsData[]>;
 }
 
 export const Table: FC<Props> = ({
@@ -37,25 +41,24 @@ export const Table: FC<Props> = ({
   activeToleranceGrade,
   setLocalState,
   inputDeviations,
+  deviationsData,
 }) => {
+  const {
+    [type]: { toleranceName, grade },
+  } = useAppStore((state) => state);
+
   const currentToleranceGrade = useAppStore(
+    // TODO remove
     (state) => state[type].toleranceName + state[type].grade
   );
 
-  const usageSizeRange = usageSizeRanges.find((item) => {
-    if (size >= item.range.from && size <= item.range.to) {
-      return true;
-    }
-    return false;
-  })!.type;
-
   const onClick = ({
-    tolerance,
+    toleranceName,
     grade,
     upperDeviation,
     lowerDeviation,
   }: {
-    tolerance: string;
+    toleranceName: string;
     grade: Grade;
     upperDeviation: number;
     lowerDeviation: number;
@@ -63,7 +66,7 @@ export const Table: FC<Props> = ({
     setLocalState({
       upperDeviation,
       lowerDeviation,
-      toleranceName: tolerance,
+      toleranceName,
       grade,
     });
   };
@@ -105,24 +108,17 @@ export const Table: FC<Props> = ({
                     {grade}
                   </div>
                 </th>
-                {toleranceNames[type].map((tolerance, i) => {
-                  const toleranceGrade = tolerance + grade;
-                  const isCommonIT =
-                    commonITs[type][usageSizeRange].includes(toleranceGrade);
-                  const isRecommendedIT =
-                    recommendedITs[type][usageSizeRange].includes(
-                      toleranceGrade
-                    );
-                  const isNotForFits =
-                    notForFitsITs[type][usageSizeRange].includes(
-                      toleranceGrade
-                    );
-                  const deviations = getDeviations(
-                    size,
-                    type,
-                    tolerance,
-                    grade
-                  );
+                {deviationsData[i].map((data, i) => {
+                  const {
+                    toleranceName,
+                    grade,
+                    isCommonIT,
+                    isRecommendedIT,
+                    isNotForFits,
+                  } = data;
+                  const toleranceGrade = toleranceName + grade;
+
+                  const deviations = data.deviations;
                   const isDisabled = getDisabled(deviations, inputDeviations);
                   return deviations ? (
                     <td key={i}>
@@ -135,7 +131,7 @@ export const Table: FC<Props> = ({
                         className={styles.table__cell}
                         onClick={() =>
                           onClick({
-                            tolerance,
+                            toleranceName,
                             grade,
                             upperDeviation: deviations.upperDeviation,
                             lowerDeviation: deviations.lowerDeviation,
