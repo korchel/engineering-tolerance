@@ -10,14 +10,16 @@ import {
 import { getDeviations } from "../../../../lib";
 import { DimensionType } from "../../../../types";
 
-export default function Page({
+export default async function Page({
   searchParams,
-  params: { dimensionType },
+  params,
 }: {
-  params: { dimensionType: DimensionType };
-  searchParams: { size?: number };
+  params: Promise<{ dimensionType: DimensionType }>;
+  searchParams: Promise<{ size: number }>;
 }) {
-  const size = +(searchParams.size || 20);
+  const size = +(await searchParams).size;
+  const { dimensionType } = await params;
+
   const usageSizeRange = usageSizeRanges.find((item) => {
     if (size >= item.range.from && size <= item.range.to) {
       return true;
@@ -25,7 +27,7 @@ export default function Page({
     return false;
   })!.type;
   const deviationsData = gradeNames.map((grade) => {
-    return toleranceNames.hole.map((tolerance) => {
+    return toleranceNames[dimensionType].map((tolerance) => {
       const deviations = getDeviations(size, dimensionType, tolerance, grade);
       const isCommonIT = commonITs[dimensionType][usageSizeRange].includes(
         tolerance + grade

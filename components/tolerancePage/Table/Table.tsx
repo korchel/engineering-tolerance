@@ -1,19 +1,10 @@
 "use client";
 
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import clsx from "clsx";
 
+import { toleranceNames, gradeNames } from "../../../data";
 import {
-  toleranceNames,
-  gradeNames,
-  usageSizeRanges,
-  commonITs,
-  recommendedITs,
-  notForFitsITs,
-  getButtonNames,
-} from "../../../data";
-import {
-  Deviations,
   DeviationsData,
   DimensionType,
   Grade,
@@ -22,9 +13,8 @@ import {
 } from "../../../types";
 import styles from "./Table.module.css";
 import { useAppStore } from "../../../store";
-import { getDeviations, getDisabled } from "../../../lib";
+import { getDisabled } from "../../../lib";
 import { CellButton } from "./CellButton/CellButton";
-import { api } from "../../../services/api";
 
 interface Props {
   type: DimensionType;
@@ -117,8 +107,7 @@ export const Table: FC<Props> = ({
                     isNotForFits,
                   } = data;
                   const toleranceGrade = toleranceName + grade;
-
-                  const deviations = data.deviations;
+                  const { deviations } = data;
                   const isDisabled = getDisabled(deviations, inputDeviations);
                   return deviations ? (
                     <td key={i}>

@@ -32,7 +32,7 @@ export const Setting: FC<Props> = ({ type }) => {
       <div className={styles.grid__justifyRight}>класс допуска:</div>
       <div className={clsx(styles.grid__justifyLeft, styles.columns)}>
         <Tag>{toleranceName + grade}</Tag>
-        <Link href={`/tolerance/${type}/?${size}`}>
+        <Link href={`/tolerance/${type}/?size=${size}`}>
           <ButtonIcon iconType="book" />
         </Link>
       </div>
