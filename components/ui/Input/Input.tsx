@@ -8,17 +8,23 @@ export interface Props
     HTMLInputElement
   > {
   label: string;
+  type?: string;
   error?: string;
 }
 
-export const Input: FC<Props> = ({ label, error, ...props }) => {
+export const Input: FC<Props> = ({
+  label,
+  error,
+  type = "number",
+  ...props
+}) => {
   return (
     <>
       <label className={styles.label} htmlFor={label}>
         {label}
       </label>
       <div className={styles.inputBlock}>
-        <input className={styles.input} type="number" id={label} {...props} />
+        <input className={styles.input} type={type} id={label} {...props} />
         {error && <div className={styles.error}>{error}</div>}
       </div>
     </>

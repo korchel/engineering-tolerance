@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import { Deviations, DimensionType, Grade } from "../types";
-import { getDeviations } from "../lib";
+import { api } from "../services/api";
 
 export interface IState {
   shaft: {
@@ -18,7 +18,13 @@ export interface IState {
   setDeviations: (deviations: Deviations, type: DimensionType) => void;
   setToleranceName: (toleranceName: string, type: DimensionType) => void;
   setGrade: (grade: Grade, type: DimensionType) => void;
-  setSize: (size: number) => void;
+  setSize: (
+    size: number,
+    holeTolerance: string,
+    holeGrade: Grade,
+    shaftTolerance: string,
+    shaftGrade: Grade
+  ) => void;
 }
 
 export const useAppStore = create<IState>((set) => ({
@@ -51,28 +57,33 @@ export const useAppStore = create<IState>((set) => ({
     set((state) => ({
       [type]: { ...state[type], grade },
     })),
-  setSize: (size: number) =>
+  setSize: async (
+    size,
+    holeTolerance,
+    holeGrade,
+    shaftTolerance,
+    shaftGrade
+  ) => {
+    const data = await api.deviations.getDeviations(
+      size,
+      holeTolerance,
+      holeGrade,
+      shaftTolerance,
+      shaftGrade
+    );
+
     set((state) => ({
       size,
       hole: {
-        deviations: getDeviations(
-          size,
-          "hole",
-          state.hole.toleranceName,
-          state.hole.grade
-        ) as Deviations,
+        deviations: data.hole,
         toleranceName: state.hole.toleranceName,
         grade: state.hole.grade,
       },
       shaft: {
-        deviations: getDeviations(
-          size,
-          "shaft",
-          state.shaft.toleranceName,
-          state.shaft.grade
-        ) as Deviations,
+        deviations: data.shaft,
         toleranceName: state.shaft.toleranceName,
         grade: state.shaft.grade,
       },
-    })),
+    }));
+  },
 }));

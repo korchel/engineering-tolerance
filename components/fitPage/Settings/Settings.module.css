@@ -3,3 +3,7 @@
   flex-direction: column;
   gap: 2rem;
 }
+
+.grid__span2 {
+  grid-column: 1 / span 2;
+}

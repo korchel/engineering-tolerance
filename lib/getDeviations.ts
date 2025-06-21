@@ -9,6 +9,7 @@ export const getDeviations = (
   toleranceName: string,
   grade: number | string // fix Grade type
 ): null | Deviations => {
+  console.log("getDeviations called");
   const sizeRangeType = sizeRanges.find((item) => {
     if (size >= item.range.from && size <= item.range.to) {
       return true;
@@ -70,13 +71,3 @@ export const getDeviations = (
   }
   return null;
 };
-
-// for (const toleranceName of toleranceNames.hole) {
-//   console.log("!!!!!!!!!!", toleranceName);
-//   for (const gradeName of gradeNames) {
-//     console.log(
-//       toleranceName + gradeName,
-//       getDeviations(48, "hole", toleranceName, gradeName)
-//     );
-//   }
-// }
