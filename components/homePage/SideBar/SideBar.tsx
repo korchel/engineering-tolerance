@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./SideBar.module.css";
+import styles from "./SideBar.module.scss";
 
 import { LinkComponent } from "../../ui";
 import { homePageSections } from "../../../lib";
@@ -11,7 +11,7 @@ export const SideBar = () => {
 
   return (
     <aside className={styles.sideBar}>
-      <nav className={styles.nav}>
+      <nav>
         <LinkComponent
           href={`#${homePageSections.deviations}`}
           isActive={currentSection === homePageSections.deviations}

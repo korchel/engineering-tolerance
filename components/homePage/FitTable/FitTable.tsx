@@ -1,4 +1,4 @@
-import styles from "./FitTable.module.css";
+import styles from "./FitTable.module.scss";
 
 export const FitTable = () => {
   return (

@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { useRouter, notFound } from "next/navigation";
 
-import styles from "./TolerancePickModal.module.css";
+import styles from "./TolerancePickModal.module.scss";
 import {
   DeviationsData,
   DimensionType,

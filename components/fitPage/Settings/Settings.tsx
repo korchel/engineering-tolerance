@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import styles from "./Settings.module.css";
+import styles from "./Settings.module.scss";
 import { useAppStore } from "../../../store";
 import { Setting } from "./Setting/Setting";
 import { Button, Grid, Tag } from "../../ui";

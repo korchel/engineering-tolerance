@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import styles from "./Svg.module.css";
+import styles from "./Svg.module.scss";
 
 interface Props {
   EI: number;

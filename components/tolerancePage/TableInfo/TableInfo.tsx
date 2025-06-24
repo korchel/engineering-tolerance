@@ -4,7 +4,7 @@ import { FC } from "react";
 import { Grid, Label, Tag } from "../../ui";
 
 import { InputDeviationsData, IToleranceData } from "../../../types";
-import styles from "./TableInfo.module.css";
+import styles from "./TableInfo.module.scss";
 import { Legend } from "../Legend/Legend";
 import { DeviationInputs } from "../DeviationInputs/DeviationInputs";
 

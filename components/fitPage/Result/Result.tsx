@@ -2,7 +2,7 @@
 
 import { useAppStore } from "../../../store/appStore";
 import { ResultTable } from "./ResultTable/ResultTable";
-import styles from "./Result.module.css";
+import styles from "./Result.module.scss";
 import { Svg } from "./Svg/Svg";
 import clsx from "clsx";
 

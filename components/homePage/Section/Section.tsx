@@ -3,7 +3,7 @@
 import { FC, ReactNode, RefObject, useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
 import { useSectionStore } from "../../../store";
-import styles from "./Section.module.css";
+import styles from "./Section.module.scss";
 
 interface Props {
   id: string;

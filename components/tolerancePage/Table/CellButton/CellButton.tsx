@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from "react";
-import styles from "./CellButton.module.css";
+import styles from "./CellButton.module.scss";
 
 interface Props
   extends DetailedHTMLProps<

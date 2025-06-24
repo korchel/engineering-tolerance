@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, FC, HTMLAttributes } from "react";
 
-import styles from "./Modal.module.css";
+import styles from "./Modal.module.scss";
 import { ButtonIcon } from "../ButtonIcon/ButtonIcon";
 
 interface Props

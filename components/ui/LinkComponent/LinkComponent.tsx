@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FC, ReactNode } from "react";
 
-import styles from "./LinkComponent.module.css";
+import styles from "./LinkComponent.module.scss";
 import clsx from "clsx";
 
 interface Props {

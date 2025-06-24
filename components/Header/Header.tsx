@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { Container, LinkComponent } from "../ui";
-import styles from "./Header.module.css";
+import styles from "./Header.module.scss";
 import { Logo } from "../ui/icons";
 
 export const Header = () => {

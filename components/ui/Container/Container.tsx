@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from "react";
 
-import styles from "./Container.module.css";
+import styles from "./Container.module.scss";
 import clsx from "clsx";
 
 interface Props {

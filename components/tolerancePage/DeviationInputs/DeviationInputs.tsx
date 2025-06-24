@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { InputDeviationsData } from "../../../types/fitTypes";
 import { Button, Grid, Input, Title } from "../../ui";
-import styles from "./DeviationInputs.module.css";
+import styles from "./DeviationInputs.module.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface Props {

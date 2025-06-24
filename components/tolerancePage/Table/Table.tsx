@@ -11,7 +11,7 @@ import {
   InputDeviationsData,
   IToleranceData,
 } from "../../../types";
-import styles from "./Table.module.css";
+import styles from "./Table.module.scss";
 import { useAppStore } from "../../../store";
 import { getDisabled } from "../../../lib";
 import { CellButton } from "./CellButton/CellButton";
@@ -66,7 +66,7 @@ export const Table: FC<Props> = ({
       <table className={styles.table}>
         <thead>
           <tr>
-            <td className={clsx(styles.commonHeader)}></td>
+            <td className={styles.commonHeader}></td>
             {toleranceNames[type].map((tolerance, i) => {
               return (
                 <th

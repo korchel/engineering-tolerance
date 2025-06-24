@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FC } from "react";
 import clsx from "clsx";
 
-import styles from "./Setting.module.css";
+import styles from "./Setting.module.scss";
 import { ButtonIcon, Tag, Title } from "../../../ui";
 import { DimensionType } from "../../../../types";
 import { useAppStore } from "../../../../store";

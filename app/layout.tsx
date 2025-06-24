@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./index.css";
+import "./index.scss";
 import { Inter } from "next/font/google";
 import { Suspense } from "react";
 import Loading from "./loading";
