@@ -1,16 +1,18 @@
 import { Section } from "../components/homePage/Section/Section";
 import { SideBar } from "../components/homePage/SideBar/SideBar";
-import { Container, HRTag, Paragraph, Title } from "../components/ui";
+import { Container, HRTag, Paper, Paragraph, Title } from "../components/ui";
 import Image from "next/image";
 import { homePageSections } from "../lib";
 import { FitTable } from "../components/homePage/FitTable/FitTable";
+
+import styles from "./page.module.scss";
 
 export default async function Home() {
   return (
     <>
       <Container>
         <SideBar />
-        <div className="paper" style={{ width: "80%" }}>
+        <Paper className={styles.ml}>
           <Section id={homePageSections.deviations}>
             <Title level="h2" centered>
               Допуски
@@ -61,6 +63,7 @@ export default async function Home() {
               height={447}
               width={870}
             />
+
             <Paragraph>
               Основной вал - вал, верхнее отклонение которого равно нулю.
             </Paragraph>
@@ -96,6 +99,7 @@ export default async function Home() {
               На рисунке ниже представлена схема расположения основных
               отклонений для отверстий и валов.
             </Paragraph>
+
             <Image
               src="/images/Basic deviations.png"
               alt="Basic deviations"
@@ -350,7 +354,7 @@ export default async function Home() {
               колёс на валах и т.п.
             </Paragraph>
           </Section>
-        </div>
+        </Paper>
       </Container>
     </>
   );

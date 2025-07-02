@@ -1,0 +1,9 @@
+.columns {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.column_wide {
+  flex-grow: 1;
+}
