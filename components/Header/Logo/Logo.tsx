@@ -1,9 +1,12 @@
+import styles from "./Logo.module.scss";
+
 export const Logo = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 25 25"
-    width="50"
-    height="50"
+    className={styles.logo}
+    width="25"
+    height="25"
   >
     <g>
       <path

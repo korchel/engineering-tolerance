@@ -1,12 +1,6 @@
 .result {
   display: flex;
   justify-content: center;
-}
-
-.table {
-  align-self: flex-start;
-}
-
-.pdf {
-  padding-inline: 1rem;
+  padding-block: 1rem;
+  padding-inline: 0.25rem;
 }

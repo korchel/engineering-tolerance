@@ -20,8 +20,9 @@ export const TableInfo: FC<Props> = ({ size, data, setInputDeviations }) => {
   return (
     <div>
       <div className={styles.columns}>
+        <Legend className={styles.legend} />
         <DeviationInputs setInputDeviations={setInputDeviations} />
-        <Legend className={styles.justifyRight} />
+
         <Grid>
           <Label>Номинальный размер, мм:</Label>
           <Tag>{size}</Tag>

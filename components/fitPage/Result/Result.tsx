@@ -26,7 +26,7 @@ export const Result = () => {
 
   return (
     <Paper className={styles.result}>
-      <div id="result" className={styles.pdf}>
+      <div id="result">
         <Svg
           ES={ES}
           EI={EI}

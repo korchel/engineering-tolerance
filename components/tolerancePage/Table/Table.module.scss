@@ -16,6 +16,7 @@
 .table__cell {
   height: 2em;
   width: 3.5em;
+  font-size: inherit;
 
   color: var(--light);
   transition: all 0.2s;

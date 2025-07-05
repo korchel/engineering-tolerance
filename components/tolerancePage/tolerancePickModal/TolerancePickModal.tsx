@@ -78,7 +78,9 @@ export const TolerancePickModal: FC<Props> = ({
   return (
     <Modal closeModal={clodeModal}>
       <div className={styles.flex}>
-        <Title level="h2">Класс допуска</Title>
+        <Title level="h2" centered>
+          Класс допуска
+        </Title>
         <TableInfo
           size={size}
           data={localState}

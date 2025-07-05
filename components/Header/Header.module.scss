@@ -7,15 +7,44 @@
   background-color: var(--light);
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
 }
+
 .headerContainer {
   display: flex;
   height: 100%;
   align-items: center;
   gap: 2rem;
+  position: relative;
+
+  @media (max-width: 480px) {
+    justify-content: space-between;
+  }
 }
 
 .nav {
   display: flex;
   align-items: stretch;
   gap: 1rem;
+
+  @media (max-width: 480px) {
+    display: none;
+
+    flex-direction: column;
+    position: absolute;
+    top: 5rem;
+    right: 0;
+    padding: 1rem;
+    background-color: var(--primary);
+    border-radius: 0.25rem;
+    &_visible {
+      display: flex;
+    }
+  }
+}
+
+.menuButton {
+  display: none;
+
+  @media (max-width: 480px) {
+    display: block;
+  }
 }

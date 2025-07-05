@@ -2,6 +2,12 @@
   display: flex;
   justify-content: space-between;
   gap: 2rem;
+
+  @media (max-width: 900px) {
+    flex-direction: column-reverse;
+    max-width: 600px;
+    margin-inline: auto;
+  }
 }
 
 .column_wide {

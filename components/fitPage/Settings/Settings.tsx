@@ -9,6 +9,7 @@ import { Setting } from "./Setting/Setting";
 import { Button, Grid, Tag } from "../../ui";
 import { createPDF } from "../../../lib";
 import { FormInput } from "../../form/FormInput/FormInput";
+import clsx from "clsx";
 
 const sizeSchema = z.object({
   size: z.coerce
@@ -17,7 +18,7 @@ const sizeSchema = z.object({
     .max(500, { message: "максимум 500" }),
 });
 
-export const Settings = () => {
+export const Settings = ({ className }: { className?: string }) => {
   const {
     setSize,
     shaft: { toleranceName: shaftTolerance, grade: shaftGrade },
@@ -40,7 +41,7 @@ export const Settings = () => {
   };
 
   return (
-    <div className={styles.settings}>
+    <div className={clsx(styles.settings, className)}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(changeSize)}>
           <Grid>

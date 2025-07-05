@@ -21,12 +21,7 @@ export const Svg: FC<Props> = ({ EI, ES, ei, es, holeIT, shaftIT }) => {
   const scalingFactor = tolerance > svgHeight ? svgHeight / (2 * tolerance) : 1;
 
   return (
-    <svg
-      width="500"
-      height={svgHeight}
-      viewBox={`0 0 500 ${svgHeight}`}
-      className={styles.svg}
-    >
+    <svg width="100%" viewBox={`0 0 500 ${svgHeight}`}>
       <g transform="scale(1,-1)">
         <line
           x1="0"

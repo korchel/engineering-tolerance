@@ -1,6 +1,13 @@
 import { Section } from "../components/homePage/Section/Section";
 import { SideBar } from "../components/homePage/SideBar/SideBar";
-import { Container, HRTag, Paper, Paragraph, Title } from "../components/ui";
+import {
+  Container,
+  HRTag,
+  ImageComponent,
+  Paper,
+  Paragraph,
+  Title,
+} from "../components/ui";
 import Image from "next/image";
 import { homePageSections } from "../lib";
 import { FitTable } from "../components/homePage/FitTable/FitTable";
@@ -62,6 +69,11 @@ export default async function Home() {
               layout="responsive"
               height={447}
               width={870}
+            />
+
+            <ImageComponent
+              src="/images/Basic deviation.png"
+              alt="Basic deviation"
             />
 
             <Paragraph>
