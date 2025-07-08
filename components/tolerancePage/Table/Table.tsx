@@ -109,6 +109,7 @@ export const Table: FC<Props> = ({
                   const toleranceGrade = toleranceName + grade;
                   const { deviations } = data;
                   const isDisabled = getDisabled(deviations, inputDeviations);
+
                   return deviations ? (
                     <td key={i}>
                       <CellButton

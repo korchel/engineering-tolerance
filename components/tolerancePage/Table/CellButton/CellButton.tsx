@@ -29,14 +29,19 @@ export const CellButton: FC<Props> = ({
   return (
     <button
       {...props}
-      className={clsx(styles.сellButton, className, {
-        [styles.сellButton_normal]: !isRecommendedIT && !isCommonIT,
-        [styles.сellButton_common]: isCommonIT && !isRecommendedIT,
-        [styles.сellButton_recommended]: isRecommendedIT,
-        [styles.сellButton_current]: isCurrent,
-        [styles.сellButton_active]: isActive,
-        [styles.сellButton_disabled]: isDisabled,
-      })}
+      className={clsx(
+        styles.сellButton,
+        className,
+        isDisabled
+          ? styles.сellButton_disabled
+          : {
+              [styles.сellButton_normal]: !isRecommendedIT && !isCommonIT,
+              [styles.сellButton_common]: isCommonIT && !isRecommendedIT,
+              [styles.сellButton_recommended]: isRecommendedIT,
+              [styles.сellButton_current]: isCurrent,
+              [styles.сellButton_active]: isActive,
+            }
+      )}
     >
       {children}
     </button>

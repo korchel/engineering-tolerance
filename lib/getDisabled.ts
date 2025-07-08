@@ -7,14 +7,23 @@ export const getDisabled = (
   if (deviations === null) {
     return true;
   }
-  if (
-    inputDeviations.upperDeviation === null ||
-    inputDeviations.lowerDeviation === null
-  ) {
+
+  const { upperDeviation, lowerDeviation } = deviations;
+  const inputUpperDeviation = inputDeviations.upperDeviation;
+  const inputLowerDeviation = inputDeviations.lowerDeviation;
+
+  if (inputUpperDeviation === null || inputLowerDeviation === null) {
     return false;
   }
-  return !(
-    deviations.upperDeviation < inputDeviations.upperDeviation &&
-    deviations.lowerDeviation > inputDeviations.lowerDeviation
-  );
+
+  if (
+    !(
+      upperDeviation <= inputUpperDeviation &&
+      lowerDeviation >= inputLowerDeviation
+    )
+  ) {
+    return true;
+  }
+
+  return false;
 };

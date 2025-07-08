@@ -72,7 +72,9 @@ export const TolerancePickModal: FC<Props> = ({
       }
     };
     window.addEventListener("keydown", onKedyDown);
-    return () => window.removeEventListener("keydown", (e) => onKedyDown(e));
+    return () => {
+      window.removeEventListener("keydown", (e) => onKedyDown(e));
+    };
   }, []);
 
   return (
