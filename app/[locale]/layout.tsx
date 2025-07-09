@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import "./index.scss";
 import { Inter } from "next/font/google";
 import { Suspense } from "react";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
+import { routing } from "../../i18n/routing";
+
 import Loading from "./loading";
-import { Header } from "../components";
+import { Header } from "../../components";
 
 const font = Inter({
   subsets: ["cyrillic"],
@@ -16,15 +20,21 @@ export const metadata: Metadata = {
   description: "Limits & fits",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   modal,
+  params,
 }: {
   children: React.ReactNode;
   modal: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
   return (
-    <html lang="ru">
+    <html lang={locale}>
       <head>
         <link
           rel="apple-touch-icon"

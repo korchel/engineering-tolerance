@@ -1,4 +1,4 @@
-import { TolerancePickModal } from "../../../../components/tolerancePage/tolerancePickModal/TolerancePickModal";
+import { TolerancePickModal } from "../../../../../components/tolerancePage/tolerancePickModal/TolerancePickModal";
 import {
   commonITs,
   gradeNames,
@@ -6,9 +6,9 @@ import {
   recommendedITs,
   toleranceNames,
   usageSizeRanges,
-} from "../../../../data";
-import { getDeviations } from "../../../../lib";
-import { DimensionType } from "../../../../types";
+} from "../../../../../data";
+import { getDeviations } from "../../../../../lib";
+import { DimensionType } from "../../../../../types";
 
 export default async function Page({
   searchParams,

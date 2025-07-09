@@ -1,0 +1,13 @@
+{
+  "homePage": {
+    "toleranceSection": {
+      "title": "Допуски"
+    },
+    "fitSection": {
+      "title": "Посадки"
+    },
+    "fitChoiceSection": {
+      "title": "Выбор посадки"
+    }
+  }
+}

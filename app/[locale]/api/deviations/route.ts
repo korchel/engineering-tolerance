@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDeviations } from "../../../lib";
+import { getDeviations } from "../../../../lib";
 
 export async function GET(req: NextRequest) {
   try {

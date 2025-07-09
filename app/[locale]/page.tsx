@@ -1,5 +1,5 @@
-import { Section } from "../components/homePage/Section/Section";
-import { SideBar } from "../components/homePage/SideBar/SideBar";
+import { Section } from "../../components/homePage/Section/Section";
+import { SideBar } from "../../components/homePage/SideBar/SideBar";
 import {
   Container,
   HRTag,
@@ -7,14 +7,17 @@ import {
   Paper,
   Paragraph,
   Title,
-} from "../components/ui";
+} from "../../components/ui";
 import Image from "next/image";
-import { homePageSections } from "../lib";
-import { FitTable } from "../components/homePage/FitTable/FitTable";
+import { getTranslations } from "next-intl/server";
 
+import { homePageSections } from "../../lib";
+import { FitTable } from "../../components/homePage/FitTable/FitTable";
 import styles from "./page.module.scss";
 
 export default async function Home() {
+  const t = await getTranslations("homePage");
+
   return (
     <>
       <Container>
@@ -22,7 +25,7 @@ export default async function Home() {
         <Paper className={styles.ml}>
           <Section id={homePageSections.deviations}>
             <Title level="h2" centered>
-              Допуски
+              {t("toleranceSection.title")}
             </Title>
             <Paragraph>
               Две детали, элементы которых входят друг в друга, образуют
@@ -123,7 +126,7 @@ export default async function Home() {
           <HRTag />
           <Section id={homePageSections.fits}>
             <Title level="h2" centered>
-              Посадки
+              {t("fitSection.title")}
             </Title>
             <Paragraph>
               На сборочных чертежах, в месте соединения рядом с размером
@@ -219,7 +222,7 @@ export default async function Home() {
           <HRTag />
           <Section id={homePageSections.fitSelection}>
             <Title level="h2" centered>
-              Выбор посадки
+              {t("fitChoiceSection.title")}
             </Title>
             <Paragraph>
               В таблице ниже перечислены рекоммендуемые посадки для размеров от

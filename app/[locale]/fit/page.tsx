@@ -1,5 +1,5 @@
-import { Container } from "../../components/ui";
-import { Settings, Result } from "../../components";
+import { Container } from "../../../components/ui";
+import { Settings, Result } from "../../../components";
 
 import styles from "./page.module.css";
 

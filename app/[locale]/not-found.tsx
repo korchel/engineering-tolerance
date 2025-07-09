@@ -1,4 +1,4 @@
-import { Container, Title } from "../components/ui";
+import { Container, Title } from "../../components/ui";
 
 export default function NotFound() {
   return (
