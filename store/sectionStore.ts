@@ -7,6 +7,6 @@ interface IState {
 }
 
 export const useSectionStore = create<IState>()((set) => ({
-  currentSection: homePageSections.deviations,
+  currentSection: homePageSections.tolerances,
   setCurrentSection: (currentSection: string) => set({ currentSection }),
 }));

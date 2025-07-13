@@ -1,35 +1,29 @@
 "use client";
 
 import styles from "./SideBar.module.scss";
-
 import { LinkComponent } from "../../ui";
-import { homePageSections } from "../../../lib";
 import { useSectionStore } from "../../../store";
+import { FC } from "react";
 
-export const SideBar = () => {
+interface Props {
+  sections: { text: string; href: string }[];
+}
+
+export const SideBar: FC<Props> = ({ sections }) => {
   const currentSection = useSectionStore((state) => state.currentSection);
 
   return (
     <aside className={styles.sideBar}>
       <nav>
-        <LinkComponent
-          href={`#${homePageSections.deviations}`}
-          isActive={currentSection === homePageSections.deviations}
-        >
-          Допуски
-        </LinkComponent>
-        <LinkComponent
-          href={`#${homePageSections.fits}`}
-          isActive={currentSection === homePageSections.fits}
-        >
-          Посадки
-        </LinkComponent>
-        <LinkComponent
-          href={`#${homePageSections.fitSelection}`}
-          isActive={currentSection === homePageSections.fitSelection}
-        >
-          Выбор посадки
-        </LinkComponent>
+        {sections.map((section, i) => (
+          <LinkComponent
+            key={i}
+            href={`#${section.href}`}
+            isActive={currentSection === section.href}
+          >
+            {section.text}
+          </LinkComponent>
+        ))}
       </nav>
     </aside>
   );

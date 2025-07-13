@@ -21,10 +21,10 @@ export const Header = () => {
         <Logo />
 
         <nav className={clsx(styles.nav, { [styles.nav_visible]: isMenuOpen })}>
-          <LinkComponent href="/" isActive={pathname === "/"}>
+          <LinkComponent href="/" isActive={!pathname.includes("/fit")}>
             Допуски и посадки
           </LinkComponent>
-          <LinkComponent href="/fit" isActive={pathname === "/fit"}>
+          <LinkComponent href="/fit" isActive={pathname.includes("/fit")}>
             Подбор посадки
           </LinkComponent>
         </nav>

@@ -1,16 +1,9 @@
-import { Section } from "../../components/homePage/Section/Section";
-import { SideBar } from "../../components/homePage/SideBar/SideBar";
-import {
-  Container,
-  HRTag,
-  ImageComponent,
-  Paper,
-  Paragraph,
-  Title,
-} from "../../components/ui";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
+import { Section } from "../../components/homePage/Section/Section";
+import { SideBar } from "../../components/homePage/SideBar/SideBar";
+import { Container, HRTag, Paper, Paragraph, Title } from "../../components/ui";
 import { homePageSections } from "../../lib";
 import { FitTable } from "../../components/homePage/FitTable/FitTable";
 import styles from "./page.module.scss";
@@ -21,51 +14,29 @@ export default async function Home() {
   return (
     <>
       <Container>
-        <SideBar />
+        <SideBar
+          sections={[
+            {
+              text: t("toleranceSection.title"),
+              href: homePageSections.tolerances,
+            },
+            { text: t("fitSection.title"), href: homePageSections.fits },
+            {
+              text: t("fitChoiceSection.title"),
+              href: homePageSections.fitSelection,
+            },
+          ]}
+        />
         <Paper className={styles.ml}>
-          <Section id={homePageSections.deviations}>
+          <Section id={homePageSections.tolerances}>
             <Title level="h2" centered>
               {t("toleranceSection.title")}
             </Title>
-            <Paragraph>
-              Две детали, элементы которых входят друг в друга, образуют
-              соединение.
-            </Paragraph>
-            <Paragraph>
-              В соединении элементов двух деталей один из них является
-              охватывающим, другой — охватываемым. В системе допусков и посадок
-              охватывающий элемент условно называется отверстием, охватываемый —
-              валом.
-            </Paragraph>
-            <Paragraph>
-              Номинальный размер — идеальный размер, указанный в чертеже.
-            </Paragraph>
-            <Paragraph>
-              Действительный размер — размер готовой детали, полученный прямым
-              измерением.
-            </Paragraph>
-            <Paragraph>
-              Предельные размеры — два предельных значения размера, между
-              которыми должен находиться действительный размер.
-            </Paragraph>
-            <Paragraph>
-              Допуск размера — разность между наибольшими и наименьшими
-              предельными размерами. Допуск, как правило, измеряется в
-              микрометрах и состоит из двух отклонений от номинального размера:
-              верхнего и нижнего.
-            </Paragraph>
-            <Paragraph>
-              Отклонение может быть положительным, если предельный размер больше
-              номинального, и отрицательным, если предельный размер меньше
-              номинального.
-            </Paragraph>
-            <Paragraph>
-              Основное отклонение — отклонение, определяющее расположение
-              интервала допуска относительно номинального размера. Основное
-              отклонение обозначается буквой латинского алфавита: заглавной —
-              для охватывающих размеров, прописной — для охватываемых.
-            </Paragraph>
-
+            {Array.from({ length: 8 }, (_, i) => i + 1).map((n, i) => (
+              <Paragraph key={i}>
+                {t(`toleranceSection.paragraphs.${n}`)}
+              </Paragraph>
+            ))}
             <Image
               src="/images/Basic deviation.png"
               alt="Basic deviation"
@@ -73,48 +44,13 @@ export default async function Home() {
               height={447}
               width={870}
             />
-
-            <ImageComponent
-              src="/images/Basic deviation.png"
-              alt="Basic deviation"
-            />
-
-            <Paragraph>
-              Основной вал - вал, верхнее отклонение которого равно нулю.
-            </Paragraph>
-            <Paragraph>
-              Основное отверстие - отверстие, нижнее отклонение которого равно
-              нулю.
-            </Paragraph>
-            <Paragraph>
-              В расчетах отклонения обозначаются следующим образом: <br /> ES,
-              es - верхнеее отклонение отверстия и вала соответственно; <br />
-              EI, ei - нижнее отклонение отверстия и вала соответственно;
-            </Paragraph>
-            <Paragraph>
-              На чертежах рядом с размером указывается класс допуска.
-            </Paragraph>
-            <Paragraph>
-              Класс допуска - сочетание основного отклонения и квалитета,
-              например: Ø60H8, Ø60k6.
-            </Paragraph>
-            <Paragraph>Число указывает на квалитет.</Paragraph>
-            <Paragraph>
-              Квалитет — допуск размера. Всего существует 20 квалитетов от 01 до
-              18. Чем выше квалитет, тем меньше точность. Например, для
-              квалитета 8 для любых размеров отверстий и валов допуск составит
-              33 мкм.
-            </Paragraph>
-            <Paragraph>
-              Буква указывает на основое отклонение. Его определяют по таблицам
-              для данного размера. Для отверстий используются заглавные буквы,
-              для валов — прописные.
-            </Paragraph>
-            <Paragraph>
-              На рисунке ниже представлена схема расположения основных
-              отклонений для отверстий и валов.
-            </Paragraph>
-
+            {Array.from({ length: 8 }, (_, i) => i + 8).map((n, i) => (
+              <Paragraph key={i}>
+                {t.rich(`toleranceSection.paragraphs.${n}`, {
+                  br: () => <br />,
+                })}
+              </Paragraph>
+            ))}
             <Image
               src="/images/Basic deviations.png"
               alt="Basic deviations"
@@ -128,36 +64,9 @@ export default async function Home() {
             <Title level="h2" centered>
               {t("fitSection.title")}
             </Title>
-            <Paragraph>
-              На сборочных чертежах, в месте соединения рядом с размером
-              указывают посадку.
-            </Paragraph>
-            <Paragraph>
-              Посадки обозначаются двумя значениями допуска: для отверстия и
-              вала, например: Ø60H8/k6
-            </Paragraph>
-            <Paragraph>
-              Диапазон посадки — арифметическая сумма допусков размеров двух
-              размерных элементов, образующих посадку
-            </Paragraph>
-            <Paragraph>
-              Зазор — разность между размерами отверстия и вала, когда диаметр
-              вала меньше диаметра отверстия. Зазор — положительное число. В
-              расчетах зазор обозначается буквой S.
-            </Paragraph>
-            <Paragraph>
-              Натяг — разность размеров отверстия и вала до сборки, когда
-              диаметр вала больше диаметра отверстия. Натяг — отрицательное
-              число. В расчетах натяг обозначается буквой N.
-            </Paragraph>
-            <Paragraph>
-              Посадки бывают с зазором, с натягом и переходные.
-            </Paragraph>
-            <Paragraph>
-              Посадка с зазором - посадка, при которой в соединении отверстия и
-              вала всегда образуется зазор, т. е. нижний предельный размер
-              отверстия больше или равен верхнему предельному размеру вала.
-            </Paragraph>
+            {Array.from({ length: 7 }, (_, i) => i + 1).map((n, i) => (
+              <Paragraph key={i}>{t(`fitSection.paragraphs.${n}`)}</Paragraph>
+            ))}
             <Image
               src="/images/Clearance.png"
               alt="Clearance fit"
@@ -165,11 +74,7 @@ export default async function Home() {
               height={779}
               width={1300}
             />
-            <Paragraph>
-              Посадка с натягом - посадка, при которой в соединении отверстия и
-              вала всегда образуется натяг, т. е. верхний предельный размер
-              отверстия меньше или равен нижнему предельному размеру вала.
-            </Paragraph>
+            <Paragraph>{t("fitSection.paragraphs.8")}</Paragraph>
             <Image
               src="/images/Interference.png"
               alt="Interference fit"
@@ -177,10 +82,7 @@ export default async function Home() {
               height={803}
               width={1300}
             />
-            <Paragraph>
-              Переходная посадка - посадка, при которой в соединении отверстия и
-              вала возможно получение как зазора, так и натяга
-            </Paragraph>
+            <Paragraph>{t("fitSection.paragraphs.9")}</Paragraph>
             <Image
               src="/images/Transition_1.png"
               alt="Interference fit"
@@ -195,178 +97,148 @@ export default async function Home() {
               height={489}
               width={1300}
             />
-            <Paragraph>
-              В переходной посадке интервал допуска отверстия и интервал допуска
-              вала перекрываются частично или полностью, поэтому наличие зазора
-              или натяга в соединении зависит от действительных размеров
-              отверстия и вала.
-            </Paragraph>
-            <Paragraph>
-              Рекоммендуется применять посадки либо в системе отверстия, либо в
-              системе вала.
-            </Paragraph>
-            <Paragraph>
-              Посадка в системе отверстия - посадка, в которой основное
-              отклонение (нижнее предельное отклонение) отверстия равно нулю
-            </Paragraph>
-            <Paragraph>
-              Посадка в системе вала - посадка, в которой основное отклонение
-              (верхнее предельное отклонение) вала равно нулю.
-            </Paragraph>
-            <Paragraph>
-              С точки зрения функциональности соединения нет разницы, какую
-              систему использовать. Выбор делают исходя из экономических
-              соображений.
-            </Paragraph>
+            {Array.from({ length: 5 }, (_, i) => i + 9).map((n, i) => (
+              <Paragraph key={i}>{t(`fitSection.paragraphs.${n}`)}</Paragraph>
+            ))}
           </Section>
           <HRTag />
           <Section id={homePageSections.fitSelection}>
             <Title level="h2" centered>
               {t("fitChoiceSection.title")}
             </Title>
-            <Paragraph>
-              В таблице ниже перечислены рекоммендуемые посадки для размеров от
-              1 до 500мм (ГОСТ 25346).
-            </Paragraph>
+            <Paragraph>{t("fitChoiceSection.paragraphs.1")}</Paragraph>
+            <Paragraph>{t("fitChoiceSection.paragraphs.2")}</Paragraph>
             <FitTable />
+
+            <Title level="h3" centered>
+              {t("fitChoiceSection.subSections.1.title")}
+            </Title>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.1.subTitle1")}
+            </Title>
             <Paragraph>
-              Посадки в системе отверстия применяются чаще, так как точные
-              отвесрстия обрабатываются дорогостоящим инструментом (зенкерами,
-              развертками), причем каждый такой инструмент применяется для
-              обработки только одного размера с определенным полем допуска, а
-              валы независимо от их размера обрабатывают одними и теми же
-              резцами. Систему вала следует применять в экономически
-              обоснованных случаях (например, если на одном гладком валу
-              необходимо установить несколько деталей с отверстиями, имеющими
-              разные отклонения, то применение системы вала позволит упростить
-              обработку вала).
+              {t("fitChoiceSection.subSections.1.paragraphs1.1")}
+            </Paragraph>
+            <ul>
+              {t
+                .raw("fitChoiceSection.subSections.1.paragraphs1.list")
+                .map((item: string, i: number) => (
+                  <li key={i}>{item}</li>
+                ))}
+            </ul>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.1.subTitle2")}
+            </Title>
+            <Paragraph>
+              {t("fitChoiceSection.subSections.1.subTitle2")}
+            </Paragraph>
+            <ul>
+              {t
+                .raw("fitChoiceSection.subSections.1.paragraphs2.list")
+                .map((item: string, i: number) => (
+                  <li key={i}>{item}</li>
+                ))}
+            </ul>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.1.subTitle3")}
+            </Title>
+            <Paragraph>
+              {t("fitChoiceSection.subSections.1.paragraphs3.1")}
+            </Paragraph>
+            <ul>
+              {t
+                .raw("fitChoiceSection.subSections.1.paragraphs3.list")
+                .map((item: string, i: number) => (
+                  <li key={i}>{item}</li>
+                ))}
+            </ul>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.1.subTitle4")}
+            </Title>
+            <Paragraph>
+              {t("fitChoiceSection.subSections.1.paragraphs4.1")}
+            </Paragraph>
+            <ul>
+              {t
+                .raw("fitChoiceSection.subSections.1.paragraphs4.list")
+                .map((item: string, i: number) => (
+                  <li key={i}>{item}</li>
+                ))}
+            </ul>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.1.subTitle5")}
+            </Title>
+            <Paragraph>
+              {t("fitChoiceSection.subSections.1.paragraphs5.1")}
             </Paragraph>
             <Title level="h3" centered>
-              Посадки с зазором
+              {t("fitChoiceSection.subSections.2.title")}
             </Title>
-            <Title level="h4">Скользящие посадки</Title>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.2.subTitle1")}
+            </Title>
+
             <Paragraph>
-              Скользящие посадки H/h - самые плотные из свободных посадок. Такие
-              посадки применяют для:
+              {t("fitChoiceSection.subSections.2.paragraphs1.1")}
+            </Paragraph>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.2.subTitle2")}
+            </Title>
+            <Paragraph>
+              {t("fitChoiceSection.subSections.2.paragraphs2.1")}
             </Paragraph>
             <ul>
-              <li>неподвижных соединений при необходимости частой разборки;</li>
-              <li>центрирования легкоразъемных соединений;</li>
-              <li>
-                в подвижных соединениях для медленных перемещений или вращений.
-              </li>
+              {t
+                .raw("fitChoiceSection.subSections.2.paragraphs2.list")
+                .map((item: string, i: number) => (
+                  <li key={i}>{item}</li>
+                ))}
             </ul>
-            <Title level="h4">Посадки движения</Title>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.2.subTitle3")}
+            </Title>
             <Paragraph>
-              Посадки движения H/g - свободные, применяются для:
+              {t("fitChoiceSection.subSections.2.paragraphs3.1")}
             </Paragraph>
-            <ul>
-              <li>
-                в подвижных соединениях для обеспечения герметичности, точного
-                направления.
-              </li>
-            </ul>
-            <Title level="h4">Ходовые посадки</Title>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.2.subTitle3")}
+            </Title>
             <Paragraph>
-              Ходовые посадки H7/f7 предназначены для подвижных соединений:
-            </Paragraph>
-            <ul>
-              <li>подшипники скольжения,</li>
-              <li>подшипники в коробках передач,</li>
-              <li>крышки цилиндров.</li>
-            </ul>
-            <Title level="h4">Легкоходовые посадки</Title>
-            <Paragraph>
-              Легкоходовые посадки H/e обеспечивает легкоподвижное соединение,
-              допускающее радиальное перемещение или биение сопрягаемых
-              поверхностей:
-            </Paragraph>
-            <ul>
-              <li>подшипники многоопорных валов,</li>
-              <li>подшипники скольжения неответственных машин,</li>
-              <li>направляющие осевых перемещений.</li>
-            </ul>
-            <Title level="h4">Широкоходовые посадки</Title>
-            <Paragraph>
-              Посадки H/d легкоподвижных соединений общего применения, допускают
-              радиальное перемещение и и компенсируют погрешности взаимного
-              расположения трущихся поверхностей. Они используются в тех
-              случаях, когда необходимо компенсировать погрешности сборки или
-              температурные деформации.
+              {t("fitChoiceSection.subSections.2.paragraphs3.1")}
             </Paragraph>
             <Title level="h3" centered>
-              Посадки с натягом
+              {t("fitChoiceSection.subSections.3.title")}
             </Title>
-            <Title level="h4">Прессовые тяжелые</Title>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.3.subTitle1")}
+            </Title>
             <Paragraph>
-              Прессовые тяжелые H/u, H/x и H/z - посадки с большим
-              гарантированным натягом и значительным его колебанием. Они
-              предназначены для передачи больших усилий и моментов при тяжелых
-              условиях работы без дополнительного крепления (вагонные колеса на
-              осях, установочные штифты станочных приспособлений, несъёмные
-              муфты на концах валов прокатных станов и др.)
+              {t("fitChoiceSection.subSections.3.paragraphs1.1")}
             </Paragraph>
-            <Title level="h4">Прессовые средние</Title>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.3.subTitle2")}
+            </Title>
             <Paragraph>
-              Средние gрессовые посадки H/r, H/s и H/t - посадки с
-              гарантированным натягом средней величины. Способны передавать
-              значительные усилия без дополнительного крепления. Применяются
-              для:
+              {t("fitChoiceSection.subSections.3.paragraphs2.1")}
             </Paragraph>
             <ul>
-              <li>установки бронзовых венцов червячных колес,</li>
-              <li>
-                при запрессовки втулок в шкивы и зубчатые колеса на валах и д.р.
-              </li>
+              {t
+                .raw("fitChoiceSection.subSections.3.paragraphs2.list")
+                .map((item: string, i: number) => (
+                  <li key={i}>{item}</li>
+                ))}
             </ul>
-            <Title level="h4">Легкопрессовые</Title>
-            <Paragraph>
-              Легкопрессовые посадки типа H/p обеспечивают минимальный
-              гарантированный натяг и применяются для соединения тонкостенных
-              деталей при передаче небольших моментов и усилий.
-            </Paragraph>
-            <Title level="h3" centered>
-              Посадки переходные
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.3.subTitle3")}
             </Title>
-            <Title level="h4">Плотные</Title>
             <Paragraph>
-              Плотные посадки типа H/js применяются в легкоразъемных неподвижных
-              соединениях, подвергающихся частой разборке. Вероятность зазора в
-              них 92-98%.
+              {t("fitChoiceSection.subSections.3.paragraphs3.1")}
             </Paragraph>
-            <Title level="h4">Напряженные</Title>
+            <Title level="h4">
+              {t("fitChoiceSection.subSections.3.subTitle4")}
+            </Title>
             <Paragraph>
-              Напряженные посадки типа H/k применяются в неподвижных разъёмных
-              соединениях для точного центрирования соединяемых деталей.
-              Вероятность появления зазора или натяга в них приблизительно
-              одинакова. Крутящий момент передается штифатми, шпонками, винтами.
-              Применяются для:
-            </Paragraph>
-            <ul>
-              <li>зубчатых колес,</li>
-              <li>шкивов,</li>
-              <li>муфт,</li>
-              <li>рычагов,</li>
-              <li>и т.п.</li>
-            </ul>
-            <Title level="h4">Тугие</Title>
-            <Paragraph>
-              Тугие посадки - посадки типа H/m, в которых вероятность натяга
-              около 95%. При этом натяг сравнительно мал и не позволяет
-              передавать значительных крутящих моментов без дополнительного
-              крепления. Они применяются в посадках штифтовых соединений, в
-              соединении тонкостенных втулок с валами, в посадках кулачков на
-              распределительном валу и поршневых пальцев в бобышках поршней
-              компрессоров, а также в посадках втулок подшипников в стенки
-              редукторов и станков и т.п.
-            </Paragraph>
-            <Title level="h4">Глухие</Title>
-            <Paragraph>
-              Глухие посадки типа H/n всегда обеспечивают натяг и являются
-              наиболее прочными из всех переходных посадок. Применяются для
-              соединения кондукторных втулок с корпусом приспособления или
-              кондукторной плитой, муфт на валах электродвигателей, червячных
-              колёс на валах и т.п.
+              {t("fitChoiceSection.subSections.3.paragraphs4.1")}
             </Paragraph>
           </Section>
         </Paper>
