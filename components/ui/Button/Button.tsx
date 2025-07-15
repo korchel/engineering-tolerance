@@ -10,7 +10,7 @@ interface Props
     ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-  variant?: "primary" | "outline" | "danger";
+  variant?: "primary" | "outline" | "danger" | "blank";
 }
 
 export const Button: FC<Props> = ({
@@ -25,6 +25,7 @@ export const Button: FC<Props> = ({
     {
       primary: styles.btn_primary,
       outline: styles.btn_outline,
+      blank: styles.btn_blank,
       danger: "",
     }[variant]
   );

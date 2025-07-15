@@ -1,11 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Button, ButtonIcon, Container, LinkComponent } from "../ui";
+import { ButtonIcon, Container, LinkComponent } from "../ui";
 import styles from "./Header.module.scss";
 import { Logo } from "./Logo/Logo";
 import { useState } from "react";
 import clsx from "clsx";
+import { LanguageSwitcher } from "../homePage/LanguageSwitcher/LanguageSwitcher";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -33,6 +34,7 @@ export const Header = () => {
           className={styles.menuButton}
           iconType={isMenuOpen ? "cross" : "menu"}
         />
+        <LanguageSwitcher className={styles.ml} />
       </Container>
     </header>
   );

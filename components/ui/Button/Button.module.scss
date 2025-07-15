@@ -5,34 +5,44 @@
   cursor: pointer;
   border-radius: 0.25rem;
   font-size: 1rem;
-}
 
-.btn:disabled {
-  pointer-events: none;
+  &:disabled {
+    pointer-events: none;
+  }
 }
 
 .btn_primary {
   background-color: var(--secondary);
   color: var(--light);
   border: none;
-}
 
-.btn_primary:hover {
-  background-color: var(--secondary-hover);
-  color: var(--light);
-  border: none;
+  &:hover {
+    background-color: var(--secondary-hover);
+    color: var(--light);
+    border: none;
+  }
 }
 
 .btn_outline {
   background-color: transparent;
   border: 2px solid var(--secondary);
   color: var(--secondary);
-}
 
-.btn_outline:hover {
-  border: 2px solid var(--secondary-hover);
-  color: var(--secondary-hover);
+  &:hover {
+    border: 2px solid var(--secondary-hover);
+    color: var(--secondary-hover);
+  }
 }
 
 .btn_danger {
+}
+
+.btn_blank {
+  background-color: transparent;
+  border: none;
+  color: var(--secondary);
+
+  &:hover {
+    background-color: rgb(239, 236, 236);
+  }
 }
