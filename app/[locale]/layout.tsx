@@ -55,15 +55,17 @@ export default async function RootLayout({
         />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <body className={font.className}>
-        <Header />
-        <div className="content">
-          <Suspense fallback={<Loading />}>
-            {children}
-            {modal}
-          </Suspense>
-        </div>
-      </body>
+      <NextIntlClientProvider>
+        <body className={font.className}>
+          <Header />
+          <div className="content">
+            <Suspense fallback={<Loading />}>
+              {children}
+              {modal}
+            </Suspense>
+          </div>
+        </body>
+      </NextIntlClientProvider>
     </html>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import { FC, useState } from "react";
-import { useLocale } from "next-intl";
 
+import { Link, usePathname, useRouter } from "../../../i18n/navigation";
 import { Button } from "../../ui";
 import styles from "./LanguageSwitcher.module.scss";
 import clsx from "clsx";
@@ -14,12 +14,20 @@ interface Props {
 
 export const LanguageSwitcher: FC<Props> = ({ className }) => {
   const params = useParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const { locale } = params;
 
   const [open, setOpen] = useState(false);
 
   const openDropDwon = () => {
     setOpen((state) => !state);
+  };
+
+  const switchLanguage = (newLocale: string) => {
+    if (newLocale !== locale) {
+      router.replace(pathname, { locale: newLocale });
+    }
   };
 
   return (
@@ -30,7 +38,9 @@ export const LanguageSwitcher: FC<Props> = ({ className }) => {
           <ul>
             {["ru", "en"].map((locale, i) => (
               <li key={i} className={styles[locale]}>
-                <Button variant="blank">{locale}</Button>
+                <Button onClick={() => switchLanguage(locale)} variant="blank">
+                  {locale}
+                </Button>
               </li>
             ))}
           </ul>
