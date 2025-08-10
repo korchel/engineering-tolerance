@@ -130,7 +130,7 @@ export default async function Home() {
               {t("fitChoiceSection.subSections.1.subTitle2")}
             </Title>
             <Paragraph>
-              {t("fitChoiceSection.subSections.1.subTitle2")}
+              {t("fitChoiceSection.subSections.1.paragraphs2.1")}
             </Paragraph>
             <ul>
               {t

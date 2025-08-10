@@ -3,93 +3,88 @@
     "toleranceSection": {
       "title": "Tolerances",
       "paragraphs": {
-        "1": "Две детали, элементы которых входят друг в друга, образуют соединение.",
-        "2": "В соединении элементов двух деталей один из них является охватывающим, другой — охватываемым. В системе допусков и посадок охватывающий элемент условно называется отверстием, охватываемый — валом.",
-        "3": "Номинальный размер — идеальный размер, указанный в чертеже.",
-        "4": "Действительный размер — размер готовой детали, полученный прямым измерением.",
-        "5": "Предельные размеры — два предельных значения размера, между которыми должен находиться действительный размер.",
-        "6": "Допуск размера — разность между наибольшими и наименьшими предельными размерами. Допуск, как правило, измеряется в микрометрах и состоит из двух отклонений от номинального размера: верхнего и нижнего.",
-        "7": "Отклонение может быть положительным, если предельный размер больше номинального, и отрицательным, если предельный размер меньше номинального.",
-        "8": "Основное отклонение — отклонение, определяющее расположение интервала допуска относительно номинального размера. Основное отклонение обозначается буквой латинского алфавита: заглавной — для охватывающих размеров, прописной — для охватываемых.",
-        "9": "Основной вал - вал, верхнее отклонение которого равно нулю.",
-        "10": "Основное отверстие - отверстие, нижнее отклонение которого равно нулю.",
-        "11": "В расчетах отклонения обозначаются следующим образом: <br></br> ES, es - верхнеее отклонение отверстия и вала соответственно; <br></br> EI, ei - нижнее отклонение отверстия и вала соответственно.",
-        "12": "На чертежах рядом с размером указывается класс допуска.",
-        "13": "Класс допуска - сочетание основного отклонения и квалитета, например: Ø60H8, Ø60k6.",
-        "14": "Число указывает на квалитет. Квалитет — допуск размера. Всего существует 20 квалитетов от 01 до 18. Чем выше квалитет, тем меньше точность. Например, для квалитета 8 для любых размеров отверстий и валов допуск составит 33 мкм.",
-        "15": "Буква указывает на основое отклонение. Его определяют по таблицам для данного размера. Для отверстий используются заглавные буквы, для валов — прописные.",
-        "16": "На рисунке ниже представлена схема расположения основных отклонений для отверстий и валов."
+        "1": "An assembly is two mating parts.",
+        "2": "In the fit between the elements of two parts, one is the enveloping element, and the other is the enveloped element. In the system of tolerances and fits, the enveloping element is conventionally called the hole, and the enveloped element is called the shaft.",
+        "3": "Nominal size is the ideal dimension specified in the drawing.",
+        "4": "Actual size - the size of the finished part measured directly.",
+        "5": "Limits are two diemnsion between wich the actual size is supposed to be.",
+        "6": "Tolerance — the difference between the maximum and minimum limit sizes. Tolerance is usually measured in micrometers and consists of two deviations from the nominal size: the upper deviation and the lower deviation.",
+        "7": "A deviation may be positive if the limit size is greater than the nominal size, or negative if the limit size is less than the nominal size.",
+        "8": "Fundamental deviation — the deviation that determines the position of the tolerance zone relative to the nominal size. The fundamental deviation is designated by a Latin letter: uppercase for holes, lowercase for shafts.",
+        "9": "Basic shaft — a shaft whose upper deviation is equal to zero.",
+        "10": "Basic hole — a hole whose lower deviation is equal to zero.",
+        "11": "In calculations, deviations are designated as follows: <br></br> ES, es - upper deviation for the hole and shaft respectively; <br></br> EI, ei - lower deviation for the hole and shaft respectively.",
+        "12": "On technical drawings, the tolerance grade is indicated next to the dimension.",
+        "13": "Tolerance grade — a combination of the fundamental deviation and the IT grade (quality grade), for example: Ø60H8, Ø60k6.",
+        "14": "The number indicates the IT grade. IT grade — size tolerance. There are 20 grades, from IT01 to IT18. The higher the IT grade number, the lower the accuracy. For example, for IT8, the tolerance for any hole or shaft size is 33 µm.",
+        "15": "The letter indicates the fundamental deviation. It is determined from standard tables for the given nominal size. Uppercase letters are used for holes, lowercase for shafts.",
+        "16": "The diagram below shows the arrangement of fundamental deviations for holes and shafts."
       }
     },
     "fitSection": {
       "title": "Fits",
       "paragraphs": {
-        "1": "На сборочных чертежах, в месте соединения рядом с размером указывают посадку.",
-        "2": "Посадки обозначаются двумя значениями допуска: для отверстия и вала, например: Ø60H8/k6.",
-        "3": "Диапазон посадки — арифметическая сумма допусков размеров двух размерных элементов, образующих посадку.",
-        "4": "Зазор — разность между размерами отверстия и вала, когда диаметр вала меньше диаметра отверстия. Зазор — положительное число. В расчетах зазор обозначается буквой S.",
-        "5": "Натяг — разность размеров отверстия и вала до сборки, когда диаметр вала больше диаметра отверстия. Натяг — отрицательное число. В расчетах натяг обозначается буквой N.",
-        "6": "Посадки бывают с зазором, с натягом и переходные.",
-        "7": "Посадка с зазором - посадка, при которой в соединении отверстия и вала всегда образуется зазор, т. е. нижний предельный размер отверстия больше или равен верхнему предельному размеру вала.",
-        "8": "Посадка с натягом - посадка, при которой в соединении отверстия и вала всегда образуется натяг, т. е. верхний предельный размер отверстия меньше или равен нижнему предельному размеру вала.",
-        "9": "Переходная посадка - посадка, при которой в соединении отверстия и вала возможно получение как зазора, так и натяга.",
-        "10": "В переходной посадке интервал допуска отверстия и интервал допуска вала перекрываются частично или полностью, поэтому наличие зазора или натяга в соединении зависит от действительных размеров отверстия и вала.",
-        "11": "Рекоммендуется применять посадки либо в системе отверстия, либо в системе вала.",
-        "12": "Посадка в системе отверстия - посадка, в которой основное отклонение (нижнее предельное отклонение) отверстия равно нулю.",
-        "13": "Посадка в системе вала - посадка, в которой основное отклонение (верхнее предельное отклонение) вала равно нулю.",
-        "14": "С точки зрения функциональности соединения нет разницы, какую систему использовать. Выбор делают исходя из экономических соображений."
+        "1": "On assembly drawings, the fit is indicated next to the dimension at the connection point.",
+        "2": "Fits are designated by two tolerance values: for the hole and for the shaft, for example: Ø60H8/k6.",
+        "3": "Fit range — the arithmetic sum of the tolerances of the two dimensional elements forming the fit.",
+        "4": "Fits can be clearance fits, interference fits, or transition fits.",
+        "5": "Clearance — the difference between the hole diameter and the shaft diameter when the shaft diameter is smaller than the hole diameter. Clearance is a positive value. In calculations, clearance is denoted by the letter S.",
+        "6": "Interference — the difference between the hole diameter and the shaft diameter before assembly, when the shaft diameter is larger than the hole diameter. Interference is a negative value. In calculations, interference is denoted by the letter N.",
+        "7": "Clearance fit - the hole is larger than the shaft, enabling the two parts to slide and / or rotate when assembled.",
+        "8": "Interference fit — a fit in which there is always interference between the hole and the shaft, i.e., the upper limit size of the hole is less than or equal to the lower limit size of the shaft.",
+        "9": "Transition fit — a fit in which either clearance or interference can occur between the hole and the shaft.",
+        "10": "In a transition fit, the tolerance zones of the hole and the shaft overlap partially or completely; therefore, whether there is clearance or interference depends on the actual sizes of the hole and the shaft.",
+        "11": "It is recommended to use fits either in the hole basis system or in the shaft basis system.",
+        "12": "Hole basis system — a fit in which the fundamental deviation (lower limit deviation) of the hole is equal to zero.",
+        "13": "Shaft basis system — a fit in which the fundamental deviation (upper limit deviation) of the shaft is equal to zero.",
+        "14": "From a functional point of view, there is no difference in which system is used. The choice is made based on economic considerations."
       }
     },
     "fitChoiceSection": {
-      "title": "Выбор посадки",
+      "title": "Fit choice",
       "paragraphs": {
         "1": "В таблице ниже перечислены рекоммендуемые посадки для размеров от 1 до 500мм (ГОСТ 25346).",
         "2": "Посадки в системе отверстия применяются чаще, так как точные отвесрстия обрабатываются дорогостоящим инструментом (зенкерами, развертками), причем каждый такой инструмент применяется для обработки только одного размера с определенным полем допуска, а валы независимо от их размера обрабатывают одними и теми же резцами. Систему вала следует применять в экономически обоснованных случаях (например, если на одном гладком валу необходимо установить несколько деталей с отверстиями, имеющими разные отклонения, то применение системы вала позволит упростить обработку вала)."
       },
       "table": {
-        "headers": [
-          "Тип посадки",
-          "Описание",
-          "Посадки в системе отверстия",
-          "Посадки в системе вала"
-        ],
+        "headers": ["Fit type", "Description", "Hole basis", "Shaft basis"],
         "rows": {
           "1": {
-            "header": "С зазором",
+            "header": "Clearance",
             "content": {
               "1": {
-                "subHeader": "Скользящие",
+                "subHeader": "Locational",
                 "values": ["H6/h5, H7/h6, H8/h7, H8/h8, H9/h8, H10/h9, H11/h10"]
               },
               "2": {
-                "subHeader": "Движения",
+                "subHeader": "Sliding",
                 "values": ["H6/g5, H7/g6", "G6/h5, G7/h6"]
               },
               "3": {
-                "subHeader": "Ходовые",
+                "subHeader": "Close running",
                 "values": [
                   "H7/f6, H8/f7, H8/f8, H9/f8",
                   "F7/h6, F8/h7, F9/h8, F8/h9, F9/h9"
                 ]
               },
               "4": {
-                "subHeader": "Легкоходовые",
+                "subHeader": "Loose running",
                 "values": [
                   "H8/e7, H8/e8, H9/e8, H10/e9",
                   "E8/h7, E9/h8, E8/h9, E9/h9"
                 ]
               },
               "5": {
-                "subHeader": "Широкоходовые",
+                "subHeader": "Free running",
                 "values": [
                   "H8/d8, H9/d8, H10/d9, H11/d10",
-                  "D9/h8, D9/h9, D10/H9"
+                  "D9/h8, D9/h9, D10/h9"
                 ]
               }
             }
           },
           "2": {
-            "header": "С натягом",
+            "header": "Interference fits",
             "content": {
               "1": {
                 "subHeader": "Прессовые тяжелые",
@@ -106,7 +101,7 @@
             }
           },
           "3": {
-            "header": "Переходные",
+            "header": "Transition fits",
             "content": {
               "1": {
                 "subHeader": "Плотные",
@@ -130,24 +125,22 @@
       },
       "subSections": {
         "1": {
-          "title": "Посадки с зазором",
-          "subTitle1": "Скользящие посадки",
+          "title": "Clearance fits",
+          "subTitle1": "Locational fits",
           "paragraphs1": {
-            "1": "Скользящие посадки H/h - самые плотные из свободных посадок. Такие посадки применяют для:",
+            "1": "Clearance fits (close sliding fits) H/h - the tightest of the clearance fits. These fits are used for:",
             "list": [
-              "неподвижных соединений при необходимости частой разборки,",
-              "центрирования легкоразъемных соединений,",
-              "в подвижных соединениях для медленных перемещений или вращений."
+              "stationary joints that require frequent disassembly,",
+              "centering of easily detachable joints,",
+              "slowly rotating or sliding joints."
             ]
           },
-          "subTitle2": "Посадки движения",
+          "subTitle2": "Sliding fits",
           "paragraphs2": {
-            "1": "Посадки движения H/g - свободные, применяются для:",
-            "list": [
-              "в подвижных соединениях для обеспечения герметичности, точного направления."
-            ]
+            "1": "Sliding fits H/g - loose fits used in:",
+            "list": ["moving joints to ensure sealing,", "precise guidance."]
           },
-          "subTitle3": "Ходовые посадки",
+          "subTitle3": "Close running fits",
           "paragraphs3": {
             "1": "Ходовые посадки H7/f7 предназначены для подвижных соединений:",
             "list": [
@@ -156,7 +149,7 @@
               "крышки цилиндров."
             ]
           },
-          "subTitle4": "Легкоходовые посадки",
+          "subTitle4": "Loose running fits",
           "paragraphs4": {
             "1": " Легкоходовые посадки H/e обеспечивает легкоподвижное соединение, допускающее радиальное перемещение или биение сопрягаемых поверхностей:",
             "list": [
@@ -165,13 +158,13 @@
               "направляющие осевых перемещений."
             ]
           },
-          "subTitle5": "Широкоходовые посадки",
+          "subTitle5": "Free running fits",
           "paragraphs5": {
             "1": "Посадки H/d легкоподвижных соединений общего применения, допускают радиальное перемещение и и компенсируют погрешности взаимного расположения трущихся поверхностей. Они используются в тех случаях, когда необходимо компенсировать погрешности сборки или температурные деформации."
           }
         },
         "2": {
-          "title": "Посадки с натягом",
+          "title": "Interference fits",
           "subTitle1": "Прессовые тяжелые",
           "paragraphs1": {
             "1": "рессовые тяжелые H/u, H/x и H/z - посадки с большим гарантированным натягом и значительным его колебанием. Они предназначены для передачи больших усилий и моментов при тяжелых условиях работы без дополнительного крепления (вагонные колеса на осях, установочные штифты станочных приспособлений, несъёмные муфты на концах валов прокатных станов и др.)."
@@ -190,7 +183,7 @@
           }
         },
         "3": {
-          "title": "Посадки переходные",
+          "title": "Transition fits",
           "subTitle1": "Плотные",
           "paragraphs1": {
             "1": "Плотные посадки типа H/js применяются в легкоразъемных неподвижных соединениях, подвергающихся частой разборке. Вероятность зазора в них 92-98%."
