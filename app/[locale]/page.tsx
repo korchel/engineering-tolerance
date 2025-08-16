@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { Section } from "../../components/homePage/Section/Section";
 import { SideBar } from "../../components/homePage/SideBar/SideBar";
@@ -10,7 +10,7 @@ import styles from "./page.module.scss";
 
 export default async function Home() {
   const t = await getTranslations("homePage");
-
+  const locale = await getLocale();
   return (
     <>
       <Container>
@@ -38,11 +38,11 @@ export default async function Home() {
               </Paragraph>
             ))}
             <Image
-              src="/images/Basic deviation.png"
+              src={`/images/Scheme_${locale}.png`}
               alt="Basic deviation"
               layout="responsive"
-              height={447}
-              width={870}
+              height={1084}
+              width={2000}
             />
             {Array.from({ length: 8 }, (_, i) => i + 8).map((n, i) => (
               <Paragraph key={i}>
