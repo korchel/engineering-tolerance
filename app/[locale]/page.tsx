@@ -181,6 +181,13 @@ export default async function Home() {
             <Paragraph>
               {t("fitChoiceSection.subSections.2.paragraphs1.1")}
             </Paragraph>
+            <ul>
+              {t
+                .raw("fitChoiceSection.subSections.2.paragraphs1.list")
+                .map((item: string, i: number) => (
+                  <li key={i}>{item}</li>
+                ))}
+            </ul>
             <Title level="h4">
               {t("fitChoiceSection.subSections.2.subTitle2")}
             </Title>

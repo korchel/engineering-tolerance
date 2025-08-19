@@ -53,29 +53,29 @@
             "header": "Clearance",
             "content": {
               "1": {
-                "subHeader": "Locational",
+                "subHeader": "Locational fits",
                 "values": ["H6/h5, H7/h6, H8/h7, H8/h8, H9/h8, H10/h9, H11/h10"]
               },
               "2": {
-                "subHeader": "Sliding",
+                "subHeader": "Sliding fits",
                 "values": ["H6/g5, H7/g6", "G6/h5, G7/h6"]
               },
               "3": {
-                "subHeader": "Close running",
+                "subHeader": "Close running fits",
                 "values": [
                   "H7/f6, H8/f7, H8/f8, H9/f8",
                   "F7/h6, F8/h7, F9/h8, F8/h9, F9/h9"
                 ]
               },
               "4": {
-                "subHeader": "Loose running",
+                "subHeader": "Loose running fits",
                 "values": [
                   "H8/e7, H8/e8, H9/e8, H10/e9",
                   "E8/h7, E9/h8, E8/h9, E9/h9"
                 ]
               },
               "5": {
-                "subHeader": "Free running",
+                "subHeader": "Free running fits",
                 "values": [
                   "H8/d8, H9/d8, H10/d9, H11/d10",
                   "D9/h8, D9/h9, D10/h9"
@@ -87,15 +87,15 @@
             "header": "Interference fits",
             "content": {
               "1": {
-                "subHeader": "Прессовые тяжелые",
+                "subHeader": "Heavy press fits",
                 "values": ["H7/u6, H7/x6, H8/u7", "U7/h6, X7/h6"]
               },
               "2": {
-                "subHeader": "Прессовые средние",
+                "subHeader": "Drive fits",
                 "values": ["H7/r6, H7/s6, H7/t6, H8/s7", "R7/h7, S7/h7, T7/h7"]
               },
               "3": {
-                "subHeader": "Легкопрессовые",
+                "subHeader": "Shrink fits",
                 "values": ["H6/p5, H7/p6", "P6/h5, P7/h6"]
               }
             }
@@ -104,19 +104,19 @@
             "header": "Transition fits",
             "content": {
               "1": {
-                "subHeader": "Плотные",
+                "subHeader": "Close fits",
                 "values": ["H6/js5, H7/js6, H8/js7", "JS5/h5, JS7/h6"]
               },
               "2": {
-                "subHeader": "Напряженные",
+                "subHeader": "Force fits",
                 "values": ["H6/k5, H7/k6, H8/k7", "K6/h5, K7/h6"]
               },
               "3": {
-                "subHeader": "Тугие",
+                "subHeader": "Tight fits",
                 "values": ["H6/m5, H7/m6, H8/m7", "M6/h5, M7/h6"]
               },
               "4": {
-                "subHeader": "Глухие",
+                "subHeader": "Press fits",
                 "values": ["H7/n6", "N7/h6"]
               }
             }
@@ -142,34 +142,39 @@
           },
           "subTitle3": "Close running fits",
           "paragraphs3": {
-            "1": "Ходовые посадки H7/f7 предназначены для подвижных соединений:",
+            "1": "Running fits H7/f7 are intended for moving joints such as:",
             "list": [
-              "подшипники скольжения,",
-              "подшипники в коробках передач,",
-              "крышки цилиндров."
+              "sliding bearings,",
+              "gearbox bearings,",
+              "cylinder covers."
             ]
           },
           "subTitle4": "Loose running fits",
           "paragraphs4": {
-            "1": " Легкоходовые посадки H/e обеспечивает легкоподвижное соединение, допускающее радиальное перемещение или биение сопрягаемых поверхностей:",
+            "1": "Loose running fits H/e provide a freely movable connection that allows radial displacement or run-out of mating surfaces, such as:",
             "list": [
-              "подшипники многоопорных валов,",
-              "подшипники скольжения неответственных машин,",
-              "направляющие осевых перемещений."
+              "bearings of multi-support shafts,",
+              "sliding bearings of non-critical machines,",
+              "guides for axial movements."
             ]
           },
           "subTitle5": "Free running fits",
           "paragraphs5": {
-            "1": "Посадки H/d легкоподвижных соединений общего применения, допускают радиальное перемещение и и компенсируют погрешности взаимного расположения трущихся поверхностей. Они используются в тех случаях, когда необходимо компенсировать погрешности сборки или температурные деформации."
+            "1": "Fits H/d for easily movable general-purpose connections allow radial displacement and compensate for misalignments of rubbing surfaces. They are used in cases where it is necessary to compensate for assembly errors or thermal deformations."
           }
         },
         "2": {
           "title": "Interference fits",
-          "subTitle1": "Прессовые тяжелые",
+          "subTitle1": "Heavy press fits",
           "paragraphs1": {
-            "1": "рессовые тяжелые H/u, H/x и H/z - посадки с большим гарантированным натягом и значительным его колебанием. Они предназначены для передачи больших усилий и моментов при тяжелых условиях работы без дополнительного крепления (вагонные колеса на осях, установочные штифты станочных приспособлений, несъёмные муфты на концах валов прокатных станов и др.)."
+            "1": "Heavy press fits H/u, H/x, and H/z — fits with a large guaranteed interference and significant variation. They are intended for transmitting high forces and torques under severe operating conditions without additional fastening, for example:",
+            "list": [
+              "railway wheels on axles,",
+              "locating pins of machine fixtures,",
+              "non-removable couplings on the ends of rolling mill shafts, etc."
+            ]
           },
-          "subTitle2": "Прессовые средние",
+          "subTitle2": "Drive fits",
           "paragraphs2": {
             "1": "Средние прессовые посадки H/r, H/s и H/t - посадки с гарантированным натягом средней величины. Способны передавать значительные усилия без дополнительного крепления. Применяются для:",
             "list": [
@@ -177,18 +182,18 @@
               "при запрессовки втулок в шкивы и зубчатые колеса на валах и д.р."
             ]
           },
-          "subTitle3": "Легкопрессовые",
+          "subTitle3": "Shrink fits",
           "paragraphs3": {
             "1": "Легкопрессовые посадки типа H/p обеспечивают минимальный гарантированный натяг и применяются для соединения тонкостенных деталей при передаче небольших моментов и усилий."
           }
         },
         "3": {
           "title": "Transition fits",
-          "subTitle1": "Плотные",
+          "subTitle1": "Close fits",
           "paragraphs1": {
             "1": "Плотные посадки типа H/js применяются в легкоразъемных неподвижных соединениях, подвергающихся частой разборке. Вероятность зазора в них 92-98%."
           },
-          "subTitle2": "Напряженные",
+          "subTitle2": "Force fits",
           "paragraphs2": {
             "1": "Напряженные посадки типа H/k применяются в неподвижных разъёмных соединениях для точного центрирования соединяемых деталей. Вероятность появления зазора или натяга в них приблизительно одинакова. Крутящий момент передается штифатми, шпонками, винтами. Применяются для:",
             "list": [
@@ -199,11 +204,11 @@
               "и т.п."
             ]
           },
-          "subTitle3": "Тугие",
+          "subTitle3": "Tight fits",
           "paragraphs3": {
             "1": "Тугие посадки - посадки типа H/m, в которых вероятность натяга около 95%. При этом натяг сравнительно мал и не позволяет передавать значительных крутящих моментов без дополнительного крепления. Они применяются в посадках штифтовых соединений, в соединении тонкостенных втулок с валами, в посадках кулачков на распределительном валу и поршневых пальцев в бобышках поршней компрессоров, а также в посадках втулок подшипников в стенки редукторов и станков и т.п."
           },
-          "subTitle4": "Глухие",
+          "subTitle4": "Press fits",
           "paragraphs4": {
             "1": " Глухие посадки типа H/n всегда обеспечивают натяг и являются наиболее прочными из всех переходных посадок. Применяются для соединения кондукторных втулок с корпусом приспособления или кондукторной плитой, муфт на валах электродвигателей, червячных колёс на валах и т.п."
           }
