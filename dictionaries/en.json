@@ -176,41 +176,48 @@
           },
           "subTitle2": "Drive fits",
           "paragraphs2": {
-            "1": "Средние прессовые посадки H/r, H/s и H/t - посадки с гарантированным натягом средней величины. Способны передавать значительные усилия без дополнительного крепления. Применяются для:",
+            "1": "Drive fits H/r, H/s и H/t - fits with a guaranteed medium interference. They can transmit significant forces without additional fastening. Used for:",
             "list": [
-              "установки бронзовых венцов червячных колес,",
-              "при запрессовки втулок в шкивы и зубчатые колеса на валах и д.р."
+              "mounting bronze rims of worm wheels,",
+              "pressing bushings into pulleys,",
+              "mounting gears on shafts, etc."
             ]
           },
           "subTitle3": "Shrink fits",
           "paragraphs3": {
-            "1": "Легкопрессовые посадки типа H/p обеспечивают минимальный гарантированный натяг и применяются для соединения тонкостенных деталей при передаче небольших моментов и усилий."
+            "1": "Shrink fits H/p provide minimal guaranteed interference and are used for joining thin-walled parts when transmitting small torques and forces."
           }
         },
         "3": {
           "title": "Transition fits",
           "subTitle1": "Close fits",
           "paragraphs1": {
-            "1": "Плотные посадки типа H/js применяются в легкоразъемных неподвижных соединениях, подвергающихся частой разборке. Вероятность зазора в них 92-98%."
+            "1": "Close fits H/js are used in easily detachable stationary joints subject to frequent disassembly. The probability of clearance in such fits is 92–98%."
           },
           "subTitle2": "Force fits",
           "paragraphs2": {
-            "1": "Напряженные посадки типа H/k применяются в неподвижных разъёмных соединениях для точного центрирования соединяемых деталей. Вероятность появления зазора или натяга в них приблизительно одинакова. Крутящий момент передается штифатми, шпонками, винтами. Применяются для:",
-            "list": [
-              "зубчатых колес,",
-              "шкивов,",
-              "муфт,",
-              "рычагов,",
-              "и т.п."
-            ]
+            "1": "Force fits H/k are used in stationary detachable joints for precise centering of mating parts. The probability of clearance or interference is approximately the same. Torque is transmitted by pins, keys, or screws. Applications:",
+            "list": ["gears,", "pulleys,", "couplings,", "levers,", "etc."]
           },
           "subTitle3": "Tight fits",
           "paragraphs3": {
-            "1": "Тугие посадки - посадки типа H/m, в которых вероятность натяга около 95%. При этом натяг сравнительно мал и не позволяет передавать значительных крутящих моментов без дополнительного крепления. Они применяются в посадках штифтовых соединений, в соединении тонкостенных втулок с валами, в посадках кулачков на распределительном валу и поршневых пальцев в бобышках поршней компрессоров, а также в посадках втулок подшипников в стенки редукторов и станков и т.п."
+            "1": "Tight fits H/m - in these fits, the probability of interference is about 95%. The interference is relatively small and does not allow transmission of significant torques without additional fastening. Applications:",
+            "list": [
+              "pin joints,",
+              "joining thin-walled bushings with shafts,",
+              "cam mounting on camshafts,",
+              "piston pins in piston bosses of compressors,",
+              "bearing bushings in housings of gearboxes and machine tools, etc."
+            ]
           },
           "subTitle4": "Press fits",
           "paragraphs4": {
-            "1": " Глухие посадки типа H/n всегда обеспечивают натяг и являются наиболее прочными из всех переходных посадок. Применяются для соединения кондукторных втулок с корпусом приспособления или кондукторной плитой, муфт на валах электродвигателей, червячных колёс на валах и т.п."
+            "1": "Press (heavy transition) fits H/n always provide interference and are the strongest of all transition fits. Applications:",
+            "list": [
+              "joining jig bushings with the fixture body or jig plate,",
+              "couplings on electric motor shafts,",
+              "worm wheels on shafts, etc."
+            ]
           }
         }
       }

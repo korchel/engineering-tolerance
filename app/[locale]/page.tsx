@@ -207,12 +207,6 @@ export default async function Home() {
             <Paragraph>
               {t("fitChoiceSection.subSections.2.paragraphs3.1")}
             </Paragraph>
-            <Title level="h4">
-              {t("fitChoiceSection.subSections.2.subTitle3")}
-            </Title>
-            <Paragraph>
-              {t("fitChoiceSection.subSections.2.paragraphs3.1")}
-            </Paragraph>
             <Title level="h3" centered>
               {t("fitChoiceSection.subSections.3.title")}
             </Title>
@@ -241,12 +235,26 @@ export default async function Home() {
             <Paragraph>
               {t("fitChoiceSection.subSections.3.paragraphs3.1")}
             </Paragraph>
+            <ul>
+              {t
+                .raw("fitChoiceSection.subSections.3.paragraphs3.list")
+                .map((item: string, i: number) => (
+                  <li key={i}>{item}</li>
+                ))}
+            </ul>
             <Title level="h4">
               {t("fitChoiceSection.subSections.3.subTitle4")}
             </Title>
             <Paragraph>
               {t("fitChoiceSection.subSections.3.paragraphs4.1")}
             </Paragraph>
+            <ul>
+              {t
+                .raw("fitChoiceSection.subSections.3.paragraphs4.list")
+                .map((item: string, i: number) => (
+                  <li key={i}>{item}</li>
+                ))}
+            </ul>
           </Section>
         </Paper>
       </Container>
